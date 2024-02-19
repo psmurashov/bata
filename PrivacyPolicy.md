@@ -1,3 +1,5 @@
+[Back](./)
+
 ## Privacy Policy
 
 We provide this Privacy Policy to inform you about our policies and procedures regarding the collection, use and disclosure of information we receive from users of our mobile and tablet gaming applications (“Apps"). This privacy policy applies only to the information you provide to us through the apps.
