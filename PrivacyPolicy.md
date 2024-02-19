@@ -87,3 +87,5 @@ If we find out that we have collected personal data of a child under the age of 
 ### Changes to the Privacy Policy
 
 This Privacy Policy may be updated from time to time for any reason. We will notify you of any changes to our Privacy Policy by posting the new Privacy Policy here. You are advised to review this Privacy Policy regularly for any changes. 
+
+[Back](./)
