@@ -10,11 +10,9 @@ Our main purposes in collecting information are to provide and improve our appli
 
 In order to improve the work when using our service, I may require you to provide us with certain personal information that allows you to identify yourself. The information I request will be stored on your device and is not collected by me in any way.
 
-                The application does use third-party services that may collect information used to identify you.
-
-                Link to the privacy policy of third-party service providers used by the application
-
-                *[Unity Ads](https://unity3d.com/legal/privacy-policy )
+  The application does use third-party services that may collect information used to identify you.
+  Link to the privacy policy of third-party service providers used by the application
+  *[Unity Ads](https://unity3d.com/legal/privacy-policy )
 
 ### Account Information
 
@@ -40,13 +38,11 @@ The Services are supported through advertising, and we collect certain data to h
 
 We will not share any information we have collected from you, except as described below:
 
-                Account Holders
+Account Holders
+If you decide to connect your SNS account to the Services, other users of the Services will be able to see your SNS account name and profile picture, as well as information related to your use of the Services, such as the number of times you accessed or used the Services.
 
-                If you decide to connect your SNS account to the Services, other users of the Services will be able to see your SNS account name and profile picture, as well as information related to your use of the Services, such as the number of times you accessed or used the Services.
-
-                Guest Users
-
-                If you decide to use the Services without connecting to an SNS account, your nickname and information related to your use of the Services, for example, the number of times you accessed or used the Services, will be available for viewing by other users.
+Guest Users
+If you decide to use the Services without connecting to an SNS account, your nickname and information related to your use of the Services, for example, the number of times you accessed or used the Services, will be available for viewing by other users.
 
 ### Information we share with our service providers
 
