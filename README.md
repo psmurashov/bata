@@ -1,7 +1,4 @@
 ### BATA ###
----
-layout: default
----
 
 ```ruby
 Join the fascinating accompaniment of time. Blow up the balls and beat your record!
