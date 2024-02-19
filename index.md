@@ -1,3 +1,6 @@
+[Privacy Policy](https://psmurashov.github.io/bata/PrivacyPolicy.md).
+* * *
+
 ## bubbles for kids
 
 ![Octocat](https://psmurashov.github.io/bata/img/216x216.png)
