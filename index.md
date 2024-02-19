@@ -1,4 +1,4 @@
-[Privacy Policy](https://psmurashov.github.io/bata/PrivacyPolicy.md)
+[Privacy Policy](./PrivacyPolicy.md)
 * * *
 
 ## bubbles for kids
