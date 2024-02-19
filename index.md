@@ -3,7 +3,7 @@
 
 ## bubbles for kids
 
-![Octocat](https://psmurashov.github.io/bata/img/216x216.png)
+![Octocat](./img/216x216.png)
 
 > Join the fascinating accompaniment of time. Blow up the balls and beat your record!
 > Nice design and light accompanying music will drag you into the world of bubbles for kids.
