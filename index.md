@@ -10,8 +10,6 @@
 </table>
 
 
-* * *
-
 ## bubbles for kids
 
 ![Octocat](./img/216x216.png)
