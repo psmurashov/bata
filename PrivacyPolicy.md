@@ -1,4 +1,4 @@
-[:point_right: &nbsp; &nbsp; Back](./)
+[Back](./)
 
 ## ![](https://d33wubrfki0l68.cloudfront.net/73bea2cb492f0ad8aa0f15fdd2e9bcffd76b25a9/0f2ff/assets/images/service-icon2.png) &nbsp; &nbsp; Privacy Policy
 
@@ -90,4 +90,4 @@ If we find out that we have collected personal data of a child under the age of 
 
 This Privacy Policy may be updated from time to time for any reason. We will notify you of any changes to our Privacy Policy by posting the new Privacy Policy here. You are advised to review this Privacy Policy regularly for any changes. 
 
-[:point_right: &nbsp; &nbsp; Back](./)
+[Back](./)
