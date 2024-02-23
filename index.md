@@ -10,4 +10,4 @@
 > - Free the heroes.
 > - Blow up the balloons.
 
-[HUAWEI AppGallery](https://appgallery.huawei.ru/app/C106828771?source=qrCodeShare&referrer=PCWebAG&callType=SHARE&shareTo=qrcode&shareFrom=appmarket&reportEventLabel=apprankingpage)
+![Octocat](https://d33wubrfki0l68.cloudfront.net/4ab0b0f9c5dbe98a1f97c01c9677fe329c51291b/e434c/assets/images/service-icon5.png)    [HUAWEI AppGallery](https://appgallery.huawei.ru/app/C106828771?source=qrCodeShare&referrer=PCWebAG&callType=SHARE&shareTo=qrcode&shareFrom=appmarket&reportEventLabel=apprankingpage)
