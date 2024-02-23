@@ -1,6 +1,6 @@
 [Back](./)
 
-## ![](https://d33wubrfki0l68.cloudfront.net/73bea2cb492f0ad8aa0f15fdd2e9bcffd76b25a9/0f2ff/assets/images/service-icon2.png) Privacy Policy
+## ![](https://d33wubrfki0l68.cloudfront.net/73bea2cb492f0ad8aa0f15fdd2e9bcffd76b25a9/0f2ff/assets/images/service-icon2.png) &nbsp; &nbsp; Privacy Policy
 
 We provide this Privacy Policy to inform you about our policies and procedures regarding the collection, use and disclosure of information we receive from users of our mobile and tablet gaming applications (“Apps"). This privacy policy applies only to the information you provide to us through the apps.
 
