@@ -1,9 +1,9 @@
-<table>
+<table style="text-align: center; border: 0px;">
   <tr>
-    <td rowspan="3">
+    <td>
       <img src="https://d33wubrfki0l68.cloudfront.net/73bea2cb492f0ad8aa0f15fdd2e9bcffd76b25a9/0f2ff/assets/images/service-icon2.png" height="32"/>  
     </td>
-    <td rowspan="3"> 
+    <td> 
       <h3><a href="./PrivacyPolicy.md" target="_blank">Privacy Policy</a></h3>
     </td>
   </tr>
