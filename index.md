@@ -1,14 +1,7 @@
-<table>
-  <tr>
-    <td align="left">
-      <img src="https://d33wubrfki0l68.cloudfront.net/73bea2cb492f0ad8aa0f15fdd2e9bcffd76b25a9/0f2ff/assets/images/service-icon2.png" height="32"/>  
-    </td>
-    <td align="left"> 
-      <h3><a href="./PrivacyPolicy.md" target="_blank">  Privacy Policy</a></h3>
-    </td>
-  </tr>
-</table>
+![](https://d33wubrfki0l68.cloudfront.net/73bea2cb492f0ad8aa0f15fdd2e9bcffd76b25a9/0f2ff/assets/images/service-icon2.png)    [Privacy Policy](./PrivacyPolicy.md "Read")
 
+
+* * *
 
 ## bubbles for kids
 
@@ -19,14 +12,5 @@
 > - Free the heroes.
 > - Blow up the balloons.
 
+![](https://d33wubrfki0l68.cloudfront.net/4ab0b0f9c5dbe98a1f97c01c9677fe329c51291b/e434c/assets/images/service-icon5.png)    [HUAWEI AppGallery](https://appgallery.huawei.ru/app/C106828771?source=qrCodeShare&referrer=PCWebAG&callType=SHARE&shareTo=qrcode&shareFrom=appmarket&reportEventLabel=apprankingpage "App")
 
-<table>
-  <tr>
-    <td align="left">
-      <img src="https://d33wubrfki0l68.cloudfront.net/4ab0b0f9c5dbe98a1f97c01c9677fe329c51291b/e434c/assets/images/service-icon5.png" height="32"/>  
-    </td>
-    <td align="left"> 
-      <h3><a href="https://appgallery.huawei.ru/app/C106828771?source=qrCodeShare&referrer=PCWebAG&callType=SHARE&shareTo=qrcode&shareFrom=appmarket&reportEventLabel=apprankingpage" target="_blank">  HUAWEI AppGallery</a></h3>
-    </td>
-  </tr>
-</table>
