@@ -1,4 +1,11 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M3U File Generator</title>
+</head>
+<body>
 <script>
 function createM3UFile(data, filename) {
   const blob = new Blob([data], { type: 'text/plain' });
@@ -27,4 +34,5 @@ const filename = 'mur.m3u';
 
 createM3UFile(m3uData, filename);
 </script>
+</body>
 </html>
