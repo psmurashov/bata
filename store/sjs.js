@@ -1621,7 +1621,6 @@ function configurePlaylist(i) {
 	default: i ? '' : langGet('default_playlist'),
 	placeholder: i ? 'http://example.com/list.m3u8' : '',
 	description: i
-	    ? (!getStorage('list_url_' + i) ? langGet('settings_list_url_desc1') : '')
 	    : langGet('settings_list_url_desc0'),
 	onChange: function (url) {
 	    if (url === activity.url) return;
