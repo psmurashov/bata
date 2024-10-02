@@ -1614,7 +1614,7 @@ function configurePlaylist(i) {
 	    activity.title = title + (title === plugin.name ? '' : ' - ' + plugin.name);
 	}
     });
-    addSettings('input', {
+/*    addSettings('input', {
 	title: langGet('settings_list_url'),
 	name: 'list_url_' + i,
 	default: i ? '' : langGet('default_playlist'),
@@ -1637,7 +1637,7 @@ function configurePlaylist(i) {
 	    }
 	}
     });
-
+*/
     var name = getSettings('list_name_' + i);
     var url = getSettings('list_url_' + i);
     var title = (name || defName);
