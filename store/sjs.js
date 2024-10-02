@@ -1364,7 +1364,7 @@ function langGet(name) {
 
 langAdd('default_playlist',
     {
-	ru: 'https://lightiptv.cc/playlist/hls/86fzonrydg.m3u'
+	ru: 'https://raw.githubusercontent.com/Free-TV/IPTV/master/playlists/playlist_russia.m3u8'
     }
 );
 langAdd('default_playlist_cat',
