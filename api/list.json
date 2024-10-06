@@ -32,7 +32,7 @@
 		"moderation":1,
 		"moderation_reason":"",
 		"comment":"",
-		"premium":1,
+		"premium":0,
 		"image":"https://cub.red/img/plugins/interface.jpg",
 		"platform":"",
 		"recomend":1,
