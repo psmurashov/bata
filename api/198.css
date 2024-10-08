@@ -1,0 +1,203 @@
+body{
+    background-color: #fff;
+    color: #000;
+}
+
+.full-start-new__details,
+.menu__item,
+.simple-keyboard .hg-button[data-skbtn="{MIC}"] svg,
+.full-start-new__head,
+.torrent-checklist__list > li.wait,
+.torrent-item__bitrate > span, .torrent-item__grabs > span, .torrent-item__seeds > span,
+.full-start-new__head span{
+    color: #000;
+}
+
+.full-start__button,
+.full-descr__tag,
+.explorer__files .torrent-filter .simple-button:not(.focus),
+.time-line,
+.torrent-item,
+.torrent-serial__size,
+.torrent-file__size,
+.torrent-file__title .exe,
+.extensions__item,
+.extensions__block-add,
+.console__tab,
+.console__line.focus,
+.lang__selector-item.last-focus{
+    background-color: rgba(0,0,0,0.06);
+}
+.online-prestige,
+.iptv-list__item,
+.iptv-menu__list-item.active{
+    background-color: rgba(0,0,0,0.06) !important;
+}
+.iptv-list__item.focus,
+.iptv-menu__list-item.focus{
+    background-color: rgba(0,0,0,0.3) !important;
+}
+
+.head__logo-icon img,
+.settings-folder__icon,
+.simple-keyboard .hg-button:after,
+.menu__ico > img,
+.search-history-key:before,
+.empty__img,
+.iptv-list__ico,
+.activity__loader,
+.mods_iptv__program .program-list .notice__title svg{
+    -webkit-filter: invert(1);
+            filter: invert(1);
+}
+
+.settings__content,
+.selectbox__content,
+.head__action.focus, .head__action.hover,
+.modal__content,
+.full-start__button.focus,
+.full-descr__tag.focus,
+.card-more__box,
+.full-person.focus,
+.simple-button.focus{
+    background-color: #ddd;
+}
+.settings-folder.focus,
+.settings-param.focus,
+.selectbox-item.focus,
+.settings-input__content{
+    background-color: #fff;
+}
+.full-start__pg{
+    border-color: #000;
+}
+.simple-keyboard .hg-button,
+.settings-input__links,
+.search-history-key,
+.search-source.active{
+    color: #000;
+    background-color: rgba(0,0,0,0.12);
+}
+.simple-keyboard .hg-button.focus,
+.simple-keyboard .hg-button:hover,
+.search-source.focus,
+.search-history-key.focus,
+.time-line > div,
+.console__tab.focus,
+.lang__selector-item.focus{
+    background-color: rgba(0,0,0,0.3);
+    color: #000;
+}
+
+.efir_bar .player-panel__timeline{
+    background-color: rgba(0,0,0,0.12)  !important;
+}
+.efir_bar .player-panel__position > div:after,
+.efir_bar .player-panel__timeline > div{
+    background-color: #565656 !important;
+}
+
+.menu__item.focus, 
+.menu__item.traverse, 
+.menu__item.hover{
+    background-color: #ddd;
+    color: #000;
+}
+
+.modal{
+    background-color: rgba(255,255,255,0.3);
+}
+.notice__footer > div{
+    background-color: rgba(255,255,255,0.6);
+}
+.notice.focus{
+    background-color: rgba(255,255,255,0.4);
+}
+.search-source.focus{
+    -webkit-box-shadow: none;
+       -moz-box-shadow: none;
+            box-shadow: none;
+}
+
+.card.focus .card__view::after, 
+.card.hover .card__view::after,
+.iptv-channel.focus::before, 
+.iptv-channel.last--focus::before,
+.extensions__item.focus:after,
+.full-episode.focus::after,
+.card-more.focus .card-more__box::after,
+.torrent-item.focus::after,
+.extensions__block-add.focus:after{
+    border-color: rgba(0, 0, 0, 0.3);
+}
+
+.online-prestige.focus::after,
+.radio-item.focus .radio-item__imgbox:after,
+.iptv-channel.focus::before, .iptv-channel.last--focus::before{
+    border-color: rgba(0, 0, 0, 0.3) !important;
+}
+
+.full-episode__body,
+.online-prestige__viewed,
+.online-prestige__episode-number,
+.torrent-serial__episode,
+.player,
+.card-watched{
+    color: #fff;
+}
+
+.background{
+    display: none;
+}
+.torrent-item__details{
+    color: rgba(0, 0, 0, 0.3);
+}
+.modal .simple-button.focus{
+    background-color: #fff;
+}
+.torrent-serial,
+.torrent-file{
+    background-color: rgba(255,255,255,0.4);
+}
+.torrent-serial.focus,
+.torrent-file.focus,
+.extensions,
+.extensions__item-code,
+.extensions__item-disabled,
+.extensions__cub,
+.console,
+.lang,
+.settings-input--free{
+    background-color: #fff;
+}
+
+.extensions__item-included:after{
+    border-color: #000;
+}
+.extensions-info__label{
+    color: #939393;
+}
+
+.iptv-menu__list-item{
+    color: #000 !important;
+}
+.iptv-program.focus .iptv-program__time::after{
+    background-color: #000 !important;
+}
+.online-prestige-rate svg path{
+    fill: currentColor;
+}
+
+.full-start__background.loaded{
+    opacity: 0.15;
+}
+.full-start__background.dim{
+    opacity: 0.08;
+}
+
+.card-watched .time-line{
+    background-color: rgba(255, 255, 255, 0.3);
+}
+.card-watched .time-line > div{
+    background-color: #fff
+}
