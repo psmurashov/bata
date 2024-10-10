@@ -494,11 +494,11 @@
 
             if (params && params.loading == 'lampa') {
               //_this4.m3u(data.url).then(secuses)["catch"](error);
-              _this4.m3uClient('https://gitlab.com/iptv135435/iptvshared/raw/main/IPTV_SHARED.m3u').then(secuses)["catch"](error);
+              _this4.m3uClient('https://gitlab.com/iptv135435/iptvshared/raw/main/IPTV_SHARED.m3u?private_token=AmPeG6zykNxh1etM-hN3').then(secuses)["catch"](error);
             } else {
               ///http://skaz.tv/api.php?ua=&cdn=&ero=1&email=&  ?ktvservs_listget=1
               ////_this4.get('?ktvservs_listget=' + id).then(secuses)["catch"](error);
-              _this4.m3uClient('https://gitlab.com/iptv135435/iptvshared/raw/main/IPTV_SHARED.m3u').then(secuses)["catch"](error);
+              _this4.m3uClient('https://gitlab.com/iptv135435/iptvshared/raw/main/IPTV_SHARED.m3u?private_token=AmPeG6zykNxh1etM-hN3').then(secuses)["catch"](error);
               //_this4.get('api.php.json').then(secuses)["catch"](error);
             }
           })["catch"](reject);
