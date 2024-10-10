@@ -300,7 +300,7 @@
 
         return new Promise(function (resolve, reject) {
           var account = Lampa.Storage.get('account', '{}');
-          if (!account.token) return reject();
+          //if (!account.token) return reject();
 
           _this2.network.timeout(20000);
 
@@ -391,11 +391,13 @@
             };
 
             if (params && params.loading == 'lampa') {
-              _this4.m3u(data.url).then(secuses)["catch"](error);
+              //_this4.m3u(data.url).then(secuses)["catch"](error);
+              _this4.m3u('https://gitlab.com/iptv135435/iptvshared/raw/main/IPTV_SHARED.m3u').then(secuses)["catch"](error);
             } else {
               ///http://skaz.tv/api.php?ua=&cdn=&ero=1&email=&  ?ktvservs_listget=1
               ////_this4.get('?ktvservs_listget=' + id).then(secuses)["catch"](error);
-              _this4.get('playlist.m3u').then(secuses)["catch"](error);
+              _this4.m3u('https://gitlab.com/iptv135435/iptvshared/raw/main/IPTV_SHARED.m3u').then(secuses)["catch"](error);
+              //_this4.get('api.php.json').then(secuses)["catch"](error);
             }
           })["catch"](reject);
         });
