@@ -321,6 +321,7 @@
               enctype: 'multipart/form-data',
               processData: false,
               headers: {
+              Access-Control-Allow-Origin: '*',
               token: 'eyJpZCI6MjYyNTAsImhhc2giOiIifQ==.+4jLicYhpPqCyHzMUJUWPj8peGBW9W1iLkYU1Zg9qhQ=',
               profile: '28399'
               },
@@ -331,6 +332,7 @@
             });
           }, reject, false, {
             headers: {
+              Access-Control-Allow-Origin: '*',
               token: account.token,
               profile: account.profile.id
             },
