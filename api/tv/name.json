@@ -1,0 +1,21 @@
+{
+"secuses": true,
+"list": [
+{
+"id": 1,
+"cid": 1,
+"url": "",
+"name": "Общие каналы",
+"status": 1,
+"profiles": "[]"
+},
+{
+"id": 2,
+"cid": 2,
+"url": "",
+"name": "VIP разделы. Подписка не активна. Подключить: skaz.tv",
+"status": 1,
+"profiles": "[]"
+}
+]
+}
