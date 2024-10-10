@@ -395,7 +395,7 @@
             } else {
               ///http://skaz.tv/api.php?ua=&cdn=&ero=1&email=&  ?ktvservs_listget=1
               ////_this4.get('?ktvservs_listget=' + id).then(secuses)["catch"](error);
-              _this4.get('api.php.json' + id).then(secuses)["catch"](error);
+              _this4.get('playlist.m3u').then(secuses)["catch"](error);
             }
           })["catch"](reject);
         });
