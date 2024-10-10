@@ -357,6 +357,108 @@
         });
       }
     }, {
+      key: "m3uClient",
+      value: function m3uClient(url) {
+        var _this4 = this;
+
+        return new Promise(function (resolve, reject) {
+          _this4.network.timeout(20000);
+
+          _this4.network[window.god_enabled ? 'native' : 'silent'](url, function (str) {
+            if (typeof str != 'string' || str.substr(0, 7).toUpperCase() !== "#EXTM3U") {
+              return reject(Lampa.Lang.translate('torrent_parser_request_error'));
+            }
+
+            var list;
+            var catchup;
+
+            try {
+              str = str.replace(/tvg-rec="(\d+)"/g, 'catchup="default" catchup-days="$1"');
+              list = Parser$1.parse(str);
+            } catch (e) {}
+
+            if (list && list.items) {
+              var channels = [];
+
+              if (list.header.raw.indexOf('catchup') >= 0) {
+                catchup = {
+                  days: 0,
+                  source: '',
+                  type: ''
+                };
+                var m_days = list.header.raw.match(/catchup-days="(\d+)"/);
+                var m_type = list.header.raw.match(/catchup="([a-z]+)"/);
+                var m_source = list.header.raw.match(/catchup-source="(.*?)"/);
+                if (m_days) catchup.days = m_days[1];
+                if (m_type) catchup.type = m_type[1];
+                if (m_source) catchup.source = m_source[1];
+              }
+
+              for (var i = 0; i < list.items.length; i++) {
+                var item = list.items[i];
+                var name = item.name.trim();
+                var channel = {
+                  id: item.tvg && item.tvg.id ? item.tvg.id : null,
+                  name: name.replace(/ \((\+\d+)\)/g, ' $1').replace(/\s+(\s|ⓢ|ⓖ|ⓥ|ⓞ|Ⓢ|Ⓖ|Ⓥ|Ⓞ)/g, ' ').trim(),
+                  logo: item.tvg && item.tvg.logo && item.tvg.logo.indexOf('http') == 0 ? item.tvg.logo : null,
+                  group: item.group.title,
+                  url: item.url,
+                  catchup: item.catchup,
+                  timeshift: item.timeshift,
+                  tvg: item.tvg
+                };
+
+                if (!item.catchup.type && catchup && item.raw.indexOf('catchup-enable="1"') >= 0) {
+                  channel.catchup = catchup;
+                }
+
+                channels.push(channel);
+              }
+
+              var result = {
+                menu: [],
+                channels: channels
+              };
+              result.menu.push({
+                name: '',
+                count: channels.length
+              });
+
+              var _loop = function _loop(_i) {
+                var channel = channels[_i];
+                var group = channel.group;
+                var find = result.menu.find(function (item) {
+                  return item.name === group;
+                });
+
+                if (find) {
+                  find.count++;
+                } else {
+                  result.menu.push({
+                    name: group,
+                    count: 1
+                  });
+                }
+              };
+
+              for (var _i = 0; _i < channels.length; _i++) {
+                _loop(_i);
+              }
+
+              resolve({
+                name: '',
+                playlist: result,
+                secuses: true
+              });
+            } else {
+              reject(Lampa.Lang.translate('torrent_parser_empty'));
+            }
+          }, reject, false, {
+            dataType: 'text'
+          });
+        });
+      }
+    }, {
       key: "playlist",
       value: function playlist(data) {
         var _this4 = this;
@@ -392,11 +494,11 @@
 
             if (params && params.loading == 'lampa') {
               //_this4.m3u(data.url).then(secuses)["catch"](error);
-              _this4.m3u('https://gitlab.com/iptv135435/iptvshared/raw/main/IPTV_SHARED.m3u').then(secuses)["catch"](error);
+              _this4.m3uClient('https://gitlab.com/iptv135435/iptvshared/raw/main/IPTV_SHARED.m3u').then(secuses)["catch"](error);
             } else {
               ///http://skaz.tv/api.php?ua=&cdn=&ero=1&email=&  ?ktvservs_listget=1
               ////_this4.get('?ktvservs_listget=' + id).then(secuses)["catch"](error);
-              _this4.m3u('https://gitlab.com/iptv135435/iptvshared/raw/main/IPTV_SHARED.m3u').then(secuses)["catch"](error);
+              _this4.m3uClient('https://gitlab.com/iptv135435/iptvshared/raw/main/IPTV_SHARED.m3u').then(secuses)["catch"](error);
               //_this4.get('api.php.json').then(secuses)["catch"](error);
             }
           })["catch"](reject);
