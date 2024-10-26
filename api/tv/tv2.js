@@ -345,8 +345,8 @@
 
         return new Promise(function (resolve, reject) {
           _this3.get('name.json').then(function (result) {
-			Lampa.Storage.set('iptvskaz_playlist_params_1',{update: 'always', update_time: '1728562888', loading: 'lampa'});
-			Lampa.Storage.set('iptvskaz_playlist_params_2',{update: 'always', update_time: '1728562888', loading: 'lampa'});
+			Lampa.Storage.set('iptvskaz_playlist_params_1',{update: 'always', update_time: '1728562888', loading: 'cub'});
+			Lampa.Storage.set('iptvskaz_playlist_params_2',{update: 'always', update_time: '1728562888', loading: 'cub'});
             DB.rewriteData('playlist', 'list', result);
             resolve(result);
           })["catch"](function (e) {
