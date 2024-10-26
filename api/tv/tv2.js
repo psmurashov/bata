@@ -494,14 +494,27 @@
 
             if (params && params.loading == 'lampa') {
               //_this4.m3u(data.url).then(secuses)["catch"](error);
-              _this4.m3u('/storage/emulated/0/Download/IPTV_SHARED.m3u').then(secuses)["catch"](error);
+              
+                const filePath = '/storage/emulated/0/Download/IPTV_SHARED.m3u';
+                const fileContent = Android.loadFile(filePath);
+              _this4.m3u(fileContent).then(secuses)["catch"](error);
+
+              //_this4.m3u('/storage/emulated/0/Download/IPTV_SHARED.m3u').then(secuses)["catch"](error);
               
             } else {
               ///http://skaz.tv/api.php?ua=&cdn=&ero=1&email=&  ?ktvservs_listget=1
               ////_this4.get('?ktvservs_listget=' + id).then(secuses)["catch"](error);
-              _this4.m3uClient('/storage/emulated/0/Download/IPTV_SHARED.m3u').then(secuses)["catch"](error);
+              //_this4.m3uClient('/storage/emulated/0/Download/IPTV_SHARED.m3u').then(secuses)["catch"](error);
+
+
+                const filePath = '/storage/emulated/0/Download/IPTV_SHARED.m3u';
+                const fileContent = Android.loadFile(filePath);
+                document.getElementById('fileContent').textContent = fileContent;
               
-              //_this4.get('api.php.json').then(secuses)["catch"](error);
+
+
+              
+              _this4.get(fileContent).then(secuses)["catch"](error);
             }
           })["catch"](reject);
         });
