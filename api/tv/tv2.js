@@ -37,7 +37,7 @@
 
     return obj;
   }
-
+/*****
   function _unsupportedIterableToArray(o, minLen) {
     if (!o) return;
     if (typeof o === "string") return _arrayLikeToArray(o, minLen);
@@ -111,7 +111,7 @@
       }
     };
   }
-
+*///
   var Utils = /*#__PURE__*/function () {
     function Utils() {
       _classCallCheck(this, Utils);
@@ -156,7 +156,7 @@
     }, {
       key: "canUseDB",
       value: function canUseDB() {
-        return DB.db && Lampa.Storage.get('iptv_use_db', 'indexdb') == 'indexdb';
+        return DB.db && Lampa.Storage.get('iptv_use_db', 'indexdb') == 'LocalStorage';
       }
     }]);
 
@@ -637,17 +637,14 @@
       key: "get",
       value: function get(method) {
         var _this = this;
-
         return new Promise(function (resolve, reject) {
-          var account = Lampa.Storage.get('account', '{}');
-          if (!account.token) return resolve();
+          //////var account = Lampa.Storage.get('account', '{}');
+        //  if (!account.token) return reject();
 
-          _this.network.silent(_this.api_url + method, resolve, resolve, false, {
-            headers: {
-              token: account.token,
-              profile: account.profile.id
-            }
-          });
+          ///////  http://skaz.tv/api.php   ?ua=  &cdn=  &ero=1   &email=  &?list_servers=get
+          ////_this.network.silent(_this.api_url + '?ua='+Lampa.Storage.cache("skazua")+'&cdn='+Lampa.Storage.cache("skazcdn")+'&ero='+Lampa.Storage.cache("noporn")+'&email=&' + method, resolve, reject);
+          _this.network.silent(_this.api_url + 'psmurashov.github.io/bata/api/tv/' + method, resolve, reject);
+          
         });
       }
     }, {
@@ -707,8 +704,8 @@
 
         return new Promise(function (resolve, reject) {
           _this3.get('name.json').then(function (result) {
-      Lampa.Storage.set('iptv_manager_playlist_params_1',{update: 'always', update_time: '1728562888', loading: 'cub'});
-      Lampa.Storage.set('iptv_manager_playlist_params_2',{update: 'always', update_time: '1728562888', loading: 'cub'});
+      Lampa.Storage.set('iptv_manager_playlist_params_1',{update: 'always', update_time: '1728562888', loading: 'CUB'});
+      Lampa.Storage.set('iptv_manager_playlist_params_2',{update: 'always', update_time: '1728562888', loading: 'CUB'});
             DB.rewriteData('playlist', 'list', result);
             resolve(result);
           })["catch"](function (e) {
@@ -909,32 +906,8 @@
 
   _defineProperty(Api, "network", new Lampa.Reguest());
 
-  _defineProperty(Api, "api_url", Lampa.Utils.protocol() + Lampa.Manifest.cub_domain + '/api/iptv/');
+  _defineProperty(Api, "api_url", 'https://');
 
-  var Pilot = /*#__PURE__*/function () {
-    function Pilot() {
-      _classCallCheck(this, Pilot);
-    }
-
-    _createClass(Pilot, null, [{
-      key: "notebook",
-      value: function notebook(param_name, param_set) {
-        var book = Lampa.Storage.get('iptv_pilot_book', '{}');
-        Lampa.Arrays.extend(book, {
-          playlist: '',
-          channel: -1,
-          category: ''
-        });
-
-        if (typeof param_set !== 'undefined') {
-          book[param_name] = param_set;
-          Lampa.Storage.set('iptv_pilot_book', book);
-        } else return book[param_name];
-      }
-    }]);
-
-    return Pilot;
-  }();
 
   var PlaylistItem = /*#__PURE__*/function () {
     function PlaylistItem(playlist) {
@@ -949,15 +922,13 @@
       Params.get(playlist.id).then(function (params) {
         _this.params = params;
 
-        _this.drawFooter();
+        //_this.drawFooter();
       });
       var name = playlist.name || '---';
       this.item.find('.iptv-playlist-item__url').text(playlist.url);
       this.item.find('.iptv-playlist-item__name-text').text(name);
       this.item.find('.iptv-playlist-item__name-ico span').text(name.slice(0, 1).toUpperCase());
       this.item.on('hover:long', this.displaySettings.bind(this)).on('hover:enter', function () {
-        if (_this.deleted) return;
-        Pilot.notebook('playlist', playlist.id);
         DB.rewriteData('playlist', 'active', playlist.id)["finally"](function () {
           _this.listener.send('channels-load', playlist);
         });
@@ -966,111 +937,28 @@
         Params.get(playlist.id).then(function (params) {
           _this.params = params;
 
-          _this.drawFooter();
+          _//this.drawFooter();
         });
       });
     }
 
-    _createClass(PlaylistItem, [{
+     _createClass(PlaylistItem, [{
       key: "displaySettings",
       value: function displaySettings() {
         var _this2 = this;
 
-        if (this.deleted) return;
         var params = {
           update: ['always', 'hour', 'hour12', 'day', 'week', 'none'],
           loading: ['cub', 'lampa']
         };
-        var menu = [];
-        menu = menu.concat([{
-          title: Lampa.Lang.translate('iptv_update'),
-          subtitle: Params.value(this.params, 'update'),
-          name: 'update'
-        }, {
-          title: Lampa.Lang.translate('iptv_loading'),
-          subtitle: Params.value(this.params, 'loading'),
-          name: 'loading'
-        }, {
-          title: Lampa.Lang.translate('iptv_remove_cache'),
-          subtitle: Lampa.Lang.translate('iptv_remove_cache_descr')
-        }]);
-
-        if (this.playlist.custom) {
-          menu = menu.concat([{
-            title: Lampa.Lang.translate('more'),
-            separator: true
-          }, {
-            title: Lampa.Lang.translate('iptv_playlist_change_name'),
-            name: 'change',
-            value: 'name'
-          }, {
-            title: Lampa.Lang.translate('extensions_change_link'),
-            name: 'change',
-            value: 'url'
-          }, {
-            title: Lampa.Lang.translate('extensions_remove'),
-            name: 'delete'
-          }]);
-        }
-
         Lampa.Select.show({
           title: Lampa.Lang.translate('title_settings'),
-          items: menu,
+          items: [{
+            title: Lampa.Lang.translate('iptv_remove_cache'),
+            subtitle: Lampa.Lang.translate('iptv_remove_cache_descr')
+          }],
           onSelect: function onSelect(a) {
-            if (a.name == 'change') {
-              Lampa.Input.edit({
-                title: Lampa.Lang.translate('iptv_playlist_add_set_' + a.value),
-                free: true,
-                nosave: true,
-                value: _this2.playlist[a.value]
-              }, function (value) {
-                if (value) {
-                  var list = Lampa.Storage.get('iptv_playlist_custom', '[]');
-                  var item = list.find(function (n) {
-                    return n.id == _this2.playlist.id;
-                  });
-
-                  if (item && item[a.value] !== value) {
-                    item[a.value] = value;
-                    _this2.playlist[a.value] = value;
-                    Lampa.Storage.set('iptv_playlist_custom', list);
-
-                    _this2.item.find('.iptv-playlist-item__' + (a.value == 'name' ? 'name-text' : 'url')).text(value);
-
-                    Lampa.Noty.show(Lampa.Lang.translate('iptv_playlist_' + a.value + '_changed'));
-                  }
-                }
-
-                Lampa.Controller.toggle('content');
-              });
-            } else if (a.name == 'delete') {
-              Lampa.Modal.open({
-                title: '',
-                align: 'center',
-                html: $('<div class="about">' + Lampa.Lang.translate('iptv_confirm_delete_playlist') + '</div>'),
-                buttons: [{
-                  name: Lampa.Lang.translate('settings_param_no'),
-                  onSelect: function onSelect() {
-                    Lampa.Modal.close();
-                    Lampa.Controller.toggle('content');
-                  }
-                }, {
-                  name: Lampa.Lang.translate('settings_param_yes'),
-                  onSelect: function onSelect() {
-                    var list = Lampa.Storage.get('iptv_playlist_custom', '[]');
-                    Lampa.Arrays.remove(list, list.find(function (n) {
-                      return n.id == _this2.playlist.id;
-                    }));
-                    Lampa.Storage.set('iptv_playlist_custom', list);
-                    Lampa.Noty.show(Lampa.Lang.translate('iptv_playlist_deleted'));
-                    Lampa.Modal.close();
-                    Lampa.Controller.toggle('content');
-                    _this2.item.style.opacity = 0.3;
-                    _this2.deleted = true;
-                  }
-                }]
-              });
-            } else if (a.name) {
+            if (a.name) {
               var keys = params[a.name];
               var items = [];
               keys.forEach(function (k) {
@@ -1093,7 +981,7 @@
               });
             } else {
               DB.deleteData('playlist', _this2.playlist.id)["finally"](function () {
-                Lampa.Noty.show(Lampa.Lang.translate('iptv_cache_clear'));
+                Lampa.Noty.show('Кеш удален');
               });
               Lampa.Controller.toggle('content');
             }
@@ -1107,8 +995,6 @@
       key: "drawFooter",
       value: function drawFooter() {
         var _this3 = this;
-
-        this.footer.removeClass('hide');
 
         function label(where, name, value) {
           var leb_div = document.createElement('div');
@@ -1175,48 +1061,27 @@
       }
     }, {
       key: "list",
+      key: "list",
       value: function list(playlist) {
-        var _this2 = this;
+        var _this = this;
 
         this.scroll.clear();
         this.scroll.reset();
-        this.html.find('.iptv-list__text').html(Lampa.Lang.translate('iptv_select_playlist_text'));
-        var add = Lampa.Template.js('cub_iptv_list_add_custom');
-        add.find('.iptv-playlist-item__title').text(Lampa.Lang.translate('iptv_playlist_add_new'));
-        add.on('hover:enter', function () {
-          Lampa.Input.edit({
-            title: Lampa.Lang.translate('iptv_playlist_add_set_url'),
-            free: true,
-            nosave: true,
-            value: ''
-          }, function (value) {
-            if (value) {
-              var data = {
-                id: Lampa.Utils.uid(),
-                custom: true,
-                url: value,
-                name: ''
-              };
-              Lampa.Storage.add('iptv_playlist_custom', data);
-
-              var item = _this2.item(data);
-
-              add.parentNode.insertBefore(item.render(), add.nextSibling);
-            }
-
-            Lampa.Controller.toggle('content');
-          });
-        });
-        add.on('hover:focus', function () {
-          _this2.last = add;
-
-          _this2.scroll.update(_this2.last);
-        });
-        this.scroll.append(add);
+        
         playlist.list.reverse().forEach(function (data) {
-          var item = _this2.item(data);
+          var item = new PlaylistItem(data);
+          item.listener = _this.listener;
+          var elem = item.render();
+          elem.on('hover:focus', function () {
+            _this.last = elem;
 
-          _this2.scroll.append(item.render());
+            _this.scroll.update(_this.last);
+          }).on('hover:hover hover:touch', function () {
+            _this.last = elem;
+            Navigator.focused(elem);
+          });
+
+          _this.scroll.append(elem);
         });
         this.listener.send('display', this);
       }
@@ -1232,7 +1097,7 @@
 
         Promise.all([Api.list(), DB.getDataAnyCase('playlist', 'active')]).then(function (result) {
           var playlist = result[0];
-          var active = result[1] || Pilot.notebook('playlist');
+          var active = result[1];
 
           if (playlist) {
             if (active) {
@@ -1241,11 +1106,13 @@
               });
 
               if (find) {
-                _this3.listener.send('channels-load', find);
-              } else _this3.list(playlist);
-            } else _this3.list(playlist);
-          } else _this3.empty();
-        })["catch"](this.empty.bind(this));
+                _this2.listener.send('channels-load', find);
+              } else _this2.list(playlist);
+            } else _this2.list(playlist);
+          } else _this2.empty();
+        })["catch"](function (e) {
+          _this2.empty();
+        });
       }
     }, {
       key: "empty",
