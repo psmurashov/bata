@@ -706,14 +706,16 @@
         var _this3 = this;
 
         return new Promise(function (resolve, reject) {
-          Promise.all([_this3.get('list'), DB.getDataAnyCase('playlist', 'list')]).then(function (result) {
-            if (result[0]) DB.rewriteData('playlist', 'list', result[0]);
-            var playlist = result[0] || result[1] || {
-              list: []
-            };
-            playlist.list = playlist.list.concat(Lampa.Storage.get('iptv_playlist_custom', '[]'));
-            resolve(playlist);
-          })["catch"](reject);
+          _this3.get('name.json').then(function (result) {
+      Lampa.Storage.set('iptv_manager_playlist_params_1',{update: 'always', update_time: '1728562888', loading: 'cub'});
+      Lampa.Storage.set('iptv_manager_playlist_params_2',{update: 'always', update_time: '1728562888', loading: 'cub'});
+            DB.rewriteData('playlist', 'list', result);
+            resolve(result);
+          })["catch"](function (e) {
+            DB.getData('playlist', 'list').then(function (result) {
+              result ? resolve(result) : reject();
+            })["catch"](reject);
+          });
         });
       }
     }, {
