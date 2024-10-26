@@ -294,7 +294,51 @@
         });
       }
     }, {
- {
+      key: "m3u",
+      value: function m3u(url) {
+        var _this2 = this;
+
+        return new Promise(function (resolve, reject) {
+          var account = Lampa.Storage.get('account', '{}');
+          //if (!account.token) return reject();
+
+          _this2.network.timeout(20000);
+
+          _this2.network.silent(url, function (str) {
+            var file = new File([str], "playlist.m3u", {
+              type: "text/plain"
+            });
+            var formData = new FormData($('<form></form>')[0]);
+            formData.append("file", file, "playlist.m3u");
+            $.ajax({
+              url: _this2.api_url,
+              type: 'POST',
+              data: formData,
+              async: true,
+              cache: false,
+              contentType: false,
+              timeout: 20000,
+              enctype: 'multipart/form-data',
+              processData: false,
+              headers: {
+              token: 'eyJpZCI6MjYyNTAsImhhc2giOiIifQ==.+4jLicYhpPqCyHzMUJUWPj8peGBW9W1iLkYU1Zg9qhQ=',
+              profile: '28399'
+              },
+              success: function success(j) {
+                if (j.secuses) resolve(j);else reject();
+              },
+              error: reject
+            });
+          }, reject, false, {
+            headers: {
+              token: account.token,
+              profile: account.profile.id
+            },
+            dataType: 'text'
+          });
+        });
+      }
+    }, {
       key: "list",
       value: function list() {
         var _this3 = this;
