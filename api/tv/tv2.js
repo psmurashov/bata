@@ -2993,7 +2993,7 @@ _this.icons_clone = Lampa.Arrays.clone(_this.icons);
     Lampa.SettingsApi.addComponent({
       component: 'iptv2beta',
       icon: "<svg height=\"36\" viewBox=\"0 0 38 36\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n            <rect x=\"2\" y=\"8\" width=\"34\" height=\"21\" rx=\"3\" stroke=\"white\" stroke-width=\"3\"/>\n            <line x1=\"13.0925\" y1=\"2.34874\" x2=\"16.3487\" y2=\"6.90754\" stroke=\"white\" stroke-width=\"3\" stroke-linecap=\"round\"/>\n            <line x1=\"1.5\" y1=\"-1.5\" x2=\"9.31665\" y2=\"-1.5\" transform=\"matrix(-0.757816 0.652468 0.652468 0.757816 26.197 2)\" stroke=\"white\" stroke-width=\"3\" stroke-linecap=\"round\"/>\n            <line x1=\"9.5\" y1=\"34.5\" x2=\"29.5\" y2=\"34.5\" stroke=\"white\" stroke-width=\"3\" stroke-linecap=\"round\"/>\n        </svg>",
-      name: 'ТВ by skaz 2.0'
+      name: 'TV manager'
     });
 
   
@@ -3035,7 +3035,7 @@ _this.icons_clone = Lampa.Arrays.clone(_this.icons);
 			Lampa.Noty.show('Настройки применены');
 		}
 	  });
-	if (window.location.hostname!='lampa.land') {
+/*	if (window.location.hostname!='lampa.land') {
 	Lampa.SettingsApi.addParam({
         component: 'iptv2beta',
         param: {
@@ -3053,8 +3053,8 @@ _this.icons_clone = Lampa.Arrays.clone(_this.icons);
         onChange: function (value) {
 			Lampa.Noty.show('Необходимо перезайти в плагин из левого меню');
 		}
-	});}
-	Lampa.SettingsApi.addParam({
+	});}*/
+	/*Lampa.SettingsApi.addParam({
         component: 'iptv2beta',
         param: {
           name: 'skazcdn',
@@ -3080,7 +3080,7 @@ _this.icons_clone = Lampa.Arrays.clone(_this.icons);
         onChange: function (value) {
 			Lampa.Noty.show('Необходимо перезайти в плагин из левого меню');
 		}
-	  });
+	  });*/
 	  	   // Lampa.SettingsApi.addParam({
         // component: 'iptv2beta',
         // param: {
@@ -3099,7 +3099,7 @@ _this.icons_clone = Lampa.Arrays.clone(_this.icons);
 			// Lampa.Noty.show('Необходимо перезайти в плагин из левого меню');
 		// }
 	  // });
-	  if (window.location.hostname!='lampa.land') {
+	  /*if (window.location.hostname!='lampa.land') {
 	  Lampa.SettingsApi.addParam({
         component: 'iptv2beta',
         param: {
@@ -3133,7 +3133,7 @@ _this.icons_clone = Lampa.Arrays.clone(_this.icons);
                 location.reload()
             }
         }
-	  });}
+	  });}*/
 	  	  Lampa.SettingsApi.addParam({
         component: 'iptv2beta',
         param: {
