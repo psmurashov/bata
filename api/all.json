@@ -69,5 +69,35 @@
 				"plugin":117,
 				"status":1,
 				"profiles":"",
-				"url":"https://tsynik.github.io/lampa/e.js"},
-				{"id":254152,"cid":293138,"url":"https://bwa.to/o","status":1,"name":"o","profile":0,"profiles":"[]"},{"id":254153,"cid":293138,"url":"https://nb557.github.io/plugins/online_mod.js","status":1,"name":"online_mod","profile":0,"profiles":"[]"},{"id":254154,"cid":293138,"url":"https://bwa.to/plugins/prestige.js","status":1,"name":"prestige","profile":0,"profiles":"[]"},{"id":254175,"cid":293138,"url":"http://lampa.stream/modss","status":1,"name":"modss","profile":0,"profiles":"[]"}]}
+				"url":"https://tsynik.github.io/lampa/e.js"
+			},
+				{"id":254152,
+				"cid":293138,
+				"url":"https://bwa.to/o",
+				"status":1,
+				"name":"o",
+				"profile":0,
+				"profiles":"[]"
+			},
+				{"id":254153,
+				"cid":293138,
+				"url":"https://nb557.github.io/plugins/online_mod.js",
+				"status":1,"name":"online_mod",
+				"profile":0,"profiles":"[]"
+			},
+				{"id":254154,
+				"cid":293138,
+				"url":"https://bwa.to/plugins/prestige.js",
+				"status":1,
+				"name":"prestige",
+				"profile":0,"profiles":"[]"
+			},
+				{"id":254175,
+				"cid":293138,
+				"url":"http://lampa.stream/modss",
+				"status":1,
+				"name":"modss",
+				"profile":0,"profiles":"[]"
+			}
+		]
+}

@@ -85,9 +85,9 @@
 
 {"id":725,
 			"cid":1,
-			"name":"IPTV new",
+			"name":"IPTVmanager",
 			"author":"@psmurashov.github.io/bata/app/",
-			"link":"https://psmurashov.github.io/bata/api/tv.js",
+			"link":"https://psmurashov.github.io/bata/api/tv/tv2.js",
 			"descr":"Плагин для просмотра IPTV каналов. Сортировка каналов по группам и возможность добавить каналы в избранное.",
 			"instruction":"Просто добавь с расширением *.m3u",
 			"time":1700835232734,
