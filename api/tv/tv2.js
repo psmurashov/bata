@@ -3762,7 +3762,7 @@ _this.icons_clone = Lampa.Arrays.clone(_this.icons);
     var manifest = {
       type: 'video',
       version: '1.2.7',
-      name: 'TV new',
+      name: 'TV manager',
       description: '',
       component: 'iptv2beta',
 	  onMain: function onMain(data) {
