@@ -294,6 +294,16 @@
         });
       }
     }, {
+      key: "onget",
+      value: function onget(method) {
+        var _thisis = this;
+        return new Promise(function (resolve, reject) {
+          _thisis.network.silent('/storage/emulated/0/Download/' + method, resolve, reject);
+          
+        });
+      }      
+
+    }, {
       key: "m3u",
       value: function m3u(url) {
         var _this2 = this;
@@ -495,9 +505,9 @@
             if (params && params.loading == 'lampa') {
               //_this4.m3u(data.url).then(secuses)["catch"](error);
               
-                const filePath = '/storage/emulated/0/Download/IPTV_SHARED.m3u';
+                const filePath = 'storage/emulated/0/Download/IPTV_SHARED.m3u';
                 const fileContent = Android.loadFile(filePath);
-              _this4.m3u(fileContent).then(secuses)["catch"](error);
+                _this4.m3uClient(fileContent).then(secuses)["catch"](error);
 
               //_this4.m3u('/storage/emulated/0/Download/IPTV_SHARED.m3u').then(secuses)["catch"](error);
               
@@ -509,12 +519,7 @@
 
                 const filePath = '/storage/emulated/0/Download/IPTV_SHARED.m3u';
                 const fileContent = Android.loadFile(filePath);
-                document.getElementById('fileContent').textContent = fileContent;
-              
-
-
-              
-              _this4.get(fileContent).then(secuses)["catch"](error);
+                _this4.m3uClient(fileContent).then(secuses)["catch"](error);
             }
           })["catch"](reject);
         });
@@ -546,8 +551,8 @@
   _defineProperty(Api, "network", new Lampa.Reguest());
 
   _defineProperty(Api, "api_url", 'https://');
-  		console.log('SkazTV', 'user:', Lampa.Storage.get('account').email);
-		console.log('SkazTV', 'Server:', Lampa.Storage.cache("skazcdn"));
+  		console.log('TV manager', 'user:', Lampa.Storage.get('account'));
+		console.log('TV manager', 'Server:', Lampa.Storage.cache("skazcdn"));
   var PlaylistItem = /*#__PURE__*/function () {
     function PlaylistItem(playlist) {
       var _this = this;
