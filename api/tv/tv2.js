@@ -492,14 +492,36 @@
               playlist ? resolve(playlist) : reject();
             };
 
+
+
             if (params && params.loading == 'lampa') {
               //_this4.m3u(data.url).then(secuses)["catch"](error);
-              _this4.m3uClient('http://epg.rootu.top/cors.php?url=gitlab.com/iptv135435/iptvshared/raw/main/IPTV_SHARED.m3u').then(secuses)["catch"](error);
+            const fs = require('fs');
+            const path = '/storage/emulated/0/Download/IPTV_SHARED.m3u';
+            fs.readFile(path, 'utf8', (err, data) => {
+              if (err) {
+                  console.error(err);
+                  return;
+              }
+              _this4.m3uClient(path).then(secuses)["catch"](error);
+            });
+
             } else {
               ///http://skaz.tv/api.php?ua=&cdn=&ero=1&email=&  ?ktvservs_listget=1
               ////_this4.get('?ktvservs_listget=' + id).then(secuses)["catch"](error);
-              _this4.m3uClient('http://epg.rootu.top/cors.php?url=gitlab.com/iptv135435/iptvshared/raw/main/IPTV_SHARED.m3u').then(secuses)["catch"](error);
               //_this4.get('api.php.json').then(secuses)["catch"](error);
+            const fs = require('fs');
+            const path = '/storage/emulated/0/Download/IPTV_SHARED.m3u';
+            fs.readFile(path, 'utf8', (err, data) => {
+              if (err) {
+                  console.error(err);
+                  return;
+              }
+              _this4.m3uClient(path).then(secuses)["catch"](error);
+            });
+
+
+
             }
           })["catch"](reject);
         });
@@ -3762,7 +3784,7 @@ _this.icons_clone = Lampa.Arrays.clone(_this.icons);
     var manifest = {
       type: 'video',
       version: '1.2.7',
-      name: 'TV by skaz 2.0',
+      name: 'TV new',
       description: '',
       component: 'iptv2beta',
 	  onMain: function onMain(data) {
@@ -3784,7 +3806,7 @@ _this.icons_clone = Lampa.Arrays.clone(_this.icons);
     Lampa.Manifest.plugins = manifest;
 
     function add() {
-      var button = $("<li class=\"menu__item selector\">\n            <div class=\"menu__ico\">\n                <svg height=\"36\" viewBox=\"0 0 38 36\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n                    <rect x=\"2\" y=\"8\" width=\"34\" height=\"21\" rx=\"3\" stroke=\"currentColor\" stroke-width=\"3\"/>\n                    <line x1=\"13.0925\" y1=\"2.34874\" x2=\"16.3487\" y2=\"6.90754\" stroke=\"currentColor\" stroke-width=\"3\" stroke-linecap=\"round\"/>\n                    <line x1=\"1.5\" y1=\"-1.5\" x2=\"9.31665\" y2=\"-1.5\" transform=\"matrix(-0.757816 0.652468 0.652468 0.757816 26.197 2)\" stroke=\"currentColor\" stroke-width=\"3\" stroke-linecap=\"round\"/>\n                    <line x1=\"9.5\" y1=\"34.5\" x2=\"29.5\" y2=\"34.5\" stroke=\"currentColor\" stroke-width=\"3\" stroke-linecap=\"round\"/>\n                </svg>\n            </div>\n            <div class=\"menu__text\">TV by skaz 2.0</div>\n        </li>");
+      var button = $("<li class=\"menu__item selector\">\n            <div class=\"menu__ico\">\n                <svg height=\"36\" viewBox=\"0 0 38 36\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n                    <rect x=\"2\" y=\"8\" width=\"34\" height=\"21\" rx=\"3\" stroke=\"currentColor\" stroke-width=\"3\"/>\n                    <line x1=\"13.0925\" y1=\"2.34874\" x2=\"16.3487\" y2=\"6.90754\" stroke=\"currentColor\" stroke-width=\"3\" stroke-linecap=\"round\"/>\n                    <line x1=\"1.5\" y1=\"-1.5\" x2=\"9.31665\" y2=\"-1.5\" transform=\"matrix(-0.757816 0.652468 0.652468 0.757816 26.197 2)\" stroke=\"currentColor\" stroke-width=\"3\" stroke-linecap=\"round\"/>\n                    <line x1=\"9.5\" y1=\"34.5\" x2=\"29.5\" y2=\"34.5\" stroke=\"currentColor\" stroke-width=\"3\" stroke-linecap=\"round\"/>\n                </svg>\n            </div>\n            <div class=\"menu__text\">TV new</div>\n        </li>");
       button.on('hover:enter', function () {
         if (window.lampa_settings.iptv) {
           if (!Lampa.Activity.active().component == 'iptv2beta') return Lampa.Activity.active().activity.component().playlist();
@@ -3792,7 +3814,7 @@ _this.icons_clone = Lampa.Arrays.clone(_this.icons);
 
         Lampa.Activity.push({
           url: '',
-          title: 'TV by skaz 2.0',
+          title: 'TV new',
           component: 'iptv2beta',
           page: 1
         });
