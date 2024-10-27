@@ -1361,7 +1361,7 @@
       value: function sort() {
         var sort_type = Lampa.Storage.field('iptv_favotite_sort');
 
-        if (Lampa.Account.hasPremium() && sort_type !== 'add') {
+        if (!Lampa.Account.hasPremium() && sort_type !== 'add') {
           this.icons.sort(function (a, b) {
             if (sort_type == 'name') {
               return a.name < b.name ? -1 : a.name > b.name ? 1 : 0;
@@ -3910,7 +3910,7 @@
     }, '3');
     Lampa.Settings.listener.follow('open', function (e) {
       if (e.name == 'iptv') {
-        if (!Lampa.Account.hasPremium()) {
+        if (Lampa.Account.hasPremium()) {
           var body = e.body.find('.scroll__body > div');
           var info = $("<div class=\"settings-param selector\" data-type=\"button\" data-static=\"true\">\n                    <div class=\"settings-param__name\">".concat(Lampa.Lang.translate('account_premium_more'), "</div>\n                    <div class=\"settings-param__descr\">").concat(Lampa.Lang.translate('iptv_premium'), "</div>\n                </div>"));
           info.on('hover:enter', Lampa.Account.showCubPremium);
@@ -4062,7 +4062,7 @@
         name: Lampa.Lang.translate('iptv_param_sort_favorite')
       },
       onRender: function onRender(item) {
-        if (!Lampa.Account.hasPremium()) {
+        if (Lampa.Account.hasPremium()) {
           item.removeClass('selector');
           item.append(Lampa.Template.get('cub_iptv_param_lock'));
         }
@@ -4142,7 +4142,7 @@
         bg: 'Съжалявам, още не сте добавили никаква листа. За да почнете да гледате, моля идете на <span class="iptv-link">' + domain + '/iptv</span> и добавете поне една листа.'
       },
       iptv_select_playlist_text: {
-        ru: 'Для того чтобы добавить свой плейлист, вам необходимо перейти на сайт <span class="iptv-link">' + domain + '/iptv</span> и добавить плейлист от вашего провайдера.',
+        ru: 'Для того чтобы добавить свой плейлист, введите <span class="iptv-link">  https://URL  </span> плейлиста от вашего провайдера.',
         en: 'In order to add your playlist, you need to go to <span class="iptv-link">' + domain + '/iptv</span> and add a playlist from your provider.',
         uk: 'Щоб додати свій плейлист, вам необхідно перейти на сайт <span class="iptv-link">' + domain + '/iptv</span> і додати плейлист від вашого провайдера.',
         be: 'Для таго каб дадаць свой плэйліст, вам неабходна перайсці на сайт <span class="iptv-link">' + domain + '/iptv</span> і дадаць плэйліст ад вашага правайдэра.',
