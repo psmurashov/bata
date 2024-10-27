@@ -911,7 +911,7 @@
 
   _defineProperty(Api, "network", new Lampa.Reguest());
 
-  _defineProperty(Api, "api_url", Lampa.Utils.protocol() + Lampa.Manifest.cub_domain + 'cub.watch/api/iptv/');
+  _defineProperty(Api, "api_url", Lampa.Utils.protocol() + Lampa.Manifest.cub_domain + '/api/iptv/');
   /*_defineProperty(Api, "api_url", Lampa.Utils.protocol() + 'cub.watch/api/iptv/');*/
 
   var Pilot = /*#__PURE__*/function () {
