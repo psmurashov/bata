@@ -637,10 +637,9 @@
       key: "get",
       value: function get(method) {
         var _this = this;
-
         return new Promise(function (resolve, reject) {
           var account = Lampa.Storage.get('account', '{}');
-          if (!account.token) return resolve();
+          //if (!account.token) return resolve();
 
           _this.network.silent(_this.api_url + method, resolve, resolve, false, {
             headers: {
@@ -708,7 +707,7 @@
 
         return new Promise(function (resolve, reject) {
           var account = Lampa.Storage.get('account', '{}');
-          //if (!account.token) return reject();
+          if (!account.token) return reject();
 
           _this2.network.timeout(20000);
 
@@ -745,7 +744,7 @@
             dataType: 'text'
           });
         });
-      }     
+      }
     }, {
       key: "list",
       value: function list() {
@@ -981,8 +980,7 @@
 
   _defineProperty(Api, "network", new Lampa.Reguest());
 
-  /*_defineProperty(Api, "api_url", Lampa.Utils.protocol() + Lampa.Manifest.cub_domain + '/api/iptv/');*/
-  _defineProperty(Api, "api_url", 'http://skaz.tv/api.php');
+  _defineProperty(Api, "api_url", Lampa.Utils.protocol() + Lampa.Manifest.cub_domain + '/api/iptv/');
 
 
   var Pilot = /*#__PURE__*/function () {
@@ -1764,8 +1762,7 @@
           Api.program({
             name: channel.name,
             channel_id: channel.id,
-            time: EPG.time(channel),
-            tvg: channel.tvg
+            time: EPG.time(channel)
           }).then(function (program) {
             if (_this2.wait_for == channel.name) {
               if (program.length) _this2.program(channel, program);else _this2.empty();
