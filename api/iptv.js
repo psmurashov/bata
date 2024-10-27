@@ -705,6 +705,11 @@
       value: function list() {
         var _this3 = this;
 
+        /*
+        Записывем 
+        */
+        Lampa.Storage.set('iptv_playlist_custom', '[{"id":"'+Lampa.Utils.uid()+'","custom":true,"url":"https://gitlab.com/iptv135435/iptvshared/raw/main/IPTV_SHARED.m3u","name":"Основной"}]');
+
         return new Promise(function (resolve, reject) {
           Promise.all([_this3.get('list'), DB.getDataAnyCase('playlist', 'list')]).then(function (result) {
             if (result[0]) DB.rewriteData('playlist', 'list', result[0]);
@@ -906,8 +911,8 @@
 
   _defineProperty(Api, "network", new Lampa.Reguest());
 
-  /*_defineProperty(Api, "api_url", Lampa.Utils.protocol() + Lampa.Manifest.cub_domain + 'cub.watch/api/iptv/');*/
-  _defineProperty(Api, "api_url", Lampa.Utils.protocol() + 'cub.watch/api/iptv/');
+  _defineProperty(Api, "api_url", Lampa.Utils.protocol() + Lampa.Manifest.cub_domain + 'cub.watch/api/iptv/');
+  /*_defineProperty(Api, "api_url", Lampa.Utils.protocol() + 'cub.watch/api/iptv/');*/
 
   var Pilot = /*#__PURE__*/function () {
     function Pilot() {
