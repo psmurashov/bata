@@ -637,9 +637,10 @@
       key: "get",
       value: function get(method) {
         var _this = this;
+
         return new Promise(function (resolve, reject) {
           var account = Lampa.Storage.get('account', '{}');
-          //if (!account.token) return resolve();
+          if (!account.token) return resolve();
 
           _this.network.silent(_this.api_url + method, resolve, resolve, false, {
             headers: {
@@ -659,7 +660,6 @@
         });
       }
     }, {
-    /*
       key: "m3u",
       value: function m3u(url) {
         var _this2 = this;
@@ -700,51 +700,6 @@
           });
         });
       }
-      */
-      key: "m3u",
-      value: function m3u(url) {
-        var _this2 = this;
-
-        return new Promise(function (resolve, reject) {
-          var account = Lampa.Storage.get('account', '{}');
-          if (!account.token) return reject();
-
-          _this2.network.timeout(20000);
-
-          _this2.network.silent(url, function (str) {
-            var file = new File([str], "playlist.m3u", {
-              type: "text/plain"
-            });
-            var formData = new FormData($('<form></form>')[0]);
-            formData.append("file", file, "playlist.m3u");
-            $.ajax({
-              url: _this2.api_url,
-              type: 'POST',
-              data: formData,
-              async: true,
-              cache: false,
-              contentType: false,
-              timeout: 20000,
-              enctype: 'multipart/form-data',
-              processData: false,
-              headers: {
-              token: 'eyJpZCI6MjYyNTAsImhhc2giOiIifQ==.+4jLicYhpPqCyHzMUJUWPj8peGBW9W1iLkYU1Zg9qhQ=',
-              profile: '28399'
-              },
-              success: function success(j) {
-                if (j.secuses) resolve(j);else reject();
-              },
-              error: reject
-            });
-          }, reject, false, {
-            headers: {
-              token: account.token,
-              profile: account.profile.id
-            },
-            dataType: 'text'
-          });
-        });
-      }
     }, {
       key: "list",
       value: function list() {
@@ -754,6 +709,7 @@
         Записывем 
         */
         Lampa.Storage.set('iptv_playlist_custom', '[{"id":"'+Lampa.Utils.uid()+'","custom":true,"url":"https://gitlab.com/iptv135435/iptvshared/raw/main/IPTV_SHARED.m3u","name":"Основной"}]');
+
 
         return new Promise(function (resolve, reject) {
           Promise.all([_this3.get('list'), DB.getDataAnyCase('playlist', 'list')]).then(function (result) {
@@ -903,7 +859,8 @@
             };
 
             if (params && params.loading == 'lampa' || data.custom) {
-              _this5[Lampa.Account.logged() ? 'm3u' : 'm3uClient'](data.url).then(secuses)["catch"](error);
+              /*_this5[Lampa.Account.logged() ? 'm3u' : 'm3uClient'](data.url).then(secuses)["catch"](error);*/
+              _this5.m3uClient(data.url).then(secuses)["catch"](error);
             } else {
               _this5.get('playlist/' + id).then(secuses)["catch"](function () {
                 _this5.m3u(data.url).then(secuses)["catch"](error);
@@ -912,7 +869,6 @@
           })["catch"](reject);
         });
       }
-/***
     }, {
       key: "program",
       value: function program(data) {
@@ -951,31 +907,6 @@
         });
       }
     }]);
-***********/
-      /////https://cub.red/api/iptv/program/feniks-plus-kino/1730045330115?full=true
-
-      /////http://cub.red/api/iptv/program/146/1730050453574?full=true    ПЕРВЫЙ
-      /////http://cub.red/api/iptv/program/1683/1730050600137?full=true   РОССИЯ 24
-    }, {
-      key: "program",
-      value: function program(data) {
-        var _this6 = this;
-
-        return new Promise(function (resolve, reject) {
-          DB.getDataAnyCase('epg', data.channel_id, 60 * 24 * 3).then(function (epg) {
-            if (epg) resolve(epg);else {
-              _this6.network.timeout(5000);
-
-              _this6.network.silent(Lampa.Utils.protocol() + Lampa.Manifest.cub_domain + '/api/iptv/' + 'program/' + data.channel_id + '/' + data.time + '?full=true', function (result) {
-                DB.rewriteData('epg', data.channel_id, result.program)["finally"](resolve.bind(resolve, result.program));
-              }, function (a) {
-                if (a.status == 500) DB.rewriteData('epg', data.channel_id, [])["finally"](resolve.bind(resolve, []));else reject();
-              });
-            }
-          });
-        });
-      }
-    }]);
 
     return Api;
   }();
@@ -983,7 +914,6 @@
   _defineProperty(Api, "network", new Lampa.Reguest());
 
   _defineProperty(Api, "api_url", Lampa.Utils.protocol() + Lampa.Manifest.cub_domain + '/api/iptv/');
-
 
   var Pilot = /*#__PURE__*/function () {
     function Pilot() {
@@ -1438,7 +1368,7 @@
       value: function sort() {
         var sort_type = Lampa.Storage.field('iptv_favotite_sort');
 
-        if (!Lampa.Account.hasPremium() && sort_type !== 'add') {
+        if (Lampa.Account.hasPremium() && sort_type !== 'add') {
           this.icons.sort(function (a, b) {
             if (sort_type == 'name') {
               return a.name < b.name ? -1 : a.name > b.name ? 1 : 0;
@@ -1764,7 +1694,8 @@
           Api.program({
             name: channel.name,
             channel_id: channel.id,
-            time: EPG.time(channel)
+            time: EPG.time(channel),
+            tvg: channel.tvg
           }).then(function (program) {
             if (_this2.wait_for == channel.name) {
               if (program.length) _this2.program(channel, program);else _this2.empty();
@@ -3986,13 +3917,13 @@
     }, '3');
     Lampa.Settings.listener.follow('open', function (e) {
       if (e.name == 'iptv') {
-        if (Lampa.Account.hasPremium()) {
+        /*if (!Lampa.Account.hasPremium()) {*/
           var body = e.body.find('.scroll__body > div');
           var info = $("<div class=\"settings-param selector\" data-type=\"button\" data-static=\"true\">\n                    <div class=\"settings-param__name\">".concat(Lampa.Lang.translate('account_premium_more'), "</div>\n                    <div class=\"settings-param__descr\">").concat(Lampa.Lang.translate('iptv_premium'), "</div>\n                </div>"));
           info.on('hover:enter', Lampa.Account.showCubPremium);
           body.prepend('<div class="settings-param-title"><span>' + Lampa.Lang.translate('title_settings') + '</span></div>');
           body.prepend(info);
-        }
+        /*}*/
       }
 
       if (e.name == 'iptv_guide') {
@@ -4138,7 +4069,7 @@
         name: Lampa.Lang.translate('iptv_param_sort_favorite')
       },
       onRender: function onRender(item) {
-        if (Lampa.Account.hasPremium()) {
+        if (!Lampa.Account.hasPremium()) {
           item.removeClass('selector');
           item.append(Lampa.Template.get('cub_iptv_param_lock'));
         }
