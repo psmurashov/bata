@@ -913,6 +913,7 @@
           })["catch"](reject);
         });
       }
+/***
     }, {
       key: "program",
       value: function program(data) {
@@ -951,14 +952,37 @@
         });
       }
     }]);
+***********/
+    }, {
+      key: "program",
+      value: function program(data) {
+        var _this5 = this;
+
+        return new Promise(function (resolve, reject) {
+          DB.getDataAnyCase('epg', data.channel_id, 60 * 24 * 3).then(function (epg) {
+            if (epg) resolve(epg);else {
+              _this5.network.timeout(5000);
+
+              _this5.network.silent(Lampa.Utils.protocol() + Lampa.Manifest.cub_domain + '/api/iptv/' + 'program/' + data.channel_id + '/' + data.time + '?full=true', function (result) {
+                DB.rewriteData('epg', data.channel_id, result.program)["finally"](resolve.bind(resolve, result.program));
+              }, function (a) {
+                if (a.status == 500) DB.rewriteData('epg', data.channel_id, [])["finally"](resolve.bind(resolve, []));else reject();
+              });
+            }
+          });
+        });
+      }
+    }]);
 
     return Api;
   }();
 
+
+
   _defineProperty(Api, "network", new Lampa.Reguest());
 
   _defineProperty(Api, "api_url", Lampa.Utils.protocol() + Lampa.Manifest.cub_domain + '/api/iptv/');
-  /*_defineProperty(Api, "api_url", Lampa.Utils.protocol() + 'cub.watch/api/iptv/');*/
+
 
   var Pilot = /*#__PURE__*/function () {
     function Pilot() {
