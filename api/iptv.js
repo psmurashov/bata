@@ -912,7 +912,7 @@
           })["catch"](reject);
         });
       }
-/***
+
     }, {
       key: "program",
       value: function program(data) {
@@ -951,32 +951,14 @@
         });
       }
     }]);
-***********/
-    }, {
-      key: "program",
-      value: function program(data) {
-        var _this6 = this;
 
-        return new Promise(function (resolve, reject) {
-          DB.getDataAnyCase('epg', data.channel_id, 60 * 24 * 3).then(function (epg) {
-            if (epg) resolve(epg);else {
-              _this6.network.timeout(5000);
+      /////https://cub.red/api/iptv/program/feniks-plus-kino/1730045330115?full=true
 
-              _this6.network.silent(Lampa.Utils.protocol() + Lampa.Manifest.cub_domain + '/api/iptv/' + 'program/' + data.channel_id + '/' + data.time + '?full=true', function (result) {
-                DB.rewriteData('epg', data.channel_id, result.program)["finally"](resolve.bind(resolve, result.program));
-              }, function (a) {
-                if (a.status == 500) DB.rewriteData('epg', data.channel_id, [])["finally"](resolve.bind(resolve, []));else reject();
-              });
-            }
-          });
-        });
-      }
-    }]);
+      /////http://cub.red/api/iptv/program/146/1730050453574?full=true    ПЕРВЫЙ
+      /////http://cub.red/api/iptv/program/1683/1730050600137?full=true   РОССИЯ 24
 
     return Api;
   }();
-
-
 
   _defineProperty(Api, "network", new Lampa.Reguest());
 
