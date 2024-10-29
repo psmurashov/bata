@@ -3933,13 +3933,13 @@
     }, '3');
     Lampa.Settings.listener.follow('open', function (e) {
       if (e.name == 'iptv') {
-        /*if (!Lampa.Account.hasPremium()) {*/
+        if (Lampa.Account.hasPremium()) {
           var body = e.body.find('.scroll__body > div');
           var info = $("<div class=\"settings-param selector\" data-type=\"button\" data-static=\"true\">\n                    <div class=\"settings-param__name\">".concat(Lampa.Lang.translate('account_premium_more'), "</div>\n                    <div class=\"settings-param__descr\">").concat(Lampa.Lang.translate('iptv_premium'), "</div>\n                </div>"));
           info.on('hover:enter', Lampa.Account.showCubPremium);
           body.prepend('<div class="settings-param-title"><span>' + Lampa.Lang.translate('title_settings') + '</span></div>');
           body.prepend(info);
-        /*}*/
+        }
       }
 
       if (e.name == 'iptv_guide') {
