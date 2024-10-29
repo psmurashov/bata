@@ -760,11 +760,15 @@
                 if (m_source) catchup.source = m_source[1];
               }
 
+              
               for (var i = 0; i < list.items.length; i++) {
                 var item = list.items[i];
                 var name = item.name.trim();
+                //* Формируется плэйлист  *//
+
                 var channel = {
-                  id: item.tvg && item.tvg.id ? item.tvg.id : null,
+                  /*id: item.tvg && item.tvg.id ? item.tvg.id : null,*/
+                  id: iptv_search_name(name.replace(/ \((\+\d+)\)/g, ' $1').replace(/\s+(\s|ⓢ|ⓖ|ⓥ|ⓞ|Ⓢ|Ⓖ|Ⓥ|Ⓞ)/g, ' ').trim()),
                   name: name.replace(/ \((\+\d+)\)/g, ' $1').replace(/\s+(\s|ⓢ|ⓖ|ⓥ|ⓞ|Ⓢ|Ⓖ|Ⓥ|Ⓞ)/g, ' ').trim(),
                   logo: item.tvg && item.tvg.logo && item.tvg.logo.indexOf('http') == 0 ? item.tvg.logo : null,
                   group: item.group.title,
@@ -883,6 +887,8 @@
             var id = Lampa.Storage.field('iptv_guide_custom') ? tvg_id : data.channel_id;
 
             _this6.network.timeout(5000);
+
+            ///https://cub.red/api/iptv/program/146/1730045328935?full=true   Вместо имени дожно быть число
 
             _this6.network.silent(_this6.api_url + 'program/' + data.channel_id + '/' + data.time + '?full=true', function (result) {
               DB.rewriteData('epg', id, result.program)["finally"](resolve.bind(resolve, result.program));
@@ -1368,7 +1374,8 @@
       value: function sort() {
         var sort_type = Lampa.Storage.field('iptv_favotite_sort');
 
-        if (Lampa.Account.hasPremium() && sort_type !== 'add') {
+        /*if (Lampa.Account.hasPremium() && sort_type !== 'add') {*/
+        if (!Lampa.Account.hasPremium() && sort_type !== 'add') {
           this.icons.sort(function (a, b) {
             if (sort_type == 'name') {
               return a.name < b.name ? -1 : a.name > b.name ? 1 : 0;
@@ -4069,7 +4076,8 @@
         name: Lampa.Lang.translate('iptv_param_sort_favorite')
       },
       onRender: function onRender(item) {
-        if (!Lampa.Account.hasPremium()) {
+        /**if (!Lampa.Account.hasPremium()) {**/
+        if (Lampa.Account.hasPremium()) {
           item.removeClass('selector');
           item.append(Lampa.Template.get('cub_iptv_param_lock'));
         }
@@ -4149,7 +4157,7 @@
         bg: 'Съжалявам, още не сте добавили никаква листа. За да почнете да гледате, моля идете на <span class="iptv-link">' + domain + '/iptv</span> и добавете поне една листа.'
       },
       iptv_select_playlist_text: {
-        ru: 'Для того чтобы добавить свой плейлист, введите <span class="iptv-link">  https://URL  </span> плейлиста от вашего провайдера.',
+        ru: 'Для того чтобы добавить свой плейлист, введите <span class="iptv-link"> https://URL  </span> плейлиста от вашего провайдера.',
         en: 'In order to add your playlist, you need to go to <span class="iptv-link">' + domain + '/iptv</span> and add a playlist from your provider.',
         uk: 'Щоб додати свій плейлист, вам необхідно перейти на сайт <span class="iptv-link">' + domain + '/iptv</span> і додати плейлист від вашого провайдера.',
         be: 'Для таго каб дадаць свой плэйліст, вам неабходна перайсці на сайт <span class="iptv-link">' + domain + '/iptv</span> і дадаць плэйліст ад вашага правайдэра.',
