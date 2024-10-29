@@ -768,8 +768,8 @@
 
                 // Пример использования функции
                 // Пример использования функции
-                count_id = '';
-                iptv_search_name('Prokop TV Масяня').then(count => {
+                var count_id = '';
+                iptv_search_name(name.replace(/ \((\+\d+)\)/g, ' $1').replace(/\s+(\s|ⓢ|ⓖ|ⓥ|ⓞ|Ⓢ|Ⓖ|Ⓥ|Ⓞ)/g, ' ').trim()).then(count => {
                   if (count !== null) {
                       var count_id = count;
                   }
