@@ -21,10 +21,3 @@ async function iptv_search_name(channelName) {
         return null;
     }
 }
-
-// Пример использования функции
-(async () => {
-    const channelName = "Prokop TV Масяня";
-    const count = await iptv_search_name(channelName);
-    console.log(count); // Выведет 7904, если канал найден
-})();
