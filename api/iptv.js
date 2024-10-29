@@ -766,9 +766,19 @@
                 var name = item.name.trim();
                 //* Формируется плэйлист  *//
 
+                // Пример использования функции
+                // Пример использования функции
+                count_id = '';
+                iptv_search_name('Prokop TV Масяня').then(count => {
+                  if (count !== null) {
+                      var count_id = count;
+                  }
+                });
+
                 var channel = {
                   /*id: item.tvg && item.tvg.id ? item.tvg.id : null,*/
-                  id: iptv_search_name(name.replace(/ \((\+\d+)\)/g, ' $1').replace(/\s+(\s|ⓢ|ⓖ|ⓥ|ⓞ|Ⓢ|Ⓖ|Ⓥ|Ⓞ)/g, ' ').trim()),
+                  // Пример использования функции
+                  id: count_id,
                   name: name.replace(/ \((\+\d+)\)/g, ' $1').replace(/\s+(\s|ⓢ|ⓖ|ⓥ|ⓞ|Ⓢ|Ⓖ|Ⓥ|Ⓞ)/g, ' ').trim(),
                   logo: item.tvg && item.tvg.logo && item.tvg.logo.indexOf('http') == 0 ? item.tvg.logo : null,
                   group: item.group.title,
