@@ -506,7 +506,12 @@
         if (string.startsWith('#EXTINF:')) {
           var EXTINF = string;
           items[i] = {
-            name: EXTINF.getName()+iptv_search_name(EXTINF.getName()).then((count) => { count });+'2NAME',
+            name: EXTINF.getName()+iptv_search_name('EXTINF.getName()').then((count) => {
+                                                                              console.log(count);
+                                                                              count; // Выводим результат в консоль
+                                                                      }).catch((error) => {
+                                                                            console.error('Error:', error);
+                                                                      });+'3NAME',
             tvg: {
               //id: EXTINF.getAttribute('tvg-id'),
               id: EXTINF.getAttribute('tvg-id'),
