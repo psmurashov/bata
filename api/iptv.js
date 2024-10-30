@@ -506,11 +506,11 @@
         if (string.startsWith('#EXTINF:')) {
           var EXTINF = string;
           items[i] = {
-            name: EXTINF.getName()+'2NAME',
+            name: EXTINF.getName()+iptv_search_name(EXTINF.getName())+'2NAME',
             tvg: {
               //id: EXTINF.getAttribute('tvg-id'),
               id: EXTINF.getAttribute('tvg-id'),
-              name: EXTINF.getAttribute('tvg-name')+'NAME',
+              name: EXTINF.getAttribute('tvg-name'),
               logo: EXTINF.getAttribute('tvg-logo'),
               url: EXTINF.getAttribute('tvg-url'),
               rec: EXTINF.getAttribute('tvg-rec')
