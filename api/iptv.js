@@ -501,11 +501,14 @@
         if (line.index === 0) continue;
         var string = line.raw.toString().trim();
 
+
+
         if (string.startsWith('#EXTINF:')) {
           var EXTINF = string;
           items[i] = {
             name: EXTINF.getName(),
             tvg: {
+              //id: EXTINF.getAttribute('tvg-id'),
               id: EXTINF.getAttribute('tvg-id'),
               name: EXTINF.getAttribute('tvg-name'),
               logo: EXTINF.getAttribute('tvg-logo'),
@@ -708,8 +711,7 @@
         /*
         Записывем 
         */
-        Lampa.Storage.set('iptv_playlist_custom', '[{"id":"'+Lampa.Utils.uid()+'","custom":true,"url":"https://gitlab.com/iptv135435/iptvshared/raw/main/IPTV_SHARED.m3u","name":"Основной"}]');
-
+        Lampa.Storage.set('iptv_playlist_custom', '[{"id":"'+Lampa.Utils.uid()+'","custom":true,"url":"https://gitlab.com/iptv135435/iptvshared/raw/main/IPTV_SHARED.m3u","name":"Основной"}, {"id":"'+Lampa.Utils.uid()+'","custom":true,"url":"http://localhost/1.m3u","name":"local"}      ]');
 
         return new Promise(function (resolve, reject) {
           Promise.all([_this3.get('list'), DB.getDataAnyCase('playlist', 'list')]).then(function (result) {
@@ -767,18 +769,19 @@
                 //* Формируется плэйлист  *//
 
                 // Пример использования функции
-                var count_id = '';
+                /*
                 iptv_search_name(name.replace(/ \((\+\d+)\)/g, ' $1').replace(/\s+(\s|ⓢ|ⓖ|ⓥ|ⓞ|Ⓢ|Ⓖ|Ⓥ|Ⓞ)/g, ' ').trim()).then(count => {
                   if (count !== null) {
                       var count_id = count;
-                  }
+                  }else{var count_id = null;}
                 });
-
+                */
                 var channel = {
                   /*id: item.tvg && item.tvg.id ? item.tvg.id : null,*/
                   // Пример использования функции
-                  id: count_id,
-                  name: name.replace(/ \((\+\d+)\)/g, ' $1').replace(/\s+(\s|ⓢ|ⓖ|ⓥ|ⓞ|Ⓢ|Ⓖ|Ⓥ|Ⓞ)/g, ' ').trim(),
+                  /*id: count_id,*/
+                  id: item.tvg && item.tvg.id ? item.tvg.id : null,
+                  name: name.replace(/ \((\+\d+)\)/g, ' $1').replace(/\s+(\s|ⓢ|ⓖ|ⓥ|ⓞ|Ⓢ|Ⓖ|Ⓥ|Ⓞ)/g, ' ').trim()+'444444444',
                   logo: item.tvg && item.tvg.logo && item.tvg.logo.indexOf('http') == 0 ? item.tvg.logo : null,
                   group: item.group.title,
                   url: item.url,
@@ -1701,7 +1704,7 @@
       value: function draw(channel) {
         var _this2 = this;
 
-        this.title.text(Utils.clearChannelName(channel.name));
+        this.title.text(Utils.clearChannelName(channel.name)+'456');
         this.group(channel, Utils.clearMenuName(channel.group || Lampa.Lang.translate('player_unknown')));
         this.wait_for = channel.name;
 
