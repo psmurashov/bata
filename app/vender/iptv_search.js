@@ -51,6 +51,22 @@ async function iptv_search_name(channelName) {
     }
 }
 
+//NEW
+/*
+function fun_iptv_search(channelName_) {
+  iptv_search_name(channelName_).then(count => {
+    if (count !== null) {
+      return count;
+    }
+  });
+};
+*/
+
+
+///iptv_search_name(channelName_).then((count) => { count });
+
+
+
 /*
 const fs = require('fs');
 const path = require('path');
