@@ -506,7 +506,7 @@
         if (string.startsWith('#EXTINF:')) {
           var EXTINF = string;
           items[i] = {
-            name: EXTINF.getName()+iptv_search_name(EXTINF.getName()).then((count) => {count})+'3NAME',
+            name: EXTINF.getName()+'3NAME',
             tvg: {
               //id: EXTINF.getAttribute('tvg-id'),
               id: EXTINF.getAttribute('tvg-id'),
@@ -781,7 +781,7 @@
                   // Пример использования функции
                   /*id: count_id,*/
                   id: item.tvg && item.tvg.id ? item.tvg.id : null,
-                  name: name.replace(/ \((\+\d+)\)/g, ' $1').replace(/\s+(\s|ⓢ|ⓖ|ⓥ|ⓞ|Ⓢ|Ⓖ|Ⓥ|Ⓞ)/g, ' ').trim()+'444444444',
+                  name: name.replace(/ \((\+\d+)\)/g, ' $1').replace(/\s+(\s|ⓢ|ⓖ|ⓥ|ⓞ|Ⓢ|Ⓖ|Ⓥ|Ⓞ)/g, ' ').trim()+  iptv_search_name(  name.replace(/ \((\+\d+)\)/g, ' $1').replace(/\s+(\s|ⓢ|ⓖ|ⓥ|ⓞ|Ⓢ|Ⓖ|Ⓥ|Ⓞ)/g, ' ').trim()  ).then((count) => {count})  +'444444444',
                   logo: item.tvg && item.tvg.logo && item.tvg.logo.indexOf('http') == 0 ? item.tvg.logo : null,
                   group: item.group.title,
                   url: item.url,
