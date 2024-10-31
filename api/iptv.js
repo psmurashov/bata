@@ -842,7 +842,19 @@ Parser$1.parse = async function (content) {
 
             try {
               str = str.replace(/tvg-rec="(\d+)"/g, 'catchup="default" catchup-days="$1"');
-              list = Parser$1.parse(str);
+              /*list = Parser$1.parse(str);*/
+              Parser$1.parse(str)
+                .then(playlist => {
+                    list = playlist;
+                  })
+                .catch(error => {
+                    console.error('Error parsing playlist:', error);
+                });
+
+
+
+
+
             } catch (e) {}
 
             if (list && list.items) {
