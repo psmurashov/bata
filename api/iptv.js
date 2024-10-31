@@ -502,18 +502,16 @@
         var string = line.raw.toString().trim();
 
 
-
+/****
         if (string.startsWith('#EXTINF:')) {
           var EXTINF = string;
 
-          const count = await iptv_search_name(EXTINF.getName());
-
 
           items[i] = {
-            name: EXTINF.getName()+'4NAME'+count,
+            name: EXTINF.getName()+ iptv_search_name(EXTINF.getName()).then((count) =>{ count}) +'4NAME',
             tvg: {
               //id: EXTINF.getAttribute('tvg-id'),
-              id: count,
+              id: EXTINF.getAttribute('tvg-id'),
               name: EXTINF.getAttribute('tvg-name'),
               logo: EXTINF.getAttribute('tvg-logo'),
               url: EXTINF.getAttribute('tvg-url'),
@@ -552,6 +550,72 @@
           var url = string.getURL();
           var user_agent = string.getParameter('user-agent');
           var referrer = string.getParameter('referer');
+*///
+async function processString(string, items, i, line) {
+    if (string.startsWith('#EXTINF:')) {
+        var EXTINF = string;
+
+        const count = await iptv_search_name(EXTINF.getName());
+
+        items[i] = {
+            name: EXTINF.getName() + (count !== null ? count : '') + '4NAME',
+            tvg: {
+                id: EXTINF.getAttribute('tvg-id'),
+                name: EXTINF.getAttribute('tvg-name'),
+                logo: EXTINF.getAttribute('tvg-logo'),
+                url: EXTINF.getAttribute('tvg-url'),
+                rec: EXTINF.getAttribute('tvg-rec')
+            },
+            group: {
+                title: EXTINF.getAttribute('group-title')
+            },
+            http: {
+                referrer: '',
+                'user-agent': EXTINF.getAttribute('user-agent')
+            },
+            url: undefined,
+            raw: line.raw,
+            line: line.index + 1,
+            catchup: {
+                type: EXTINF.getAttribute('catchup'),
+                days: EXTINF.getAttribute('catchup-days'),
+                source: EXTINF.getAttribute('catchup-source')
+            },
+            timeshift: EXTINF.getAttribute('timeshift')
+        };
+    } else if (string.startsWith('#EXTVLCOPT:')) {
+        if (!items[i]) return;
+        var EXTVLCOPT = string;
+        items[i].http.referrer = EXTVLCOPT.getOption('http-referrer') || items[i].http.referrer;
+        items[i].http['user-agent'] = EXTVLCOPT.getOption('http-user-agent') || items[i].http['user-agent'];
+        items[i].raw += "\r\n".concat(line.raw);
+    } else if (string.startsWith('#EXTGRP:')) {
+        if (!items[i]) return;
+        var EXTGRP = string;
+        items[i].group.title = EXTGRP.getValue() || items[i].group.title;
+        items[i].raw += "\r\n".concat(line.raw);
+    } else {
+        if (!items[i]) return;
+        var url = string.getURL();
+        var user_agent = string.getParameter('user-agent');
+        var referrer = string.getParameter('referer');
+    }
+}
+
+(async () => {
+    const items = [];
+    const i = 0;
+    const line = { raw: 'some raw data', index: 0 };
+    const string = '#EXTINF:...';
+
+    await processString(string, items, i, line);
+
+    console.log(items);
+})();
+
+
+
+//////////////////////////
 
           if (url && isValidPath(url)) {
             items[i].url = url;
