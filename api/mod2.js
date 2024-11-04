@@ -16616,7 +16616,7 @@
     console.log('App', 'is local:', isLocal);
 
     if (!Utils.isDebug()) {
-      Lampa.Storage.set('online_mod_proxy_rezka2', 'false');
+      Lampa.Storage.set('online_mod_proxy_rezka2', 'true');
       Lampa.Storage.set('online_mod_proxy_kinobase', 'false');
       Lampa.Storage.set('online_mod_proxy_collaps', 'false');
       Lampa.Storage.set('online_mod_proxy_cdnmovies', 'false');
@@ -17361,8 +17361,8 @@
 
     function rezka2Login(success, error) {
       var url = Utils.rezka2Mirror() + '/ajax/login/';
-      var postdata = 'login_name=' + encodeURIComponent('pshdrezka');
-      postdata += '&login_password=' + encodeURIComponent('$ai3)h%FfA"w6&k');
+      var postdata = 'login_name=pshdrezka';
+      postdata += '&login_password=$ai3)h%FfA"w6&k';
       postdata += '&login_not_save=0';
       network.clear();
       network.timeout(8000);
@@ -17395,8 +17395,8 @@
 
       prox += 'get_cookie/param/Cookie=/';
       var url = host + '/ajax/login/';
-      var postdata = 'login_name=' + encodeURIComponent('pshdrezka');
-      postdata += '&login_password=' + encodeURIComponent('$ai3)h%FfA"w6&k');
+      var postdata = 'login_name=pshdrezka';
+      postdata += '&login_password=$ai3)h%FfA"w6&k';
       postdata += '&login_not_save=0';
       network.clear();
       network.timeout(8000);
@@ -17425,7 +17425,7 @@
         }
 
         if (cookie) {
-          Lampa.Storage.set("online_mod_rezka2_cookie", '["_clck": "5zwq7a|2|fql|0|1769", "_clsk": "1el1e0f|1730734546840|5|0|w.clarity.ms/collect", "_ym_d": "1730733266", "_ym_isad": "2", "_ym_uid": "173073326610110918", "dle_newpm": "0", "dle_password": "84e38dc3f0f33d7aa4ddfa4c1424e135", "dle_user_id": "2020998", "dle_user_taken": "1", "dle_user_token": "d0711deecb51e4fc2bef184d20249ae0", "PHPSESSID": "ude6atkr2i9sptm9su2kj95fp8"]');
+          Lampa.Storage.set(cookie);
           if (cookie.indexOf('PHPSESSID=') == -1) cookie = 'PHPSESSID=' + (sid || Utils.randomId(26)) + (cookie ? '; ' + cookie : '');
           prox += 'param/Cookie=' + encodeURIComponent(cookie) + '/';
           network.clear();
@@ -17447,7 +17447,7 @@
               }
 
               cookie = _cookies.join("; ");
-              if (cookie) Lampa.Storage.set("online_mod_rezka2_cookie", '["_clck": "5zwq7a|2|fql|0|1769", "_clsk": "1el1e0f|1730734546840|5|0|w.clarity.ms/collect", "_ym_d": "1730733266", "_ym_isad": "2", "_ym_uid": "173073326610110918", "dle_newpm": "0", "dle_password": "84e38dc3f0f33d7aa4ddfa4c1424e135", "dle_user_id": "2020998", "dle_user_taken": "1", "dle_user_token": "d0711deecb51e4fc2bef184d20249ae0", "PHPSESSID": "ude6atkr2i9sptm9su2kj95fp8"]');
+              if (cookie) Lampa.Storage.set("online_mod_rezka2_cookie", cookie);
             }
 
             if (success) success();
@@ -17649,7 +17649,7 @@
           Lampa.Storage.set('online_mod_balanser', '');
           $('.settings-param__status', clear_last_balanser).removeClass('active error wait').addClass('active');
         });
-        var rezka2_login = e.body.find('[data-name="online_mod_rezka2_login"]');
+        var rezka2_login = 'e.body.find('[data-name="online_mod_rezka2_login"]')';
         rezka2_login.unbind('hover:enter').on('hover:enter', function () {
           var rezka2_login_status = $('.settings-param__status', rezka2_login).removeClass('active error wait').addClass('wait');
           rezka2Login(function () {
