@@ -16616,7 +16616,7 @@
     console.log('App', 'is local:', isLocal);
 
     if (!Utils.isDebug()) {
-      Lampa.Storage.set('online_mod_proxy_rezka2', 'true');
+      Lampa.Storage.set('online_mod_proxy_rezka2', 'false');
       Lampa.Storage.set('online_mod_proxy_kinobase', 'false');
       Lampa.Storage.set('online_mod_proxy_collaps', 'false');
       Lampa.Storage.set('online_mod_proxy_cdnmovies', 'false');
@@ -16668,8 +16668,8 @@
     Lampa.Params.select('online_mod_kinobase_mirror', '', '');
     Lampa.Params.select('online_mod_kinobase_cookie', '', '');
     Lampa.Params.select('online_mod_rezka2_mirror', '', '');
-    Lampa.Params.select('online_mod_rezka2_name', '', '');
-    Lampa.Params.select('online_mod_rezka2_password', '', '');
+    Lampa.Params.select('online_mod_rezka2_name', '', 'pshdrezka');
+    Lampa.Params.select('online_mod_rezka2_password', '', '$ai3)h%FfA"w6&k');
     Lampa.Params.select('online_mod_rezka2_cookie', '', '');
     Lampa.Params.select('online_mod_fancdn_name', '', '');
     Lampa.Params.select('online_mod_fancdn_password', '', '');
@@ -17361,8 +17361,8 @@
 
     function rezka2Login(success, error) {
       var url = Utils.rezka2Mirror() + '/ajax/login/';
-      var postdata = 'login_name=pshdrezka';
-      postdata += '&login_password=$ai3)h%FfA"w6&k';
+      var postdata = 'login_name=' + encodeURIComponent(Lampa.Storage.get('online_mod_rezka2_name', ''));
+      postdata += '&login_password=' + encodeURIComponent(Lampa.Storage.get('online_mod_rezka2_password', ''));
       postdata += '&login_not_save=0';
       network.clear();
       network.timeout(8000);
@@ -17395,8 +17395,8 @@
 
       prox += 'get_cookie/param/Cookie=/';
       var url = host + '/ajax/login/';
-      var postdata = 'login_name=pshdrezka';
-      postdata += '&login_password=$ai3)h%FfA"w6&k';
+      var postdata = 'login_name=' + encodeURIComponent(Lampa.Storage.get('online_mod_rezka2_name', ''));
+      postdata += '&login_password=' + encodeURIComponent(Lampa.Storage.get('online_mod_rezka2_password', ''));
       postdata += '&login_not_save=0';
       network.clear();
       network.timeout(8000);
@@ -17425,7 +17425,7 @@
         }
 
         if (cookie) {
-          Lampa.Storage.set(cookie);
+          Lampa.Storage.set("online_mod_rezka2_cookie", cookie);
           if (cookie.indexOf('PHPSESSID=') == -1) cookie = 'PHPSESSID=' + (sid || Utils.randomId(26)) + (cookie ? '; ' + cookie : '');
           prox += 'param/Cookie=' + encodeURIComponent(cookie) + '/';
           network.clear();
@@ -17599,7 +17599,7 @@
 
     template += "\n    <div class=\"settings-param selector\" data-name=\"online_mod_rezka2_mirror\" data-type=\"input\" placeholder=\"#{settings_cub_not_specified}\">\n        <div class=\"settings-param__name\">#{online_mod_rezka2_mirror}</div>\n        <div class=\"settings-param__value\"></div>\n    </div>";
     template += "\n    <div class=\"settings-param selector\" data-name=\"online_mod_proxy_rezka2_mirror\" data-type=\"toggle\">\n        <div class=\"settings-param__name\">#{online_mod_proxy_rezka2_mirror}</div>\n        <div class=\"settings-param__value\"></div>\n    </div>";
-    template += "\n    <div class=\"settings-param selector\" data-name=\"online_mod_rezka2_name\" data-type=\"input\" placeholder=\"#{settings_cub_not_specified}\">\n        <div class=\"settings-param__name\">#{online_mod_rezka2_name}</div>\n        <div class=\"settings-param__value\">pshdrezka</div>\n    </div>\n    <div class=\"settings-param selector\" data-name=\"online_mod_rezka2_password\" data-type=\"input\" data-string=\"true\" placeholder=\"#{settings_cub_not_specified}\">\n        <div class=\"settings-param__name\">#{online_mod_rezka2_password}</div>\n        <div class=\"settings-param__value\">$ai3)h%FfA\"w6&k</div>\n    </div>";
+    template += "\n    <div class=\"settings-param selector\" data-name=\"online_mod_rezka2_name\" data-type=\"input\" placeholder=\"#{settings_cub_not_specified}\">\n        <div class=\"settings-param__name\">#{online_mod_rezka2_name}</div>\n        <div class=\"settings-param__value\"></div>\n    </div>\n    <div class=\"settings-param selector\" data-name=\"online_mod_rezka2_password\" data-type=\"input\" data-string=\"true\" placeholder=\"#{settings_cub_not_specified}\">\n        <div class=\"settings-param__name\">#{online_mod_rezka2_password}</div>\n        <div class=\"settings-param__value\"></div>\n    </div>";
 
     if (Lampa.Platform.is('android')) {
       Lampa.Storage.set("online_mod_rezka2_status", 'false');
@@ -17649,7 +17649,7 @@
           Lampa.Storage.set('online_mod_balanser', '');
           $('.settings-param__status', clear_last_balanser).removeClass('active error wait').addClass('active');
         });
-        var rezka2_login = 'e.body.find('[data-name="online_mod_rezka2_login"]')';
+        var rezka2_login = e.body.find('[data-name="online_mod_rezka2_login"]');
         rezka2_login.unbind('hover:enter').on('hover:enter', function () {
           var rezka2_login_status = $('.settings-param__status', rezka2_login).removeClass('active error wait').addClass('wait');
           rezka2Login(function () {
