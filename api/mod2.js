@@ -1471,7 +1471,7 @@
       var prefer_mp4 = Lampa.Storage.field('online_mod_prefer_mp4') === true;
       var proxy_mirror = Lampa.Storage.field('online_mod_proxy_rezka2_mirror') === true;
       var prox = component.proxy('rezka2');
-      var host = prox && !proxy_mirror ? 'https://rezka.ag' : Utils.rezka2Mirror();
+      var host = prox && !proxy_mirror ? 'https://kvk.zone' : Utils.rezka2Mirror();
       var ref = host + '/';
       var logged_in = Lampa.Storage.get('online_mod_rezka2_status', '') === true && !prox;
       var network_call = logged_in ? network.silent : network["native"];
@@ -1721,7 +1721,7 @@
             if (callback) callback(data, have_more, query);
           }, function (a, c) {
             if (prox && a.status == 403 && (!a.responseText || a.responseText.indexOf('<div>105</div>') !== -1)) {
-              Lampa.Storage.set('online_mod_proxy_rezka2', 'false');
+              Lampa.Storage.set('online_mod_proxy_rezka2', 'true');
             }
 
             component.empty(network.errorDecode(a, c));
@@ -16616,7 +16616,7 @@
     console.log('App', 'is local:', isLocal);
 
     if (!Utils.isDebug()) {
-      Lampa.Storage.set('online_mod_proxy_rezka2', 'false');
+      Lampa.Storage.set('online_mod_proxy_rezka2', 'true');
       Lampa.Storage.set('online_mod_proxy_kinobase', 'false');
       Lampa.Storage.set('online_mod_proxy_collaps', 'false');
       Lampa.Storage.set('online_mod_proxy_cdnmovies', 'false');
