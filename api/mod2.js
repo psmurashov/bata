@@ -1471,7 +1471,7 @@
       var prefer_mp4 = Lampa.Storage.field('online_mod_prefer_mp4') === true;
       var proxy_mirror = Lampa.Storage.field('online_mod_proxy_rezka2_mirror') === true;
       var prox = component.proxy('rezka2');
-      var host = prox && !proxy_mirror ? 'https://kvk.zone' : Utils.rezka2Mirror();
+      var host = prox && !proxy_mirror ? 'https://rezka.ag' : Utils.rezka2Mirror();
       var ref = host + '/';
       var logged_in = Lampa.Storage.get('online_mod_rezka2_status', '') === true && !prox;
       var network_call = logged_in ? network.silent : network["native"];
@@ -1721,7 +1721,7 @@
             if (callback) callback(data, have_more, query);
           }, function (a, c) {
             if (prox && a.status == 403 && (!a.responseText || a.responseText.indexOf('<div>105</div>') !== -1)) {
-              Lampa.Storage.set('online_mod_proxy_rezka2', 'true');
+              Lampa.Storage.set('online_mod_proxy_rezka2', 'false');
             }
 
             component.empty(network.errorDecode(a, c));
@@ -16616,7 +16616,7 @@
     console.log('App', 'is local:', isLocal);
 
     if (!Utils.isDebug()) {
-      Lampa.Storage.set('online_mod_proxy_rezka2', 'true');
+      Lampa.Storage.set('online_mod_proxy_rezka2', 'false');
       Lampa.Storage.set('online_mod_proxy_kinobase', 'false');
       Lampa.Storage.set('online_mod_proxy_collaps', 'false');
       Lampa.Storage.set('online_mod_proxy_cdnmovies', 'false');
@@ -17386,7 +17386,7 @@
     function rezka2FillCookie(success, error) {
       var prox = Utils.proxy('cookie');
       var proxy_mirror = Lampa.Storage.field('online_mod_proxy_rezka2_mirror') === true;
-      var host = !proxy_mirror ? 'https://kvk.zone' : Utils.rezka2Mirror();
+      var host = !proxy_mirror ? 'https://rezka.ag' : Utils.rezka2Mirror();
 
       if (!prox) {
         if (error) error();
@@ -17425,7 +17425,7 @@
         }
 
         if (cookie) {
-          Lampa.Storage.set("online_mod_rezka2_cookie", cookie);
+          Lampa.Storage.set("online_mod_rezka2_cookie", '["_clck": "5zwq7a|2|fql|0|1769", "_clsk": "1el1e0f|1730734546840|5|0|w.clarity.ms/collect", "_ym_d": "1730733266", "_ym_isad": "2", "_ym_uid": "173073326610110918", "dle_newpm": "0", "dle_password": "84e38dc3f0f33d7aa4ddfa4c1424e135", "dle_user_id": "2020998", "dle_user_taken": "1", "dle_user_token": "d0711deecb51e4fc2bef184d20249ae0", "PHPSESSID": "ude6atkr2i9sptm9su2kj95fp8"]');
           if (cookie.indexOf('PHPSESSID=') == -1) cookie = 'PHPSESSID=' + (sid || Utils.randomId(26)) + (cookie ? '; ' + cookie : '');
           prox += 'param/Cookie=' + encodeURIComponent(cookie) + '/';
           network.clear();
@@ -17447,7 +17447,7 @@
               }
 
               cookie = _cookies.join("; ");
-              if (cookie) Lampa.Storage.set("online_mod_rezka2_cookie", cookie);
+              if (cookie) Lampa.Storage.set("online_mod_rezka2_cookie", '["_clck": "5zwq7a|2|fql|0|1769", "_clsk": "1el1e0f|1730734546840|5|0|w.clarity.ms/collect", "_ym_d": "1730733266", "_ym_isad": "2", "_ym_uid": "173073326610110918", "dle_newpm": "0", "dle_password": "84e38dc3f0f33d7aa4ddfa4c1424e135", "dle_user_id": "2020998", "dle_user_taken": "1", "dle_user_token": "d0711deecb51e4fc2bef184d20249ae0", "PHPSESSID": "ude6atkr2i9sptm9su2kj95fp8"]');
             }
 
             if (success) success();
@@ -17602,7 +17602,7 @@
     template += "\n    <div class=\"settings-param selector\" data-name=\"online_mod_rezka2_name\" data-type=\"input\" placeholder=\"#{settings_cub_not_specified}\">\n        <div class=\"settings-param__name\">#{online_mod_rezka2_name}</div>\n        <div class=\"settings-param__value\"></div>\n    </div>\n    <div class=\"settings-param selector\" data-name=\"online_mod_rezka2_password\" data-type=\"input\" data-string=\"true\" placeholder=\"#{settings_cub_not_specified}\">\n        <div class=\"settings-param__name\">#{online_mod_rezka2_password}</div>\n        <div class=\"settings-param__value\"></div>\n    </div>";
 
     if (Lampa.Platform.is('android')) {
-      Lampa.Storage.set("online_mod_rezka2_status", 'true');
+      Lampa.Storage.set("online_mod_rezka2_status", 'false');
     } else {
       template += "\n    <div class=\"settings-param selector\" data-name=\"online_mod_rezka2_login\" data-static=\"true\">\n        <div class=\"settings-param__name\">#{online_mod_rezka2_login}</div>\n        <div class=\"settings-param__status\"></div>\n    </div>\n    <div class=\"settings-param selector\" data-name=\"online_mod_rezka2_logout\" data-static=\"true\">\n        <div class=\"settings-param__name\">#{online_mod_rezka2_logout}</div>\n        <div class=\"settings-param__status\"></div>\n    </div>";
     }
