@@ -16604,7 +16604,7 @@
       };
     }
 
-    var mod_version = '03.11.2024';
+    var mod_version = '04.11.2024';
     console.log('App', 'start address:', window.location.href);
     var isMSX = !!(window.TVXHost || window.TVXManager);
     var isTizen = navigator.userAgent.toLowerCase().indexOf('tizen') !== -1;
@@ -16794,18 +16794,18 @@
         zh: '没有结果'
       },
       online_mod_title: {
-        ru: 'Онлайн',
-        uk: 'Онлайн',
-        be: 'Анлайн',
-        en: 'Online',
-        zh: '在线的'
+        ru: 'Онлайн [mod]',
+        uk: 'Онлайн [mod]',
+        be: 'Анлайн [mod]',
+        en: 'Online [mod]',
+        zh: '在线的 [mod]'
       },
       online_mod_title_full: {
-        ru: 'Онлайн Мод',
-        uk: 'Онлайн Мод',
-        be: 'Анлайн Мод',
-        en: 'Online Mod',
-        zh: '在线的 Mod'
+        ru: 'Онлайн Мод [mod]',
+        uk: 'Онлайн Мод [mod]',
+        be: 'Анлайн Мод [mod]',
+        en: 'Online Mod [mod]',
+        zh: '在线的 Mod [mod]'
       },
       online_mod_use_stream_proxy: {
         ru: 'Проксировать видеопоток (Укр)',
@@ -17557,7 +17557,7 @@
         dataType: 'text',
         withCredentials: true
       });
-    } ///////Онлайн Мод/////////
+    } ///////Онлайн Мод  [mod]/////////
 
 
     var template = "<div>";
