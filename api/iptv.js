@@ -720,8 +720,8 @@
         
 
         // Получаем данные из хранилища и парсим их как JSON
-        const data = JSON.parse(Lampa.Storage.get('iptv_playlist_custom', '[]'));
-        if (Array.isArray(data) && data.length === 0) { Lampa.Storage.set('iptv_playlist_custom', '[{"id":"'+Lampa.Utils.uid()+'","custom":true,"url":"https://gitlab.com/iptv135435/iptvshared/raw/main/IPTV_SHARED.m3u","name":"Основной"} ]'); }
+        //const data = JSON.parse(Lampa.Storage.get('iptv_playlist_custom', '[]'));
+        //if (Array.isArray(data) && data.length === 0) { Lampa.Storage.set('iptv_playlist_custom', '[{"id":"'+Lampa.Utils.uid()+'","custom":true,"url":"https://gitlab.com/iptv135435/iptvshared/raw/main/IPTV_SHARED.m3u","name":"Основной"} ]'); }
 
         
         return new Promise(function (resolve, reject) {
