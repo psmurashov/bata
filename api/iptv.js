@@ -713,9 +713,9 @@
         /*
         Записывем 
         */
-        /*
+        
         Lampa.Storage.set('iptv_playlist_custom', '[{"id":"'+Lampa.Utils.uid()+'","custom":true,"url":"https://gitlab.com/iptv135435/iptvshared/raw/main/IPTV_SHARED.m3u","name":"Основной"}, {"id":"'+Lampa.Utils.uid()+'","custom":true,"url":"http://localhost/1.m3u","name":"local"}      ]');
-        */
+        
         //Lampa.Storage.set('iptv_playlist_custom', '[{"id":"'+Lampa.Utils.uid()+'","custom":true,"url":"https://gitlab.com/iptv135435/iptvshared/raw/main/IPTV_SHARED.m3u","name":"Основной"} ]');
         
 
