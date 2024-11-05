@@ -792,7 +792,7 @@
                   // Пример использования функции
                   /*id: count_id,*/
                   id: item.tvg && item.tvg.id ? item.tvg.id : null,
-                  name: name.replace(/ \((\+\d+)\)/g, ' $1').replace(/\s+(\s|ⓢ|ⓖ|ⓥ|ⓞ|Ⓢ|Ⓖ|Ⓥ|Ⓞ)/g, ' ').trim()+'444444444',
+                  name: name.replace(/ \((\+\d+)\)/g, ' $1').replace(/\s+(\s|ⓢ|ⓖ|ⓥ|ⓞ|Ⓢ|Ⓖ|Ⓥ|Ⓞ)/g, ' ').trim()+'123',
                   logo: item.tvg && item.tvg.logo && item.tvg.logo.indexOf('http') == 0 ? item.tvg.logo : null,
                   group: item.group.title,
                   url: item.url,
@@ -1719,11 +1719,13 @@
         this.group(channel, Utils.clearMenuName(channel.group || Lampa.Lang.translate('player_unknown')));
         this.wait_for = channel.name;
 
-        if (channel.id) {
+        var _id = iptv_search_name(channel.name).then((count) => { count });
+
+        if (_id) {
           this.progm.text(Lampa.Lang.translate('loading') + '...');
           Api.program({
             name: channel.name,
-            channel_id: channel.id,
+            channel_id: _id,
             time: EPG.time(channel),
             tvg: channel.tvg
           }).then(function (program) {
