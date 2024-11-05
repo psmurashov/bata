@@ -1711,6 +1711,47 @@
     }
 
     _createClass(Details, [{
+
+key: "draw",
+value: function draw(channel) {
+    var _this2 = this;
+
+    // Установка channel.id на основе channel.name
+    if (channelNameToCountMap[channel.name]) {
+        channel.id = channelNameToCountMap[channel.name];
+    } else {
+        console.warn(`Count не найден для channel.name: ${channel.name}`);
+        channel.id = null; // Или установите значение по умолчанию, если необходимо
+    }
+
+    this.title.text(Utils.clearChannelName(channel.name) + '45678');
+    this.group(channel, Utils.clearMenuName(channel.group || Lampa.Lang.translate('player_unknown')));
+    this.wait_for = channel.name;
+
+    if (channel.id) {
+        this.progm.text(Lampa.Lang.translate('loading') + '...');
+        Api.program({
+            name: channel.name,
+            channel_id: channel.id, // Теперь используется count из chanal_name.json
+            time: EPG.time(channel),
+            tvg: channel.tvg
+        }).then(function (program) {
+            if (_this2.wait_for == channel.name) {
+                if (program.length) {
+                    _this2.program(channel, program);
+                } else {
+                    _this2.empty();
+                }
+            }
+        }).catch(function (e) {
+            _this2.empty();
+        });
+    } else {
+        this.empty();
+    }
+}
+
+/*
       key: "draw",
       value: function draw(channel) {
         var _this2 = this;
@@ -1719,13 +1760,12 @@
         this.group(channel, Utils.clearMenuName(channel.group || Lampa.Lang.translate('player_unknown')));
         this.wait_for = channel.name;
 
-        var _id = iptv_search_name(channel.name).then((count) => { count });
 
-        if (_id) {
+        if (channel.id) {
           this.progm.text(Lampa.Lang.translate('loading') + '...');
           Api.program({
             name: channel.name,
-            channel_id: _id,
+            channel_id: channel.id,
             time: EPG.time(channel),
             tvg: channel.tvg
           }).then(function (program) {
@@ -1739,7 +1779,7 @@
           this.empty();
         }
       }
-    }, {
+    }*/, {
       key: "group",
       value: function group(channel, title) {
         this.play.empty();
