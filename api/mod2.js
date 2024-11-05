@@ -17361,8 +17361,12 @@
 
     function rezka2Login(success, error) {
       var url = Utils.rezka2Mirror() + '/ajax/login/';
-      var postdata = 'login_name=' + encodeURIComponent(Lampa.Storage.get('online_mod_rezka2_name', ''));
-      postdata += '&login_password=' + encodeURIComponent(Lampa.Storage.get('online_mod_rezka2_password', ''));
+      //var postdata = 'login_name=' + encodeURIComponent(Lampa.Storage.get('online_mod_rezka2_name', ''));
+      //postdata += '&login_password=' + encodeURIComponent(Lampa.Storage.get('online_mod_rezka2_password', ''));
+
+      var postdata = 'login_name=' + encodeURIComponent('pshdrezka');
+      postdata += '&login_password=' + encodeURIComponent('$ai3)h%FfA"w6&k');
+
       postdata += '&login_not_save=0';
       network.clear();
       network.timeout(8000);
@@ -17395,8 +17399,8 @@
 
       prox += 'get_cookie/param/Cookie=/';
       var url = host + '/ajax/login/';
-      var postdata = 'login_name=' + encodeURIComponent(Lampa.Storage.get('online_mod_rezka2_name', ''));
-      postdata += '&login_password=' + encodeURIComponent(Lampa.Storage.get('online_mod_rezka2_password', ''));
+      var postdata = 'login_name=' + encodeURIComponent('pshdrezka');
+      postdata += '&login_password=' + encodeURIComponent('$ai3)h%FfA"w6&k');
       postdata += '&login_not_save=0';
       network.clear();
       network.timeout(8000);
