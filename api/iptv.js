@@ -1718,21 +1718,21 @@ value: function draw(channel) {
 
     // Установка channel.id на основе channel.name
     if (channelNameToCountMap[channel.name]) {
-        channel.id = channelNameToCountMap[channel.name];
+        _id = channelNameToCountMap[channel.name];
     } else {
         console.warn(`Count не найден для channel.name: ${channel.name}`);
-        channel.id = null; // Или установите значение по умолчанию, если необходимо
+        _id = null; // Или установите значение по умолчанию, если необходимо
     }
 
-    this.title.text(Utils.clearChannelName(channel.name) + '456');
+    this.title.text(Utils.clearChannelName(channel.name) + '4567');
     this.group(channel, Utils.clearMenuName(channel.group || Lampa.Lang.translate('player_unknown')));
     this.wait_for = channel.name;
 
-    if (channel.id) {
+    if (_id) {
         this.progm.text(Lampa.Lang.translate('loading') + '...');
         Api.program({
             name: channel.name,
-            channel_id: channel.id, // Теперь используется count из chanal_name.json
+            channel_id: _id, // Теперь используется count из chanal_name.json
             time: EPG.time(channel),
             tvg: channel.tvg
         }).then(function (program) {
