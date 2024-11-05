@@ -1721,10 +1721,10 @@ value: function draw(channel) {
         var _id = channelNameToCountMap[channel.name];
     } else {
         console.warn(`Count не найден для channel.name: ${channel.name}`);
-        _id = channel.id; // Или установите значение по умолчанию, если необходимо
+        _id = channel.id+'_null'; // Или установите значение по умолчанию, если необходимо
     }
 
-    this.title.text(Utils.clearChannelName(channel.name) + '4567');
+    this.title.text(Utils.clearChannelName(channel.name) + '4567'+_id+'end');
     this.group(channel, Utils.clearMenuName(channel.group || Lampa.Lang.translate('player_unknown')));
     this.wait_for = channel.name;
 
