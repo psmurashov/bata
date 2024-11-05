@@ -1718,10 +1718,10 @@ value: function draw(channel) {
 
     // Установка channel.id на основе channel.name
     if (channelNameToCountMap[channel.name]) {
-        _id = channelNameToCountMap[channel.name];
+        var _id = channelNameToCountMap[channel.name];
     } else {
         console.warn(`Count не найден для channel.name: ${channel.name}`);
-        _id = null; // Или установите значение по умолчанию, если необходимо
+        _id = channel.id; // Или установите значение по умолчанию, если необходимо
     }
 
     this.title.text(Utils.clearChannelName(channel.name) + '4567');
