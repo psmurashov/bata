@@ -1749,37 +1749,7 @@ value: function draw(channel) {
     } else {
         this.empty();
     }
-}
-
-/*
-      key: "draw",
-      value: function draw(channel) {
-        var _this2 = this;
-
-        this.title.text(Utils.clearChannelName(channel.name)+'456');
-        this.group(channel, Utils.clearMenuName(channel.group || Lampa.Lang.translate('player_unknown')));
-        this.wait_for = channel.name;
-
-
-        if (channel.id) {
-          this.progm.text(Lampa.Lang.translate('loading') + '...');
-          Api.program({
-            name: channel.name,
-            channel_id: channel.id,
-            time: EPG.time(channel),
-            tvg: channel.tvg
-          }).then(function (program) {
-            if (_this2.wait_for == channel.name) {
-              if (program.length) _this2.program(channel, program);else _this2.empty();
-            }
-          })["catch"](function (e) {
-            _this2.empty();
-          });
-        } else {
-          this.empty();
-        }
-      }
-    }*/, {
+}, {
       key: "group",
       value: function group(channel, title) {
         this.play.empty();
