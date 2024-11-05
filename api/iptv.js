@@ -716,8 +716,14 @@
         /*
         Lampa.Storage.set('iptv_playlist_custom', '[{"id":"'+Lampa.Utils.uid()+'","custom":true,"url":"https://gitlab.com/iptv135435/iptvshared/raw/main/IPTV_SHARED.m3u","name":"Основной"}, {"id":"'+Lampa.Utils.uid()+'","custom":true,"url":"http://localhost/1.m3u","name":"local"}      ]');
         */
-        Lampa.Storage.set('iptv_playlist_custom', '[{"id":"'+Lampa.Utils.uid()+'","custom":true,"url":"https://gitlab.com/iptv135435/iptvshared/raw/main/IPTV_SHARED.m3u","name":"Основной"} ]');
+        //Lampa.Storage.set('iptv_playlist_custom', '[{"id":"'+Lampa.Utils.uid()+'","custom":true,"url":"https://gitlab.com/iptv135435/iptvshared/raw/main/IPTV_SHARED.m3u","name":"Основной"} ]');
+        
 
+        // Получаем данные из хранилища и парсим их как JSON
+        const data = JSON.parse(Lampa.Storage.get('iptv_playlist_custom', '[]'));
+        if (Array.isArray(data) && data.length === 0) { Lampa.Storage.set('iptv_playlist_custom', '[{"id":"'+Lampa.Utils.uid()+'","custom":true,"url":"https://gitlab.com/iptv135435/iptvshared/raw/main/IPTV_SHARED.m3u","name":"Основной"} ]'); }
+
+        
         return new Promise(function (resolve, reject) {
           Promise.all([_this3.get('list'), DB.getDataAnyCase('playlist', 'list')]).then(function (result) {
             if (result[0]) DB.rewriteData('playlist', 'list', result[0]);
