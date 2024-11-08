@@ -1,11 +1,6 @@
 (function () {
   'use strict';
 
-  await loadChannelNameMap(); 
-
-
-
-
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
       throw new TypeError("Cannot call a class as a function");
@@ -904,6 +899,9 @@
     }, {
       key: "program",
       value: function program(data) {
+////////////////////////////////////////////////
+      async function init() {
+
         var _this6 = this;
 
         return new Promise(function (resolve, reject) {
@@ -918,7 +916,10 @@
 
             ///https://cub.red/api/iptv/program/146/1730045328935?full=true  запрос Вместо имени дожно быть число
 
-            _this6.network.silent(_this6.api_url + 'program/' + data.channel_id + '/' + data.time + '?full=true', function (result) {
+            //_this6.network.silent(_this6.api_url + 'program/' + data.channel_id + '/' + data.time + '?full=true', function (result) {
+            _this6.network.silent(_this6.api_url + 'program/' + channelNameToCountMap[data.name] + '/' + data.time + '?full=true', function (result) {
+
+
               DB.rewriteData('epg', id, result.program)["finally"](resolve.bind(resolve, result.program));
             }, function (a) {
               if (a.status == 500) DB.rewriteData('epg', id, [])["finally"](resolve.bind(resolve, []));else reject();
@@ -939,7 +940,13 @@
             });
           } else reject();
         });
+
       }
+/////////////////////////////////
+      init();
+      }
+
+
     }]);
 
     return Api;
@@ -1008,8 +1015,6 @@
         });
       });
     }
-
- 
 
     _createClass(PlaylistItem, [{
       key: "displaySettings",
@@ -1719,50 +1724,34 @@
 
     _createClass(Details, [{
 
-  // Модифицированная инициализационная функция
 
-         
+      key: "draw",
+      value: function draw(channel) {
+        var _this2 = this;
 
-key: "draw",
-value: function draw(channel) {
-    var _this2 = this;
+        this.title.text(Utils.clearChannelName(channel.name)+'456');
+        this.group(channel, Utils.clearMenuName(channel.group || Lampa.Lang.translate('player_unknown')));
+        this.wait_for = channel.name;
 
-    // Установка channel.id на основе channel.name
-    if (channelNameToCountMap[channel.name]) {
-        var _id = channelNameToCountMap[channel.name];
-    } else {
-        console.warn(`Count не найден для channel.name: ${channel.name}`);
-        _id = channelNameToCountMap[channel.name]; // Или установите значение по умолчанию, если необходимо
-    }
 
-    this.title.text(Utils.clearChannelName(channel.name) + '4567'+_id+'end');
-    this.group(channel, Utils.clearMenuName(channel.group || Lampa.Lang.translate('player_unknown')));
-    this.wait_for = channel.name;
-
-    if (_id) {
-        this.progm.text(Lampa.Lang.translate('loading') + '...');
-        Api.program({
+        if (channel.id) {
+          this.progm.text(Lampa.Lang.translate('loading') + '...');
+          Api.program({
             name: channel.name,
-            channel_id: _id, // Теперь используется count из chanal_name.json
+            channel_id: channel.id,
             time: EPG.time(channel),
             tvg: channel.tvg
-        }).then(function (program) {
+          }).then(function (program) {
             if (_this2.wait_for == channel.name) {
-                if (program.length) {
-                    _this2.program(channel, program);
-                } else {
-                    _this2.empty();
-                }
+              if (program.length) _this2.program(channel, program);else _this2.empty();
             }
-        }).catch(function (e) {
+          })["catch"](function (e) {
             _this2.empty();
-        });
-    } else {
-        this.empty();
-    }
-}
-      
-
+          });
+        } else {
+          this.empty();
+        }
+      }
 
     }, {
       key: "group",
@@ -4958,8 +4947,6 @@ value: function draw(channel) {
       }
     }
 
-   
-
     Lang.init();
     Templates.init();
     Settings.init();
@@ -4982,9 +4969,5 @@ value: function draw(channel) {
   }
 
   if (!window.plugin_iptv_ready) startPlugin();
-
-
-
-
 
 })();
