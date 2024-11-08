@@ -1,6 +1,14 @@
 (function () {
   'use strict';
 
+  // Модифицированная инициализационная функция
+async function initialize() {
+    await loadChannelNameMap();
+    // Остальная инициализация приложения
+}
+
+
+
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
       throw new TypeError("Cannot call a class as a function");
@@ -4946,6 +4954,11 @@ value: function draw(channel) {
       }
     }
 
+   
+// Вызов инициализации
+    initialize();
+
+    
     Lang.init();
     Templates.init();
     Settings.init();
