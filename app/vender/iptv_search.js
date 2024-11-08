@@ -34,14 +34,6 @@ function loadChannelNameMap() {
 //loadChannelNameMap();
 
 
-// Модифицированная инициализационная функция
-async function initialize() {
-    await loadChannelNameMap();
-    // Остальная инициализация приложения
-}
-
-// Вызов инициализации
-initialize();
 
 
 /*
