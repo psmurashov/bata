@@ -2,11 +2,8 @@
   'use strict';
 
   // Модифицированная инициализационная функция
-async function initialize() {
+async function initializer() {
     await loadChannelNameMap();
-
-
-
 
 
   function _classCallCheck(instance, Constructor) {
@@ -1011,6 +1008,8 @@ async function initialize() {
         });
       });
     }
+
+ 
 
     _createClass(PlaylistItem, [{
       key: "displaySettings",
@@ -4983,5 +4982,7 @@ value: function draw(channel) {
   if (!window.plugin_iptv_ready) startPlugin();
 
 }
-initialize();
+
+  window.addEventListener('DOMContentLoaded', initializer);
+
 })();
