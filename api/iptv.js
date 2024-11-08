@@ -4,8 +4,8 @@
   // Модифицированная инициализационная функция
 async function initialize() {
     await loadChannelNameMap();
-    // Остальная инициализация приложения
-}
+
+
 
 
 
@@ -4958,7 +4958,7 @@ value: function draw(channel) {
 // Вызов инициализации
     initialize();
 
-    
+
     Lang.init();
     Templates.init();
     Settings.init();
@@ -4982,4 +4982,6 @@ value: function draw(channel) {
 
   if (!window.plugin_iptv_ready) startPlugin();
 
+}
+initialize();
 })();
