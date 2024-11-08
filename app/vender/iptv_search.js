@@ -30,8 +30,11 @@ function loadChannelNameMap() {
         });
 }
 
+
+
+
 // Вызов загрузки при инициализации
-//loadChannelNameMap();
+loadChannelNameMap();
 
 
 
