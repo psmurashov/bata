@@ -908,8 +908,8 @@
           var days = Lampa.Storage.field('iptv_guide_custom') ? Lampa.Storage.field('iptv_guide_save') : 3;
           var tvg_id = data.tvg && data.tvg.id ? data.tvg.id : data.channel_id;
           var tvg_name = data.tvg && data.tvg.name ? data.tvg.name : '';
-/*****
-          var loadCUB = async function loadCUB() {
+
+          var loadCUB = function loadCUB() {
             await loadChannelNameMap(); // Ждем завершения загрузки JSON
             var id = Lampa.Storage.field('iptv_guide_custom') ? tvg_id : data.channel_id;
 
@@ -926,57 +926,6 @@
               if (a.status == 500) DB.rewriteData('epg', id, [])["finally"](resolve.bind(resolve, []));else reject();
             });
           };
-*******//////////
-var loadCUB = async function loadCUB() {
-    try {
-        // Ждем завершения загрузки карты имен каналов
-        await loadChannelNameMap();
-
-        // Определяем идентификатор канала
-        var id = Lampa.Storage.field('iptv_guide_custom') ? tvg_id : data.channel_id;
-
-        // Устанавливаем таймаут сети
-        _this6.network.timeout(5000);
-
-        // Получаем номер канала из карты по имени
-        var channelNumber = channelNameToCountMap[data.name];
-        if (!channelNumber) {
-            throw new Error('Номер канала не найден для имени: ' + data.name);
-        }
-
-        // Формируем URL запроса
-        var url = `${_this6.api_url}program/${channelNumber}/${data.time}?full=true`;
-
-        // Выполняем сетевой запрос, оборачивая его в Promise
-        var result = await new Promise((resolve, reject) => {
-            _this6.network.silent(url, 
-                function(response) {
-                    // Успешный ответ
-                    DB.rewriteData('epg', id, response.program)
-                        .then(() => resolve(response.program))
-                        .catch(err => reject(err));
-                },
-                function(error) {
-                    // Обработка ошибок
-                    if (error.status === 500) {
-                        DB.rewriteData('epg', id, [])
-                            .then(() => resolve([]))
-                            .catch(err => reject(err));
-                    } else {
-                        reject(error);
-                    }
-                }
-            );
-        });
-
-        return result;
-
-    } catch (error) {
-        // Логирование ошибки или дополнительная обработка
-        console.error('Ошибка при загрузке CUB:', error);
-        throw error; // Можно повторно бросить ошибку или обработать ее здесь
-    }
-};
 
 
 
@@ -984,7 +933,8 @@ var loadCUB = async function loadCUB() {
 
 
 
-          
+
+
           var loadEPG = function loadEPG(id, call) {
             DB.getDataAnyCase('epg', id, 60 * 24 * days).then(function (epg) {
               if (epg) resolve(epg);else call();
