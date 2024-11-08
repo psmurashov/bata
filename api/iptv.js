@@ -910,6 +910,7 @@
           var tvg_name = data.tvg && data.tvg.name ? data.tvg.name : '';
 
           var loadCUB = async function loadCUB() {
+            await loadChannelNameMap(); // Ждем завершения загрузки JSON
             var id = Lampa.Storage.field('iptv_guide_custom') ? tvg_id : data.channel_id;
 
             _this6.network.timeout(5000);
