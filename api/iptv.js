@@ -1,6 +1,8 @@
 (function () {
   'use strict';
 
+  await loadChannelNameMap(); 
+
 
 
 
@@ -1718,8 +1720,8 @@
     _createClass(Details, [{
 
   // Модифицированная инициализационная функция
-async function initializer() {
-    await loadChannelNameMap();      
+
+         
 
 key: "draw",
 value: function draw(channel) {
@@ -1759,7 +1761,7 @@ value: function draw(channel) {
         this.empty();
     }
 }
-      }
+      
 
 
     }, {
@@ -4983,6 +4985,6 @@ value: function draw(channel) {
 
 
 
-        window.addEventListener('DOMContentLoaded', initializer);
+
 
 })();
