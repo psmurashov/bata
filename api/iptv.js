@@ -900,7 +900,7 @@
       key: "program",
       value: function program(data) {
 ////////////////////////////////////////////////
-      async function init() {
+      
 
         var _this6 = this;
 
@@ -909,7 +909,7 @@
           var tvg_id = data.tvg && data.tvg.id ? data.tvg.id : data.channel_id;
           var tvg_name = data.tvg && data.tvg.name ? data.tvg.name : '';
 
-          var loadCUB = function loadCUB() {
+          var loadCUB = async function loadCUB() {
             var id = Lampa.Storage.field('iptv_guide_custom') ? tvg_id : data.channel_id;
 
             _this6.network.timeout(5000);
@@ -941,9 +941,9 @@
           } else reject();
         });
 
-      }
+   
 /////////////////////////////////
-      init();
+
       }
 
 
