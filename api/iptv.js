@@ -4980,6 +4980,6 @@ value: function draw(channel) {
 
 }
 
-  initializer();
+        window.addEventListener('DOMContentLoaded', initializer);
 
 })();
