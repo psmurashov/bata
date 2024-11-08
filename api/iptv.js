@@ -4954,9 +4954,6 @@ value: function draw(channel) {
     }
 
    
-// Вызов инициализации
-    initialize();
-
 
     Lang.init();
     Templates.init();
@@ -4983,6 +4980,6 @@ value: function draw(channel) {
 
 }
 
-  window.addEventListener('DOMContentLoaded', initializer);
+  initializer();
 
 })();
