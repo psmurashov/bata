@@ -1,9 +1,7 @@
 (function () {
   'use strict';
 
-  // Модифицированная инициализационная функция
-async function initializer() {
-    await loadChannelNameMap();
+
 
 
   function _classCallCheck(instance, Constructor) {
@@ -1719,6 +1717,10 @@ async function initializer() {
 
     _createClass(Details, [{
 
+  // Модифицированная инициализационная функция
+async function initializer() {
+    await loadChannelNameMap();      
+
 key: "draw",
 value: function draw(channel) {
     var _this2 = this;
@@ -1731,7 +1733,7 @@ value: function draw(channel) {
         _id = channelNameToCountMap[channel.name]; // Или установите значение по умолчанию, если необходимо
     }
 
-    this.title.text(Utils.clearChannelName(channel.name) + '456'+_id+'end');
+    this.title.text(Utils.clearChannelName(channel.name) + '4567'+_id+'end');
     this.group(channel, Utils.clearMenuName(channel.group || Lampa.Lang.translate('player_unknown')));
     this.wait_for = channel.name;
 
@@ -1757,6 +1759,7 @@ value: function draw(channel) {
         this.empty();
     }
 }
+      }
 
 
     }, {
@@ -4978,7 +4981,7 @@ value: function draw(channel) {
 
   if (!window.plugin_iptv_ready) startPlugin();
 
-}
+
 
         window.addEventListener('DOMContentLoaded', initializer);
 
