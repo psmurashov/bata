@@ -7,8 +7,39 @@
 *
 ***/
 
-
 // Инициализация карты при запуске приложения
+let channelNameToCountMap = {};
+
+// Функция для загрузки и обработки chanal_name.json
+async function loadChannelNameMap() {
+    try {
+        const response = await fetch('channel_name.json');
+        if (!response.ok) {
+            throw new Error('Не удалось загрузить chanal_name.json');
+        }
+        const data = await response.json();
+        data.forEach(item => {
+            // Добавляем основной ключ
+            channelNameToCountMap[item.name] = item.count;
+            channelNameToCountMap[item.count] = item.icon;
+
+            // Добавляем дополнительные ключи для частичных названий
+            const parts = item.name.split(' ');
+            for (let i = 1; i <= parts.length; i++) {
+                const partialName = parts.slice(0, i).join(' ');
+                if (!channelNameToCountMap[partialName]) {
+                    channelNameToCountMap[partialName] = item.count;
+                }
+            }
+        });
+    } catch (error) {
+        console.error('Ошибка при загрузке chanal_name.json:', error);
+    }
+}
+
+
+
+/*
 let channelNameToCountMap = {};
 
 // Функция для загрузки и обработки chanal_name.json
@@ -30,4 +61,4 @@ function loadChannelNameMap() {
             console.error('Ошибка при загрузке chanal_name.json:', error);
         });
 }
-
+*/
