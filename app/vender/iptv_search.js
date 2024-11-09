@@ -10,6 +10,7 @@
 let channelNameToCountMap = {};
 
 // Функция для загрузки и обработки chanal_name.json
+/*
 async function loadChannelNameMap() {
     try {
         const response = await fetch('channel_name.json');
@@ -47,27 +48,85 @@ async function loadChannelNameMap() {
 }
 
 
+*/
 
-/*
+
+// Инициализация карты при запуске приложения
 let channelNameToCountMap = {};
 
 // Функция для загрузки и обработки chanal_name.json
-function loadChannelNameMap() {
-    return fetch('channel_name.json')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Не удалось загрузить chanal_name.json');
+async function loadChannelNameMap() {
+    try {
+        const response = await fetch('channel_name.json');
+        if (!response.ok) {
+            throw new Error('Не удалось загрузить chanal_name.json');
+        }
+        const data = await response.json();
+        data.forEach(item => {
+            // Добавляем основной ключ
+            channelNameToCountMap[item.name] = item.count;
+            channelNameToCountMap[item.count] = item.icon;
+
+            // Добавляем дополнительные ключи для частичных названий
+            const parts = item.name.split(' ');
+            for (let i = 1; i <= parts.length; i++) {
+                const partialName = parts.slice(0, i).join(' ');
+                if (!channelNameToCountMap[partialName]) {
+                    channelNameToCountMap[partialName] = item.count;
+                }
             }
-            return response.json();
-        })
-        .then(data => {
-            data.forEach(item => {
-                channelNameToCountMap[item.name] = item.count;
-                channelNameToCountMap[item.count] = item.icon;
-            });
-        })
-        .catch(error => {
-            console.error('Ошибка при загрузке chanal_name.json:', error);
+
+            // Добавляем все возможные комбинации частей названия
+            for (let i = 1; i <= parts.length; i++) {
+                for (let j = i; j <= parts.length; j++) {
+                    const partialName = parts.slice(i - 1, j).join(' ');
+                    if (!channelNameToCountMap[partialName]) {
+                        channelNameToCountMap[partialName] = item.count;
+                    }
+                }
+            }
         });
+    } catch (error) {
+        console.error('Ошибка при загрузке chanal_name.json:', error);
+    }
 }
+
+// Функция для поиска канала по названию
+function findChannel(name) {
+    // Проверяем точное совпадение
+    if (channelNameToCountMap[name]) {
+        return channelNameToCountMap[name];
+    }
+
+    // Проверяем частичное совпадение
+    const parts = name.split(' ');
+    for (let i = 1; i <= parts.length; i++) {
+        const partialName = parts.slice(0, i).join(' ');
+        if (channelNameToCountMap[partialName]) {
+            return channelNameToCountMap[partialName];
+        }
+    }
+
+    return null; // Если не найдено ни точного, ни частичного совпадения
+}
+
+// Создаем прокси для channelNameToCountMap
+channelNameToCountMap = new Proxy(channelNameToCountMap, {
+    get(target, prop) {
+        if (typeof prop === 'string') {
+            return findChannel(prop);
+        }
+        return target[prop];
+    }
+});
+
+// Пример использования
+/*
+loadChannelNameMap().then(() => {
+    console.log(channelNameToCountMap['Россия 1']); // Должно вывести "7904"
+    console.log(channelNameToCountMap['Россия 1 FHD']); // Должно вывести "7904"
+    console.log(channelNameToCountMap['Россия 1 HD']); // Должно вывести "7904"
+    console.log(channelNameToCountMap['Россия 1 HDX']); // Должно вывести "7904" (если нет точного совпадения)
+
+});
 */
