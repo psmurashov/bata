@@ -737,7 +737,8 @@
       }
     }, {
       key: "m3uClient",
-      value: function m3uClient(url) {
+      value: async function m3uClient(url) {
+        await loadChannelNameMap(); // Ждем завершения загрузки JSON
         var _this4 = this;
 
         return new Promise(function (resolve, reject) {
@@ -787,13 +788,19 @@
                   }else{var count_id = null;}
                 });
                 */
+
+                var itemIcon_name = channelNameToCountMap[name.replace(/ \((\+\d+)\)/g, ' $1').replace(/\s+(\s|ⓢ|ⓖ|ⓥ|ⓞ|Ⓢ|Ⓖ|Ⓥ|Ⓞ)/g, ' ').trim()];
+                var itemIcon = channelNameToCountMap[itemIcon_name];
+
+
                 var channel = {
                   /*id: item.tvg && item.tvg.id ? item.tvg.id : null,*/
                   // Пример использования функции
                   /*id: count_id,*/
                   id: item.tvg && item.tvg.id ? item.tvg.id : null,
                   name: name.replace(/ \((\+\d+)\)/g, ' $1').replace(/\s+(\s|ⓢ|ⓖ|ⓥ|ⓞ|Ⓢ|Ⓖ|Ⓥ|Ⓞ)/g, ' ').trim(),//*123*//
-                  logo: item.tvg && item.tvg.logo && item.tvg.logo.indexOf('http') == 0 ? item.tvg.logo : null,
+                  ////logo: item.tvg && item.tvg.logo && item.tvg.logo.indexOf('http') == 0 ? item.tvg.logo : null,
+                  logo: itemIcon,
                   group: item.group.title,
                   url: item.url,
                   catchup: item.catchup,
