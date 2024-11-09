@@ -23,6 +23,7 @@ function loadChannelNameMap() {
         .then(data => {
             data.forEach(item => {
                 channelNameToCountMap[item.name] = item.count;
+                channelNameToCountMap[item.count] = item.icon;
             });
         })
         .catch(error => {
