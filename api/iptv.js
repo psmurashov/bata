@@ -912,7 +912,8 @@
           var loadCUB = async function loadCUB() {
             await loadChannelNameMap(); // Ждем завершения загрузки JSON
 
-            var id = Lampa.Storage.field('iptv_guide_custom') ? tvg_id : data.channel_id;
+            //var id = Lampa.Storage.field('iptv_guide_custom') ? tvg_id : data.channel_id;
+            var id = Lampa.Storage.field('iptv_guide_custom') ? tvg_id : channelNameToCountMap[data.name];
 
             _this6.network.timeout(5000);
 
@@ -920,8 +921,8 @@
 
             //_this6.network.silent(_this6.api_url + 'program/' + data.channel_id + '/' + data.time + '?full=true', function (result) {
 
-            console.log('App', 'data.name:', data.name);
-            console.log('App', 'tvg_id:', tvg_id);
+            //console.log('App', 'data.name:', data.name);
+            //console.log('App', 'tvg_id:', tvg_id);
 
 
             _this6.network.silent(_this6.api_url + 'program/' + channelNameToCountMap[data.name] + '/' + data.time + '?full=true', function (result) {
@@ -1744,7 +1745,7 @@
       value: function draw(channel) {
         var _this2 = this;
 
-        this.title.text(Utils.clearChannelName(channel.name)+'456');
+        this.title.text(Utils.clearChannelName(channel.name));/** 456 **/
         this.group(channel, Utils.clearMenuName(channel.group || Lampa.Lang.translate('player_unknown')));
         this.wait_for = channel.name;
 
