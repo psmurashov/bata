@@ -50,7 +50,6 @@ async function loadChannelNameMap() {
 
 */
 
-
 // Инициализация карты при запуске приложения
 let channelNameToCountMap = {};
 
@@ -110,23 +109,13 @@ function findChannel(name) {
     return null; // Если не найдено ни точного, ни частичного совпадения
 }
 
-// Создаем прокси для channelNameToCountMap
-channelNameToCountMap = new Proxy(channelNameToCountMap, {
-    get(target, prop) {
-        if (typeof prop === 'string') {
-            return findChannel(prop);
-        }
-        return target[prop];
-    }
-});
-
 // Пример использования
 /*
-loadChannelNameMap().then(() => {
+(async () => {
+    await loadChannelNameMap(); // Ждем завершения загрузки JSON
     console.log(channelNameToCountMap['Россия 1']); // Должно вывести "7904"
     console.log(channelNameToCountMap['Россия 1 FHD']); // Должно вывести "7904"
     console.log(channelNameToCountMap['Россия 1 HD']); // Должно вывести "7904"
     console.log(channelNameToCountMap['Россия 1 HDX']); // Должно вывести "7904" (если нет точного совпадения)
-
-});
+})();
 */
