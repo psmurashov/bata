@@ -919,6 +919,11 @@
             ///https://cub.red/api/iptv/program/146/1730045328935?full=true  запрос Вместо имени дожно быть число
 
             //_this6.network.silent(_this6.api_url + 'program/' + data.channel_id + '/' + data.time + '?full=true', function (result) {
+
+            console.log('App', 'data.name:', data.name);
+            console.log('App', 'tvg_id:', tvg_id);
+
+
             _this6.network.silent(_this6.api_url + 'program/' + channelNameToCountMap[data.name] + '/' + data.time + '?full=true', function (result) {
 
 
