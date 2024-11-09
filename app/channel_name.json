@@ -561,17 +561,17 @@
     },
     {
         "count": "1011",
-        "name": "VIP Comedy",
+        "name": "VIJU+ COMEDY HD",
         "icon": "http://epg.one/img2/1011.png"
     },
     {
         "count": "1012",
-        "name": "VIP Megahit",
+        "name": "VIJU+ MEGAHIT HD",
         "icon": "http://epg.one/img2/1012.png"
     },
     {
         "count": "1013",
-        "name": "VIP Premiere",
+        "name": "VIJU+ PREMIERE HD",
         "icon": "http://epg.one/img2/1013.png"
     },
     {
@@ -1072,6 +1072,11 @@
     {
         "count": "2404",
         "name": "Феникс плюс Кино",
+        "icon": "http://epg.one/img2/2404.png"
+    },
+    {
+        "count": "2404",
+        "name": "Феникс+ Кино",
         "icon": "http://epg.one/img2/2404.png"
     },
     {
@@ -2201,22 +2206,22 @@
     },
     {
         "count": "127",
-        "name": "TV 1000",
+        "name": "Viju TV1000",
         "icon": "http://epg.one/img2/127.png"
     },
     {
         "count": "125",
-        "name": "TV 1000 Action",
+        "name": "Viju TV1000 Action",
         "icon": "http://epg.one/img2/125.png"
     },
     {
         "count": "267",
-        "name": "TV 1000 Русское кино",
+        "name": "Viju TV1000 Русское HD",
         "icon": "http://epg.one/img2/267.png"
     },
     {
         "count": "2838",
-        "name": "VIP Serial HD",
+        "name": "VIJU+ SERIAL HD",
         "icon": "http://epg.one/img2/2838.png"
     },
     {
