@@ -792,7 +792,7 @@
                   // Пример использования функции
                   /*id: count_id,*/
                   id: item.tvg && item.tvg.id ? item.tvg.id : null,
-                  name: name.replace(/ \((\+\d+)\)/g, ' $1').replace(/\s+(\s|ⓢ|ⓖ|ⓥ|ⓞ|Ⓢ|Ⓖ|Ⓥ|Ⓞ)/g, ' ').trim()+'123',
+                  name: name.replace(/ \((\+\d+)\)/g, ' $1').replace(/\s+(\s|ⓢ|ⓖ|ⓥ|ⓞ|Ⓢ|Ⓖ|Ⓥ|Ⓞ)/g, ' ').trim(),//*123*//
                   logo: item.tvg && item.tvg.logo && item.tvg.logo.indexOf('http') == 0 ? item.tvg.logo : null,
                   group: item.group.title,
                   url: item.url,
