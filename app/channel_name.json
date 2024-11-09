@@ -1076,7 +1076,12 @@
     },
     {
         "count": "2404",
-        "name": "Феникс+ Кино",
+        "name": "Феникс+Кино",
+        "icon": "http://epg.one/img2/2404.png"
+    },
+    {
+        "count": "2404",
+        "name": "Феникс+Кино HD",
         "icon": "http://epg.one/img2/2404.png"
     },
     {
