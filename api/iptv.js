@@ -906,7 +906,8 @@
 
         return new Promise(function (resolve, reject) {
           var days = Lampa.Storage.field('iptv_guide_custom') ? Lampa.Storage.field('iptv_guide_save') : 3;
-          var tvg_id = data.tvg && data.tvg.id ? data.tvg.id : data.channel_id;
+          //var tvg_id = data.tvg && data.tvg.id ? data.tvg.id : data.channel_id;
+          var tvg_id = data.tvg && data.tvg.id ? data.tvg.id : channelNameToCountMap[data.name];
           var tvg_name = data.tvg && data.tvg.name ? data.tvg.name : '';
 
           var loadCUB = async function loadCUB() {
