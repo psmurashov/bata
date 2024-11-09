@@ -789,18 +789,18 @@
                 });
                 */
 
-                var itemIcon_name = channelNameToCountMap[name.replace(/ \((\+\d+)\)/g, ' $1').replace(/\s+(\s|ⓢ|ⓖ|ⓥ|ⓞ|Ⓢ|Ⓖ|Ⓥ|Ⓞ)/g, ' ').trim()];
-                var itemIcon = channelNameToCountMap[itemIcon_name];
+                var itemNameToId = channelNameToCountMap[name.replace(/ \((\+\d+)\)/g, ' $1').replace(/\s+(\s|ⓢ|ⓖ|ⓥ|ⓞ|Ⓢ|Ⓖ|Ⓥ|Ⓞ)/g, ' ').trim()];
+                var itemIcon = channelNameToCountMap[itemNameToId];
 
 
                 var channel = {
                   /*id: item.tvg && item.tvg.id ? item.tvg.id : null,*/
                   // Пример использования функции
-                  /*id: count_id,*/
-                  id: item.tvg && item.tvg.id ? item.tvg.id : null,
+                  id: itemNameToId,/////+
+                  /*id: item.tvg && item.tvg.id ? item.tvg.id : null,*/
                   name: name.replace(/ \((\+\d+)\)/g, ' $1').replace(/\s+(\s|ⓢ|ⓖ|ⓥ|ⓞ|Ⓢ|Ⓖ|Ⓥ|Ⓞ)/g, ' ').trim(),//*123*//
                   ////logo: item.tvg && item.tvg.logo && item.tvg.logo.indexOf('http') == 0 ? item.tvg.logo : null,
-                  logo: itemIcon,
+                  logo: itemIcon,/////+
                   group: item.group.title,
                   url: item.url,
                   catchup: item.catchup,
@@ -927,13 +927,13 @@
 
             ///https://cub.red/api/iptv/program/146/1730045328935?full=true  запрос Вместо имени дожно быть число
 
-            //_this6.network.silent(_this6.api_url + 'program/' + data.channel_id + '/' + data.time + '?full=true', function (result) {
+            _this6.network.silent(_this6.api_url + 'program/' + data.channel_id + '/' + data.time + '?full=true', function (result) {
 
             //console.log('App', 'data.name:', data.name);
             //console.log('App', 'tvg_id:', tvg_id);
 
 
-            _this6.network.silent(_this6.api_url + 'program/' + channelNameToCountMap[data.name] + '/' + data.time + '?full=true', function (result) {
+            //+++++_this6.network.silent(_this6.api_url + 'program/' + channelNameToCountMap[data.name] + '/' + data.time + '?full=true', function (result) {
 
 
               DB.rewriteData('epg', id, result.program)["finally"](resolve.bind(resolve, result.program));
