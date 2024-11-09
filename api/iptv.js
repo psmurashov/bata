@@ -789,8 +789,15 @@
                 });
                 */
 
-                var itemNameToId = channelNameToCountMap[name.replace(/ \((\+\d+)\)/g, ' $1').replace(/\s+(\s|ⓢ|ⓖ|ⓥ|ⓞ|Ⓢ|Ⓖ|Ⓥ|Ⓞ)/g, ' ').trim()];
-                var itemIcon = channelNameToCountMap[itemNameToId];
+                var itemName = name.replace(/ \((\+\d+)\)/g, ' $1').replace(/\s+(\s|ⓢ|ⓖ|ⓥ|ⓞ|Ⓢ|Ⓖ|Ⓥ|Ⓞ)/g, ' ').trim();//Имя
+                var itemNameToId = channelNameToCountMap[itemName];//Имя в id
+                var itemIcon = channelNameToCountMap[itemNameToId];//id в ссылку для icon
+
+                // Если имя иконки не найдено, добавляем ( HD) к имени и проверяем еще раз
+                if (!itemNameToId) {
+                    itemName += " HD";
+                    itemNameToId = channelNameToCountMap[itemName];
+                }
 
 
                 var channel = {
