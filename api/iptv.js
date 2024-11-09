@@ -794,10 +794,10 @@
                 var itemIcon = channelNameToCountMap[itemNameToId];//id в ссылку для icon
 
                 // Если имя иконки не найдено, добавляем ( HD) к имени и проверяем еще раз
-                if (!itemNameToId) {
+                /*if (!itemNameToId) {
                     itemName += " HD";
                     itemNameToId = channelNameToCountMap[itemName];
-                }
+                }*/
 
 
                 var channel = {
