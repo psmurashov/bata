@@ -6,7 +6,6 @@
 * Сначала загрузите JSON файл и создайте карту сопоставления имен каналов с их count. Это можно сделать при инициализации вашего приложения.
 *
 ***/
-
 // Инициализация карты при запуске приложения
 let channelNameToCountMap = {};
 
@@ -29,6 +28,16 @@ async function loadChannelNameMap() {
                 const partialName = parts.slice(0, i).join(' ');
                 if (!channelNameToCountMap[partialName]) {
                     channelNameToCountMap[partialName] = item.count;
+                }
+            }
+
+            // Добавляем все возможные комбинации частей названия
+            for (let i = 1; i <= parts.length; i++) {
+                for (let j = i; j <= parts.length; j++) {
+                    const partialName = parts.slice(i - 1, j).join(' ');
+                    if (!channelNameToCountMap[partialName]) {
+                        channelNameToCountMap[partialName] = item.count;
+                    }
                 }
             }
         });
