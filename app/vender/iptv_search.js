@@ -7,7 +7,7 @@
 *
 ***/
 // Инициализация карты при запуске приложения
-let channelNameToCountMap = {};
+//let channelNameToCountMap = {};
 
 // Функция для загрузки и обработки chanal_name.json
 /*
