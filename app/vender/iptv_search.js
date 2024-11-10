@@ -57,8 +57,8 @@ function getChannelCount(name) {
     return channelNameToCountMap[lowerCaseName];
 }
 
-function getChannelIcon(icon) {
-    const lowerCaseName = icon.toLowerCase();
+function getChannelIcon(count) {
+    const lowerCaseCount = count.toLowerCase();
     return channelNameToCountMap[lowerCaseCount];
 }
 
