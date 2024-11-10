@@ -7,8 +7,72 @@
 *
 ***/
 
-
 // Инициализация карты при запуске приложения
+let channelNameToCountMap = {};
+
+// Функция для загрузки и обработки chanal_name.json
+async function loadChannelNameMap() {
+    try {
+        const response = await fetch('channel_name.json');
+        if (!response.ok) {
+            throw new Error('Не удалось загрузить chanal_name.json');
+        }
+        const data = await response.json();
+        data.forEach(item => {
+            const lowerCaseName = item.name.toLowerCase();
+            const lowerCaseCount = item.count.toLowerCase();
+
+            // Добавляем основной ключ
+            channelNameToCountMap[lowerCaseName] = item.count;
+            channelNameToCountMap[lowerCaseCount] = item.icon;
+
+            // Добавляем дополнительные ключи для частичных названий
+            const parts = lowerCaseName.split(' ');
+            for (let i = 1; i <= parts.length; i++) {
+                const partialName = parts.slice(0, i).join(' ');
+                if (!channelNameToCountMap[partialName]) {
+                    channelNameToCountMap[partialName] = item.count;
+                }
+            }
+
+            // Добавляем все возможные комбинации частей названия
+            for (let i = 1; i <= parts.length; i++) {
+                for (let j = i; j <= parts.length; j++) {
+                    const partialName = parts.slice(i - 1, j).join(' ');
+                    if (!channelNameToCountMap[partialName]) {
+                        channelNameToCountMap[partialName] = item.count;
+                    }
+                }
+            }
+        });
+    } catch (error) {
+        console.error('Ошибка при загрузке chanal_name.json:', error);
+    }
+}
+
+// Вспомогательная функция для доступа к карте с учетом регистра
+function getChannelCount(name) {
+    const lowerCaseName = name.toLowerCase();
+    return channelNameToCountMap[lowerCaseName];
+}
+
+function getChannelIcon(name) {
+    const lowerCaseCount = name.toLowerCase();
+    return channelNameToCountMap[lowerCaseCount];
+}
+/*
+// Пример использования
+(async () => {
+    await loadChannelNameMap(); // Ждем завершения загрузки JSON
+    console.log(getChannelCount('KinoJam 1 HD')); // Должно вернуть count для Kinojam 1 HD
+    console.log(getChannelCount('kinojam 1 hd')); // Должно вернуть count для Kinojam 1 HD
+})();
+*/
+
+
+/*
+// Инициализация карты при запуске приложения
+
 let channelNameToCountMap = {};
 
 // Функция для загрузки и обработки chanal_name.json
@@ -48,7 +112,7 @@ async function loadChannelNameMap() {
         console.error('Ошибка при загрузке chanal_name.json:', error);
     }
 }
-
+*/
 
 
 
