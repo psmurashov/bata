@@ -20,15 +20,15 @@ async function loadChannelNameMap() {
         const data = await response.json();
         data.forEach(item => {
             // Добавляем основной ключ
-            channelNameToCountMap[item.name] = item.count;
-            channelNameToCountMap[item.count] = item.icon;
+            channelNameToCountMap[item.name] = item.count.toLowerCase();
+            channelNameToCountMap[item.count] = item.icon.toLowerCase();
 
             // Добавляем дополнительные ключи для частичных названий
             const parts = item.name.split(' ');
             for (let i = 1; i <= parts.length; i++) {
                 const partialName = parts.slice(0, i).join(' ');
                 if (!channelNameToCountMap[partialName]) {
-                    channelNameToCountMap[partialName] = item.count;
+                    channelNameToCountMap[partialName] = item.count.toLowerCase();
                 }
             }
 
@@ -37,7 +37,7 @@ async function loadChannelNameMap() {
                 for (let j = i; j <= parts.length; j++) {
                     const partialName = parts.slice(i - 1, j).join(' ');
                     if (!channelNameToCountMap[partialName]) {
-                        channelNameToCountMap[partialName] = item.count;
+                        channelNameToCountMap[partialName] = item.count.toLowerCase();
                     }
                 }
             }
