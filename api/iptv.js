@@ -714,10 +714,36 @@
         Записывем 
         */
         
-        Lampa.Storage.set('iptv_playlist_custom', '[{"id":"'+Lampa.Utils.uid()+'","custom":true,"url":"https://gitlab.com/iptv135435/iptvshared/raw/main/IPTV_SHARED.m3u","name":"Основной"}, {"id":"'+Lampa.Utils.uid()+'","custom":true,"url":"http://localhost/1.m3u","name":"local"}      ]');
+        //Lampa.Storage.set('iptv_playlist_custom', '[{"id":"'+Lampa.Utils.uid()+'","custom":true,"url":"https://gitlab.com/iptv135435/iptvshared/raw/main/IPTV_SHARED.m3u","name":"Основной"}, {"id":"'+Lampa.Utils.uid()+'","custom":true,"url":"http://localhost/2.m3u","name":"locale"}      ]');
         
         //Lampa.Storage.set('iptv_playlist_custom', '[{"id":"'+Lampa.Utils.uid()+'","custom":true,"url":"https://gitlab.com/iptv135435/iptvshared/raw/main/IPTV_SHARED.m3u","name":"Основной"} ]');
         
+
+        // Получаем текущий массив из хранилища
+        let currentPlaylist = Lampa.Storage.get('iptv_playlist_custom');
+
+        // Если массив не существует, инициализируем его как пустой массив
+        if (!currentPlaylist) {
+            currentPlaylist = [];
+        }
+
+        // Проверяем, существует ли объект с "name":"Основной"
+        let exists = currentPlaylist.some(item => item.name === "Основной");
+
+        // Если такого объекта нет, добавляем новый объект
+        if (!exists) {
+            let newItem = {
+                id: Lampa.Utils.uid(),
+                custom: true,
+                url: "https://gitlab.com/iptv135435/iptvshared/raw/main/IPTV_SHARED.m3u",
+                name: "Основной"
+            };
+            currentPlaylist.push(newItem);
+
+            // Сохраняем обновленный массив обратно в хранилище
+            Lampa.Storage.set('iptv_playlist_custom', JSON.stringify(currentPlaylist));
+        }
+
 
         // Получаем данные из хранилища и парсим их как JSON
         //const data = JSON.parse(Lampa.Storage.get('iptv_playlist_custom', '[]'));
