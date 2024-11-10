@@ -6,67 +6,6 @@
 * Сначала загрузите JSON файл и создайте карту сопоставления имен каналов с их count. Это можно сделать при инициализации вашего приложения.
 *
 ***/
-
-
-// Инициализация карты при запуске приложения
-let channelNameToCountMap = {};
-
-// Функция для загрузки и обработки chanal_name.json
-async function loadChannelNameMap() {
-    try {
-        const response = await fetch('channel_name.json');
-        if (!response.ok) {
-            throw new Error('Не удалось загрузить chanal_name.json');
-        }
-        const data = await response.json();
-        data.forEach(item => {
-            const lowerCaseName = item.name.toLowerCase();
-            const lowerCaseCount = item.count.toLowerCase();
-
-            // Добавляем основной ключ
-            channelNameToCountMap[lowerCaseName] = item.count;
-            channelNameToCountMap[lowerCaseCount] = item.icon;
-
-            // Добавляем дополнительные ключи для частичных названий
-            const parts = lowerCaseName.split(' ');
-            for (let i = 1; i <= parts.length; i++) {
-                const partialName = parts.slice(0, i).join(' ');
-                if (!channelNameToCountMap[partialName]) {
-                    channelNameToCountMap[partialName] = item.count;
-                }
-            }
-
-            // Добавляем все возможные комбинации частей названия
-            for (let i = 1; i <= parts.length; i++) {
-                for (let j = i; j <= parts.length; j++) {
-                    const partialName = parts.slice(i - 1, j).join(' ');
-                    if (!channelNameToCountMap[partialName]) {
-                        channelNameToCountMap[partialName] = item.count;
-                    }
-                }
-            }
-        });
-    } catch (error) {
-        console.error('Ошибка при загрузке chanal_name.json:', error);
-    }
-}
-
-// Функция для получения значения из карты с учетом регистра
-/*function getChannelCount(name) {
-    const lowerCaseName = name.toLowerCase();
-    return channelNameToCountMap[lowerCaseName];
-}
-*/
-/*
-// Пример использования
-await loadChannelNameMap();
-console.log(getChannelCount('KinoJam 1 HD')); // Используйте эту функцию для поиска
-console.log(getChannelCount('116'));
-*/
-
-
-
-/*
 // Инициализация карты при запуске приложения
 let channelNameToCountMap = {};
 
@@ -109,7 +48,7 @@ async function loadChannelNameMap() {
 }
 
 
-*/
+
 
 /*
 let channelNameToCountMap = {};
