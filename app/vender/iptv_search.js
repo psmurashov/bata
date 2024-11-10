@@ -52,11 +52,11 @@ async function loadChannelNameMap() {
 }
 
 // Функция для получения значения из карты с учетом регистра
-function getChannelCount(name) {
+/*function getChannelCount(name) {
     const lowerCaseName = name.toLowerCase();
     return channelNameToCountMap[lowerCaseName];
 }
-
+*/
 /*
 // Пример использования
 await loadChannelNameMap();
