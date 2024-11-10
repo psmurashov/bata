@@ -7,6 +7,7 @@
 *
 ***/
 
+
 // Инициализация карты при запуске приложения
 let channelNameToCountMap = {};
 
@@ -50,32 +51,28 @@ async function loadChannelNameMap() {
     }
 }
 
-// Вспомогательная функция для доступа к карте с учетом регистра
+// Функция для получения значения из карты с учетом регистра
 function getChannelCount(name) {
     const lowerCaseName = name.toLowerCase();
-    return channelNameToCountMap[lowerCaseName] || channelNameToCountMap[lowerCaseName.toLowerCase()];
+    return channelNameToCountMap[lowerCaseName];
 }
+
+function getChannelIcon(icon) {
+    const lowerCaseName = icon.toLowerCase();
+    return channelNameToCountMap[lowerCaseCount];
+}
+
 /*
 // Пример использования
-(async () => {
-    await loadChannelNameMap(); // Ждем завершения загрузки JSON
-    console.log(getChannelCount('KinoJam 1 HD')); // Должно вернуть count для Kinojam 1 HD
-    console.log(getChannelCount('kinojam 1 hd')); // Должно вернуть count для Kinojam 1 HD
-    console.log(getChannelCount('someCountValue')); // Должно вернуть icon для соответствующего count
-})();*/
-/*
-// Пример использования
-(async () => {
-    await loadChannelNameMap(); // Ждем завершения загрузки JSON
-    console.log(getChannelCount('KinoJam 1 HD')); // Должно вернуть count для Kinojam 1 HD
-    console.log(getChannelCount('kinojam 1 hd')); // Должно вернуть count для Kinojam 1 HD
-})();
+await loadChannelNameMap();
+console.log(getChannelCount('KinoJam 1 HD')); // Используйте эту функцию для поиска
+console.log(getChannelCount('116'));
 */
+
 
 
 /*
 // Инициализация карты при запуске приложения
-
 let channelNameToCountMap = {};
 
 // Функция для загрузки и обработки chanal_name.json
@@ -115,9 +112,9 @@ async function loadChannelNameMap() {
         console.error('Ошибка при загрузке chanal_name.json:', error);
     }
 }
+
+
 */
-
-
 
 /*
 let channelNameToCountMap = {};
