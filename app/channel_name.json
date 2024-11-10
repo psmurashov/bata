@@ -3006,6 +3006,11 @@
     },
     {
         "count": "1700",
+        "name": "квн-тв",
+        "icon": "https://raw.githubusercontent.com/iFrez/EPG-EdemTV/master/img/1700.png"
+    },
+    {
+        "count": "1700",
         "name": "квн тв",
         "icon": "https://raw.githubusercontent.com/iFrez/EPG-EdemTV/master/img/1700.png"
     },
@@ -3777,6 +3782,11 @@
     {
         "count": "284",
         "name": "мультимузыка",
+        "icon": "https://raw.githubusercontent.com/iFrez/EPG-EdemTV/master/img/284.png"
+    },
+    {
+        "count": "284",
+        "name": "мульт и музыка",
         "icon": "https://raw.githubusercontent.com/iFrez/EPG-EdemTV/master/img/284.png"
     },
     {
@@ -4621,7 +4631,27 @@
     },
     {
         "count": "2404",
+        "name": "феникс+кино",
+        "icon": "https://raw.githubusercontent.com/iFrez/EPG-EdemTV/master/img/2404.png"
+    },
+    {
+        "count": "2404",
+        "name": "феникс + кино",
+        "icon": "https://raw.githubusercontent.com/iFrez/EPG-EdemTV/master/img/2404.png"
+    },
+    {
+        "count": "2404",
         "name": "феникс плюс кино hd",
+        "icon": "https://raw.githubusercontent.com/iFrez/EPG-EdemTV/master/img/2404.png"
+    },
+    {
+        "count": "2404",
+        "name": "феникс+кино hd",
+        "icon": "https://raw.githubusercontent.com/iFrez/EPG-EdemTV/master/img/2404.png"
+    },
+    {
+        "count": "2404",
+        "name": "феникс + кино hd",
         "icon": "https://raw.githubusercontent.com/iFrez/EPG-EdemTV/master/img/2404.png"
     },
     {
@@ -9256,6 +9286,11 @@
     },
     {
         "count": "6783",
+        "name": "тео-тв",
+        "icon": "https://raw.githubusercontent.com/iFrez/EPG-EdemTV/master/img/6783.png"
+    },
+    {
+        "count": "6783",
         "name": "тео тв hd",
         "icon": "https://raw.githubusercontent.com/iFrez/EPG-EdemTV/master/img/6783.png"
     },
@@ -10357,6 +10392,11 @@
     {
         "count": "2732",
         "name": "премиальное hd",
+        "icon": "https://raw.githubusercontent.com/iFrez/EPG-EdemTV/master/img/2732.png"
+    },
+    {
+        "count": "2732",
+        "name": "премиальное hd +4",
         "icon": "https://raw.githubusercontent.com/iFrez/EPG-EdemTV/master/img/2732.png"
     },
     {
@@ -16791,6 +16831,11 @@
     },
     {
         "count": "323",
+        "name": "2x2 hd",
+        "icon": "https://raw.githubusercontent.com/iFrez/EPG-EdemTV/master/img/323.png"
+    },
+    {
+        "count": "323",
         "name": "2x2",
         "icon": "https://raw.githubusercontent.com/iFrez/EPG-EdemTV/master/img/323.png"
     },
@@ -17951,6 +17996,11 @@
     },
     {
         "count": "2181",
+        "name": "filmbox russia",
+        "icon": "https://raw.githubusercontent.com/iFrez/EPG-EdemTV/master/img/2181.png"
+    },
+    {
+        "count": "2181",
         "name": "filmbox ua",
         "icon": "https://raw.githubusercontent.com/iFrez/EPG-EdemTV/master/img/2181.png"
     },
@@ -18097,6 +18147,11 @@
     {
         "count": "810",
         "name": "gulli",
+        "icon": "https://raw.githubusercontent.com/iFrez/EPG-EdemTV/master/img/810.png"
+    },
+    {
+        "count": "810",
+        "name": "gulli girl",
         "icon": "https://raw.githubusercontent.com/iFrez/EPG-EdemTV/master/img/810.png"
     },
     {
@@ -19346,6 +19401,11 @@
     },
     {
         "count": "2302",
+        "name": "leomax +",
+        "icon": "https://raw.githubusercontent.com/iFrez/EPG-EdemTV/master/img/2302.png"
+    },
+    {
+        "count": "2302",
         "name": "shop 24",
         "icon": "https://raw.githubusercontent.com/iFrez/EPG-EdemTV/master/img/2302.png"
     },
@@ -19577,6 +19637,11 @@
     {
         "count": "309",
         "name": "tv xxi",
+        "icon": "https://raw.githubusercontent.com/iFrez/EPG-EdemTV/master/img/309.png"
+    },
+    {
+        "count": "309",
+        "name": "тв xxi",
         "icon": "https://raw.githubusercontent.com/iFrez/EPG-EdemTV/master/img/309.png"
     },
     {
@@ -23237,6 +23302,11 @@
     {
         "count": "6021",
         "name": "осторожно модерн!",
+        "icon": "https://raw.githubusercontent.com/iFrez/EPG-EdemTV/master/img/6021.png"
+    },
+    {
+        "count": "6021",
+        "name": "осторожно модерн 2",
         "icon": "https://raw.githubusercontent.com/iFrez/EPG-EdemTV/master/img/6021.png"
     },
     {
@@ -31729,6 +31799,7 @@
         "name": "2x2 (+7)",
         "icon": "https://raw.githubusercontent.com/iFrez/EPG-EdemTV/master/img/1108.png"
     },
+
     {
         "count": "1108",
         "name": "2x2 +7",
@@ -32433,6 +32504,16 @@
         "count": "1103",
         "name": "суббота! +7",
         "icon": "https://raw.githubusercontent.com/iFrez/EPG-EdemTV/master/img/1103.png"
+    },
+    {
+        "count": "3013",
+        "name": "тв-3",
+        "icon": "https://raw.githubusercontent.com/iFrez/EPG-EdemTV/master/img/3013.png"
+    },
+    {
+        "count": "3013",
+        "name": "тв-3 hd",
+        "icon": "https://raw.githubusercontent.com/iFrez/EPG-EdemTV/master/img/3013.png"
     },
     {
         "count": "3013",
