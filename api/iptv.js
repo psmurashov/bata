@@ -790,7 +790,9 @@
                 */
 
                 var itemName = name.replace(/ \((\+\d+)\)/g, ' $1').replace(/\s+(\s|ⓢ|ⓖ|ⓥ|ⓞ|Ⓢ|Ⓖ|Ⓥ|Ⓞ)/g, ' ').trim();//Имя
-                var itemNameToId = channelNameToCountMap[itemName];//Имя в id
+                var itemName_ = itemName.toLowerCase();
+
+                var itemNameToId = channelNameToCountMap[itemName_];//Имя в id
                 var itemIcon = channelNameToCountMap[itemNameToId];//id в ссылку для icon
 
                 // Если имя иконки не найдено, добавляем ( HD) к имени и проверяем еще раз
@@ -805,7 +807,7 @@
                   // Пример использования функции
                   id: itemNameToId,/////+
                   /*id: item.tvg && item.tvg.id ? item.tvg.id : null,*/
-                  name: name.replace(/ \((\+\d+)\)/g, ' $1').replace(/\s+(\s|ⓢ|ⓖ|ⓥ|ⓞ|Ⓢ|Ⓖ|Ⓥ|Ⓞ)/g, ' ').trim(),//*123*//
+                  name: itemName_,//*123*//
                   ////logo: item.tvg && item.tvg.logo && item.tvg.logo.indexOf('http') == 0 ? item.tvg.logo : null,
                   logo: itemIcon,/////+
                   group: item.group.title,
