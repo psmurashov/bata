@@ -20,8 +20,8 @@ async function loadChannelNameMap() {
         const data = await response.json();
         data.forEach(item => {
             // Добавляем основной ключ
-            channelNameToCountMap[item.name] = item.count.toLowerCase();
-            channelNameToCountMap[item.count] = item.icon.toLowerCase();
+            channelNameToCountMap[item.name.toLowerCase()] = item.count.toLowerCase();
+            channelNameToCountMap[item.count] = item.icon;
 
             // Добавляем дополнительные ключи для частичных названий
             const parts = item.name.split(' ');
