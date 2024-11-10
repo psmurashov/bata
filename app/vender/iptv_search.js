@@ -53,13 +53,16 @@ async function loadChannelNameMap() {
 // Вспомогательная функция для доступа к карте с учетом регистра
 function getChannelCount(name) {
     const lowerCaseName = name.toLowerCase();
-    return channelNameToCountMap[lowerCaseName];
+    return channelNameToCountMap[lowerCaseName] || channelNameToCountMap[lowerCaseName.toLowerCase()];
 }
-
-function getChannelIcon(name) {
-    const lowerCaseCount = name.toLowerCase();
-    return channelNameToCountMap[lowerCaseCount];
-}
+/*
+// Пример использования
+(async () => {
+    await loadChannelNameMap(); // Ждем завершения загрузки JSON
+    console.log(getChannelCount('KinoJam 1 HD')); // Должно вернуть count для Kinojam 1 HD
+    console.log(getChannelCount('kinojam 1 hd')); // Должно вернуть count для Kinojam 1 HD
+    console.log(getChannelCount('someCountValue')); // Должно вернуть icon для соответствующего count
+})();*/
 /*
 // Пример использования
 (async () => {
