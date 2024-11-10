@@ -791,7 +791,7 @@
 
                 var itemName = name.replace(/ \((\+\d+)\)/g, ' $1').replace(/\s+(\s|ⓢ|ⓖ|ⓥ|ⓞ|Ⓢ|Ⓖ|Ⓥ|Ⓞ)/g, ' ').trim();//Имя
                 var itemNameToId = getChannelCount(itemName);//Имя в id
-                var itemIcon = getChannelIcon(itemNameToId);//id в ссылку для icon
+                var itemIcon = getChannelCount(itemNameToId);//id в ссылку для icon
 
                 // Если имя иконки не найдено, добавляем ( HD) к имени и проверяем еще раз
                 /*if (!itemNameToId) {
