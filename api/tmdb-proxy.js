@@ -5,7 +5,7 @@
       name: 'TMDB Proxy',
       version: '1.0.3',
       description: 'Проксирование постеров и API сайта TMDB',
-      path_image: 'imagetmdb.cub.red/',
+      path_image: 'imagetmdb.com/',
       path_api: 'apitmdb.' + (Lampa.Manifest && Lampa.Manifest.cub_domain ? Lampa.Manifest.cub_domain : 'cub.red') + '/3/'
     };
 
