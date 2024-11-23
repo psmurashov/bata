@@ -108,7 +108,7 @@
 		"cid":1469,
 		"name":"TMDB Proxy",
 		"author":"@lampa",
-		"link":"https://cub.red/plugin/tmdb-proxy.js",
+		"link":"https://cub.red/plugin/tmdb-proxy",
 		"descr":"Проксирование постеров для сайта TMDB",
 		"instruction":"Для активации откройте настройки, вкладка TMDB, включите проксировать TMDB.",
 		"time":1700835893431,
