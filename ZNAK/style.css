@@ -215,3 +215,19 @@ input:focus, textarea:focus {
     box-shadow: none; /* До свидания, тень. */
 }
 
+#dataCodes {
+    background-color: #fafafa;
+}
+
+/**/
+
+@keyframes ani {
+  0% {transform: translateY(-150%);}
+  100% {transform: translateY(0);}
+}
+
+#resultsList {
+  transform: translateY(-150%);
+  animation: ani 1s forwards;
+}
+
