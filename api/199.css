@@ -34,16 +34,16 @@ body.black--style {
     background: linear-gradient(to right, rgba(191, 0, 33, 1) 1%,rgba(219, 16, 53, 1) 100%);
     color: #ddd;
 }
+
+/*
 .settings-folder.focus .settings-folder__icon{
-/*    -webkit-filter: invert(1);
+    -webkit-filter: invert(1);
             filter: invert(1);*/
-    -webkit-filter: #ddd;
+   /* -webkit-filter: #ddd;
             filter: #ddd;
-            color: #ddd;
+            color: #ddd;*/
 }
-.settings-folder.selector.focus{
-    color: #ddd;
-}
+
 
 
 /**/
