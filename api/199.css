@@ -39,14 +39,30 @@ body.black--style {
     color: #ddd;
 }
 
+.settings-folder.focus {
+  background-color: #ddd;
+
 .settings-folder.focus .settings-folder__icon .settings-folder__name{
 /*    -webkit-filter: invert(1);
             filter: invert(1);*/
     -webkit-filter: #ddd;
             filter: #ddd;
+            color: #ddd;
 
     fill: #ddd;
 }
+
+.settings-folder.focus .settings-folder__icon.focus .settings-folder__name.focus{
+/*    -webkit-filter: invert(1);
+            filter: invert(1);*/
+    -webkit-filter: #ddd;
+            filter: #ddd;
+            color: #ddd;
+
+    fill: #ddd;
+}
+
+div.settings-folder__icon{color: #ddd;}
 /**/
 .menu__item.focus .menu__ico path[fill],
 .menu__item.focus .menu__ico rect[fill],
