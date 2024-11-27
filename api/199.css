@@ -35,13 +35,13 @@ body.black--style {
     color: #ddd;
 }
 
-/*
+
 .settings-folder.focus .settings-folder__icon{
-    -webkit-filter: invert(1);
+    /*-webkit-filter: invert(1);
             filter: invert(1);*/
-   /* -webkit-filter: #ddd;
+    -webkit-filter: #ddd;
             filter: #ddd;
-            color: #ddd;*/
+            color: #ddd;
 }
 
 
@@ -56,6 +56,11 @@ body.black--style {
 .menu__item.hover .menu__ico circle[fill] {
   fill: #ddd;
 }
+
+.menu__item.focus .menu__ico [stroke], .menu__item.traverse .menu__ico [stroke], .menu__item.hover .menu__ico [stroke] {
+  stroke: #ddd;
+}
+
 /**/
 .settings-param-title > span{
     color: #fff;
