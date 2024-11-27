@@ -1,17 +1,12 @@
 body{
-   background-color: #100e19;
+    background-color: #100e19;
 }
-
-body,
-.card__vote{
+body, .card__vote{
     color: #dfd9ce;
-
 }
 body.black--style {
     background: #19181c;
 }
-
-
 .binded.focus,
 .binded.hover,
 .binded.traverse,
@@ -39,18 +34,15 @@ body.black--style {
     background: linear-gradient(to right, rgba(191, 0, 33, 1) 1%,rgba(219, 16, 53, 1) 100%);
     color: #ddd;
 }
-
-.settings-folder.focus {
-  background-color: #ddd;
-
-.settings-folder.focus .settings-folder__icon .settings-folder__name{
+.settings-folder.focus .settings-folder__icon{
 /*    -webkit-filter: invert(1);
             filter: invert(1);*/
     -webkit-filter: #ddd;
             filter: #ddd;
             color: #ddd;
-
-    fill: #ddd;
+}
+.settings-folder.selector.focus{
+    color: #ddd;
 }
 
 
@@ -64,14 +56,10 @@ body.black--style {
 .menu__item.hover .menu__ico circle[fill] {
   fill: #ddd;
 }
-.menu__item.focus .menu__ico [stroke], .menu__item.traverse .menu__ico [stroke], .menu__item.hover .menu__ico [stroke] {
-  stroke: #ddd;
-}
 /**/
 .settings-param-title > span{
     color: #fff;
 }
-
 .settings__content,
 .settings-input__content,
 .selectbox__content,
@@ -81,11 +69,9 @@ body.black--style {
     background: -o-linear-gradient(315deg, rgb(40, 28, 48) 1%,rgb(10,8,6) 100%);
     background: linear-gradient(135deg, rgb(40, 28, 48) 1%,rgb(10,8,6) 100%);
 }
-
 .settings-input__links{
     background-color: rgba(255,255,255,0.2);
 }
-
 .card.focus .card__view::after, 
 .card.hover .card__view::after,
 .extensions__item.focus:after,
@@ -103,8 +89,6 @@ body.black--style {
 .player-panel__position > div:after{
     background-color: rgb(254,244,222);
 }
-
-
 .extensions{
     background: linear-gradient(90deg, #100e19 0%, #1c1326 46.87%, #100e19 100%);/*фон в плагине*/
 }
@@ -119,7 +103,6 @@ body.black--style {
     background-color: #dfd9ce;
     color: #dfd9ce;
 }
-
 .torrent-serial{
     background-color: rgba(40, 28, 48,0.1);
 }
@@ -127,7 +110,6 @@ body.black--style {
 .torrent-serial.focus{
     background-color: rgba(40, 28, 48,0.36);
 }
-
 .iptv-channel{
     background-color: #19181c !important;
 }
