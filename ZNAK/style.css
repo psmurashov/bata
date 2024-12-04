@@ -1,42 +1,3 @@
-/*       .unknown-code {
-            background-color: red;
-            color: white;
-        }
-        .unknown-status {
-            background-color: orange;
-            color: black;
-        }
-        .in-circulation {
-            background-color: green;
-            color: white;
-        }
-        .retired {
-            background-color: black;
-            color: white;
-        }
-        .emitted {
-            background-color: purple;
-            color: white;
-        }
-        .applied {
-            background-color: gray;
-            color: white;
-        }
-        .written-off {
-            background-color: black;
-            color: white;
-        }
-        .disaggregation {
-            background-color: white;
-            color: black;
-        }
-        .code-not-found {
-            background-color: red;
-            color: white;
-        }
-*/
-
-/**************************************************************/
 /*** FONTS ***/
 @import url(https://fonts.googleapis.com/css?family=Montserrat:900|Raleway:400,400i,700,700i);
 /*** VARIABLES ***/
@@ -231,3 +192,38 @@ input:focus, textarea:focus {
   animation: ani 1s forwards;
 }
 
+
+/*Кнопки в один ряд*/
+        .button-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .button-container input[type="submit"] {
+            flex-grow: 1;
+        }
+
+        .button-container input[type="button"] {
+            background-color: #ffcccc; /* Цвет фона для кнопки "Очистить" */
+            border: none;
+            cursor: pointer;
+            padding: 16px;
+            margin-left: 10px;
+        }
+
+        .button-container input[type="button"]::before {
+            content: "✖"; /* Символ крестика */
+            margin-right: 5px;
+        }
+
+
+
+/*Drag Drop icon*/
+/*
+        #dataCodes {
+            background: url('drag-drop.svg') no-repeat center center;
+            background-size: 100px;
+            padding: 20px; 
+            resize: none;
+        }
+*/

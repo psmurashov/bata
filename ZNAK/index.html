@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Распознать</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Antonio:wght@100..700&display=swap" rel="stylesheet">
 </head>
 
 
@@ -16,8 +17,11 @@
     </header>
     <main>
         <form id="dataForm">
-            <textarea id="dataCodes" name="data_codes" rows="10" cols="50" placeholder="Введите коды (по одному на строку)"></textarea><br>
-            <input type="submit" value="Проверить">
+            <textarea id="dataCodes" name="data_codes" rows="10" cols="50" placeholder="Введите коды (по одному на строку) или перетащите файл от Блокнот / Excel"></textarea><br>
+            <div class="button-container">
+                <input type="submit" value="Проверить">
+                <input type="button" value="Очистить" onclick="clearTextarea()">
+            </div>
         </form>
 
         <h2>Результат:</h2>
@@ -78,5 +82,8 @@
             }
         }
     </script>
+
+    <script src="js/dragDrop.js"></script>
+    <script src="js/xlsx.full.min.js"></script>
 </body>
 </html>
