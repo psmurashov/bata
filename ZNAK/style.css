@@ -227,3 +227,21 @@ input:focus, textarea:focus {
             resize: none;
         }
 */
+
+    #dataCodes {
+        background: url('drag-and-drop.png') no-repeat center center;
+        background-size: contain;
+        background-size: 200px 200px; /* Уменьшите размер SVG */
+        color: #000; /* Цвет текста */
+        background-color: #fff; /* Цвет фона */
+
+    }
+
+    #dataCodes:focus {
+        background: none; /* Убираем фон при фокусе */
+    }
+
+    #dataCodes:not(:placeholder-shown) {
+        background: none; /* Убираем фон, если есть текст */
+        opacity: 1; /* Возвращаем полную прозрачность */
+    }

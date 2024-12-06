@@ -51,4 +51,3 @@
         function clearTextarea() {
             document.getElementById('dataCodes').value = '';
         }
-
