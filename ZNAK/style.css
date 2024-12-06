@@ -1,3 +1,18 @@
+        .logo {
+            display: flex;
+            justify-content: space-between;
+        }
+        .left, .right {
+            /*width: 45%;*/ /* Можно настроить ширину по вашему усмотрению */
+            /*padding: 20px;*/
+            box-sizing: border-box;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
 /*** FONTS ***/
 @import url(https://fonts.googleapis.com/css?family=Montserrat:900|Raleway:400,400i,700,700i);
 /*** VARIABLES ***/
@@ -140,15 +155,15 @@ ol.gradient-list > li + li {
 
 /*****TEXTAREA****/
 
-textarea {
+textarea, #inputField {
   font-family: "Raleway", sans-serif;
   letter-spacing: 1px;
   //*color-scheme: dark;*/
 
 }
 
-textarea {
- resize: none;
+textarea, #inputField {
+  resize: none;
   padding: 10px;
   max-width: 100%;
   width: 100%;
@@ -157,6 +172,8 @@ textarea {
   border: 1px solid #ccc;
   /*box-shadow: 1px 1px 1px #999;*/
 }
+
+textarea{height: 200px;}
 
 
 input[type=button], input[type=submit], input[type=reset] {
@@ -177,6 +194,10 @@ input:focus, textarea:focus {
 }
 
 #dataCodes {
+    background-color: #fafafa;
+}
+
+#inputField, #outputField {
     background-color: #fafafa;
 }
 
@@ -203,12 +224,12 @@ input:focus, textarea:focus {
             flex-grow: 1;
         }
 
-        .button-container input[type="button"] {
+        .button-container input[type="button"], .container input[type="button"] {
             background-color: #ffcccc; /* Цвет фона для кнопки "Очистить" */
             border: none;
             cursor: pointer;
             padding: 16px;
-            margin-left: 10px;
+            /*margin-left: 10px;*/
         }
 
         .button-container input[type="button"]::before {
@@ -229,7 +250,7 @@ input:focus, textarea:focus {
 */
 
     #dataCodes {
-        background: url('drag-and-drop.png') no-repeat center center;
+        background: url('img/drag-and-drop.png') no-repeat center center;
         background-size: contain;
         background-size: 200px 200px; /* Уменьшите размер SVG */
         color: #000; /* Цвет текста */
@@ -245,3 +266,90 @@ input:focus, textarea:focus {
         background: none; /* Убираем фон, если есть текст */
         opacity: 1; /* Возвращаем полную прозрачность */
     }
+
+/***  excel notepad | save  ****/
+        .container {
+            text-align: right; /* Выравнивание содержимого контейнера по правому краю */
+        }
+
+        #saveButtonExcel {
+            display: inline-block;
+            padding: 10px;
+            background-color: #fff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            font-size: 16px;
+            transition: background-color 0.3s, background-size 0.3s;
+            background-image: url('img/excel-document-svgrepo-com.svg');
+            background-size: 50px 50px;
+            background-repeat: no-repeat;
+            background-position: center;
+            width: 70px; /* Ширина кнопки */
+            height: 70px; /* Высота кнопки */
+        }
+
+        #saveButtonNotepad {
+            display: inline-block;
+            padding: 10px;
+            background-color: #fff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            font-size: 16px;
+            transition: background-color 0.3s, background-size 0.3s;
+            background-image: url('img/txt-document-svgrepo-com.svg');
+            background-size: 50px 50px;
+            background-repeat: no-repeat;
+            background-position: center;
+            width: 70px; /* Ширина кнопки */
+            height: 70px; /* Высота кнопки */
+        }
+
+        #scan {
+            display: inline-block;
+            padding: 10px;
+            background-color: #fff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            font-size: 16px;
+            transition: background-color 0.3s, background-size 0.3s;
+            background-image: url('img/scan-barcode-with-scanner-tool-svgrepo-com.svg');
+            background-size: 50px 50px;
+            background-repeat: no-repeat;
+            background-position: center;
+            width: 70px; /* Ширина кнопки */
+            height: 70px; /* Высота кнопки */
+        }
+
+        #proverka {
+            display: inline-block;
+            padding: 10px;
+            background-color: #fff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            font-size: 16px;
+            transition: background-color 0.3s, background-size 0.3s;
+            background-image: url('img/scan-barcode-svgrepo-com.svg');
+            background-size: 50px 50px;
+            background-repeat: no-repeat;
+            background-position: center;
+            width: 70px; /* Ширина кнопки */
+            height: 70px; /* Высота кнопки */
+        }
+
+
+        #saveButtonExcel:hover, #saveButtonNotepad:hover, #scan:hover, #proverka:hover {
+            /*background-color: #0056b3;*/
+            background-size: 60px 60px; /* Увеличение изображения при наведении */
+        }
