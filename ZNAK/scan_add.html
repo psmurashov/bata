@@ -21,24 +21,29 @@
         </div>
     </header>
     <main>
-        <form id="dataForm">
-            <textarea id="dataCodes" name="data_codes" rows="10" cols="50" placeholder="Введите коды (по одному на строку) или перетащите файл от Блокнот / Excel"></textarea><br>
 
-            <div class="button-container">
-                <input type="submit" value="Проверить">
-                <input type="button" value="Очистить" onclick="clearTextarea('dataCodes')">
+        <form id="dataForm">
+            <input type="text" id="inputField" placeholder="Установите курсор и начните сканирование">
+            <textarea id="outputField" placeholder="Результат будет здесь"></textarea>
+    
+            <div class="container">
+                <input type="button" value="Очистить" onclick="clearTextarea('outputField')">
+                <input type="button" id="saveButtonNotepad" value="">
+                <input type="button" id="saveButtonExcel" value="">
             </div>
         </form>
 
-        <h2>Результат:</h2>
+        <h2>Описание:</h2>
         <ol id="resultsList" class="gradient-list"></ol>
     </main>
 
     <script src="js/url.js"></script>
-    <script src="js/index_result.js"></script>
-    <script src="js/dragDrop.js"></script>
-    <script src="js/clearTextarea.js"></script>
+    <script src="js/scan_add.js"></script>
+    <script src="js/save_notepad.js"></script>
+    <script src="js/save_excel.js"></script>
+    <script src="js/clearTextarea.js"></script>   
     <script src="js/xlsx.full.min.js"></script>
+
 </body>
 
 </html>

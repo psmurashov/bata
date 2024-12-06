@@ -44,10 +44,3 @@
                 }
             }
         });
-
-/*
- Очистка поля
-*/
-        function clearTextarea() {
-            document.getElementById('dataCodes').value = '';
-        }
