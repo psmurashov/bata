@@ -46,7 +46,11 @@
 
         document.getElementById('inputField').addEventListener('input', async function() {
             const inputValue = this.value;
-            const dataCodes = inputValue.split('\n');
+
+            //Оставляем первые 31 симовл
+            let _31_inputValue = inputValue.substring(0, 31);
+
+            const dataCodes = _31_inputValue.split('\n');
             await checkDataMatrix(dataCodes);
 
             const outputField = document.getElementById('outputField');
