@@ -44,7 +44,7 @@
             }
 
 
-            updateLineCount();//count_textarea.js обновляем счетчик
+            
         }
 
         document.getElementById('inputField').addEventListener('input', async function() {
