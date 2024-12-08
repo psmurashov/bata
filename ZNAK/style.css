@@ -300,7 +300,7 @@ input:focus, textarea:focus {
     #dataCodes {
         background: url('img/drag-and-drop.png') no-repeat center center;
         background-size: contain;
-        background-size: 200px 200px; /* Уменьшите размер SVG */
+        background-size: 110px 110px; /* Уменьшите размер SVG */
         color: #000; /* Цвет текста */
         background-color: #fff; /* Цвет фона */
 
