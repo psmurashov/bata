@@ -4,7 +4,7 @@ const lineCount = document.getElementById('lineCount');
 // Функция для обновления счетчика строк
 function updateLineCount() {
   const lines = textarea.value.split('\n').length;
-  lineCount.textContent = lines;
+  lineCount.textContent = lines-1;
 }
 
 // Инициализация счетчика строк при загрузке страницы
