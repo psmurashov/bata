@@ -46,6 +46,7 @@ ol.gradient-list > li::before, ol.gradient-list > li {
 .logo img {
     width: 50px; /* Установите нужный размер логотипа */
     height: auto;
+    cursor: pointer;
 }
 
 /* Медиа-запросы для изменения размера логотипа */
