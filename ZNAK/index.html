@@ -3,9 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Распознать</title>
+    <title>Здесь проще</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Antonio:wght@100..700&display=swap" rel="stylesheet">
+
+    <style>
+        @import url(https://fonts.googleapis.com/css?family=Montserrat:900|Raleway:400,400i,700,700i);
+
+        .containers {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            /*width: 80%;*/
+            /*max-width: 1200px;*/
+
+        }
+        .texts {
+
+            flex: 1;
+            text-align: center;
+            font-size: 46px;
+            font-weight: 700;
+        }
+        .images {
+            flex: 1;
+            text-align: center;
+            box-sizing: border-box;
+
+        }
+        .images img {
+            max-width: 70%;
+            height: auto;
+        }
+    </style>
+
+
 </head>
 
 <body>
@@ -20,25 +52,20 @@
             </div>
         </div>
     </header>
-    <main>
-        <form id="dataForm">
-            <textarea id="dataCodes" name="data_codes" rows="10" cols="50" placeholder="Введите коды (по одному на строку) или перетащите файл от Блокнот / Excel"></textarea><br>
 
-            <div class="button-container">
-                <input type="submit" value="Проверить">
-                <input type="button" value="Очистить" onclick="clearTextarea('dataCodes')">
-            </div>
-        </form>
+<!--   -->
 
-        <h2>Результат:</h2>
-        <ol id="resultsList" class="gradient-list"></ol>
-    </main>
 
+
+    <div class="containers">
+        <div class="texts">
+            <p>> ЗДЕСЬ ПРОЩЕ</p>
+        </div>
+        <div class="images">
+            <img src="img/image.webp" alt="Пример изображения">
+        </div>
+    </div>
     <script src="js/url.js"></script>
-    <script src="js/index_result.js"></script>
-    <script src="js/dragDrop.js"></script>
-    <script src="js/clearTextarea.js"></script>
-    <script src="js/xlsx.full.min.js"></script>
 </body>
 
 </html>
