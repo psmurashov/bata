@@ -157,12 +157,14 @@ ol.gradient-list > li + li {
 
 #inputField:focus {
   border-radius: 5px;
-  border: 1px solid #04AA6D;
+  border: 2px solid #04AA6D;
 }
 
 textarea, #inputField {
   font-family: "Raleway", sans-serif;
   letter-spacing: 1px;
+  margin-bottom: 2px; /* Добавляем отступ снизу для input */
+  box-sizing: border-box; /* Включаем размеры границ и отступов в общий размер элемента */
   //*color-scheme: dark;*/
 
 }
@@ -174,7 +176,7 @@ textarea, #inputField {
   width: 100%;
   line-height: 1.5;
   border-radius: 5px;
-  border: 1px solid #ccc;
+  border: 2px solid #ccc;
   /*box-shadow: 1px 1px 1px #999;*/
 }
 
@@ -355,6 +357,5 @@ input:focus, textarea:focus {
 
 
         #saveButtonExcel:hover, #saveButtonNotepad:hover, #scan:hover, #proverka:hover {
-            /*background-color: #0056b3;*/
             background-size: 60px 60px; /* Увеличение изображения при наведении */
         }
