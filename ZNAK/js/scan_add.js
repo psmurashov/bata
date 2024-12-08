@@ -42,6 +42,9 @@
                     resultsList.appendChild(resultItem);
                 }
             }
+
+
+            updateLineCount();//count_textarea.js обновляем счетчик
         }
 
         document.getElementById('inputField').addEventListener('input', async function() {
@@ -56,6 +59,8 @@
             const outputField = document.getElementById('outputField');
             // Добавляем новый текст к текущему содержимому textarea
             outputField.value += dataCodes.join('\n') + '\n';
+
+            updateLineCount();//count_textarea.js обновляем счетчик
 
             // Очистка поля ввода
             this.value = '';
