@@ -24,7 +24,11 @@
 
         <form id="dataForm">
             <input type="text" id="inputField" placeholder="Установите курсор и начните сканирование">
-            <textarea id="outputField" placeholder="Результат будет здесь"></textarea>
+
+            <div class="textarea-container">
+                <textarea id="outputField" placeholder="Результат будет здесь"></textarea>
+                <div id="lineCount" class="line-count">0</div>
+            </div>
     
             <div class="container">
                 <input type="button" value="Очистить" onclick="clearTextarea('outputField')">
@@ -38,6 +42,7 @@
     </main>
 
     <script src="js/url.js"></script>
+    <script src="js/count_textarea.js"></script>
     <script src="js/scan_add.js"></script>
     <script src="js/save_notepad.js"></script>
     <script src="js/save_excel.js"></script>
