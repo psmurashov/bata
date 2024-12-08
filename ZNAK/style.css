@@ -153,7 +153,12 @@ ol.gradient-list > li + li {
   margin-top: 2rem;
 }
 
-/*****TEXTAREA****/
+/*****TEXTAREA Input****/
+
+#inputField:focus {
+  border-radius: 5px;
+  border: 1px solid #04AA6D;
+}
 
 textarea, #inputField {
   font-family: "Raleway", sans-serif;
