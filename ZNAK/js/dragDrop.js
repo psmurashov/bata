@@ -5,15 +5,18 @@
         dataCodes.addEventListener('dragover', (e) => {
             e.preventDefault();
             dataCodes.style.borderColor = '#000';
+            dataCodes.style.borderStyle = 'dashed';
         });
 
         dataCodes.addEventListener('dragleave', () => {
             dataCodes.style.borderColor = '#ccc';
+            dataCodes.style.borderStyle = 'solid'; // Исходный стиль границы
         });
 
         dataCodes.addEventListener('drop', (e) => {
             e.preventDefault();
             dataCodes.style.borderColor = '#ccc';
+            dataCodes.style.borderStyle = 'solid'; // Исходный стиль границы
 
             const files = e.dataTransfer.files;
             if (files.length > 0) {
