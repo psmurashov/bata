@@ -19,7 +19,7 @@
                 document.body.style.margin = '0';
                 document.body.style.fontFamily = 'Arial, sans-serif';
                 document.body.style.fontSize = '24px';
-                document.body.innerHTML = '<div>ведутся работы</div>';
+                document.body.innerHTML = '<div>Work is underway</div>';
             }
         }
 
