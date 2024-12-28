@@ -46,6 +46,24 @@ body.black--style {
 
 
 
+
+body.glass--style .selectbox-item.focus,
+body.glass--style .settings-folder.focus,
+body.glass--style .settings-param.focus {
+  color: #ddd;
+}
+
+body.glass--style .selectbox-item.focus .settings-folder__icon,
+body.glass--style .selectbox-item.focus .selectbox-item__checkbox,
+body.glass--style .settings-folder.focus .settings-folder__icon,
+body.glass--style .settings-folder.focus .selectbox-item__checkbox,
+body.glass--style .settings-param.focus .settings-folder__icon,
+body.glass--style .settings-param.focus .selectbox-item__checkbox {
+  -webkit-filter: invert(0);
+          filter: invert(0);
+
+
+
 /**/
 .menu__item.focus .menu__ico path[fill],
 .menu__item.focus .menu__ico rect[fill],
