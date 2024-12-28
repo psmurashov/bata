@@ -46,7 +46,7 @@ body.black--style {
 
 
 
-
+/*
 body.glass--style .selectbox-item.focus,
 body.glass--style .settings-folder.focus,
 body.glass--style .settings-param.focus {
@@ -61,7 +61,7 @@ body.glass--style .settings-param.focus .settings-folder__icon,
 body.glass--style .settings-param.focus .selectbox-item__checkbox {
   -webkit-filter: invert(0);
           filter: invert(0);
-
+*/
 
 
 /**/
