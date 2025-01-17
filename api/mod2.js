@@ -10127,16 +10127,16 @@
         source: Lampa.Lang.translate('settings_rest_source')
       };
       var disable_dbg = !Utils.isDebug();
-      var isAndroid = Lampa.Platform.is('android');
-      var androidHeaders = isAndroid && Utils.checkAndroidVersion(339);
+      /*var isAndroid = Lampa.Platform.is('android');
+      var androidHeaders = isAndroid && Utils.checkAndroidVersion(339);*/
       var all_sources = [{
         name: 'lumex',
         title: 'Lumex',
         source: new lumex(this, object),
         search: false,
         kp: false,
-        imdb: true,
-        disabled: disable_dbg && !androidHeaders
+        imdb: true
+        //disabled: disable_dbg && !androidHeaders
       }, {
         name: 'rezka',
         title: 'Voidboost',
@@ -10158,8 +10158,8 @@
         source: new kinobase(this, object),
         search: true,
         kp: false,
-        imdb: false,
-        disabled: disable_dbg
+        imdb: false
+        //disabled: disable_dbg
       }, {
         name: 'collaps',
         title: 'Collaps',
@@ -10180,8 +10180,8 @@
         source: new cdnmovies(this, object),
         search: false,
         kp: true,
-        imdb: true,
-        disabled: disable_dbg
+        imdb: true
+        //disabled: disable_dbg
       }, {
         name: 'filmix',
         title: 'Filmix',
@@ -10195,24 +10195,24 @@
         source: new zetflix(this, object),
         search: false,
         kp: true,
-        imdb: false,
-        disabled: disable_dbg
+        imdb: false
+        //disabled: disable_dbg
       }, {
         name: 'fancdn',
         title: 'FanCDN',
         source: new fancdn(this, object),
         search: true,
         kp: false,
-        imdb: false,
-        disabled: disable_dbg && !isAndroid
+        imdb: false
+        //disabled: disable_dbg && !isAndroid
       }, {
         name: 'fanserials',
         title: 'FanSerials',
         source: new fanserials(this, object),
         search: false,
         kp: true,
-        imdb: false,
-        disabled: disable_dbg && !isAndroid
+        imdb: false
+        //disabled: disable_dbg && !isAndroid
       }, {
         name: 'redheadsound',
         title: 'RedHeadSound',
@@ -10261,16 +10261,16 @@
         source: new alloha(this, object),
         search: false,
         kp: true,
-        imdb: true,
-        disabled: disable_dbg
+        imdb: true
+        //disabled: disable_dbg
       }, {
         name: 'kinopub',
         title: 'KinoPub',
         source: new kinopub(this, object),
         search: true,
         kp: false,
-        imdb: true,
-        disabled: true
+        imdb: true
+        //disabled: true
       }];
       var obj_filter_sources = all_sources.filter(function (s) {
         return !s.disabled;
