@@ -10159,7 +10159,7 @@
         search: true,
         kp: false,
         imdb: false
-        //disabled: disable_dbg
+        disabled: disable_dbg
       }, {
         name: 'collaps',
         title: 'Collaps',
@@ -10181,7 +10181,7 @@
         search: false,
         kp: true,
         imdb: true
-        //disabled: disable_dbg
+        disabled: disable_dbg
       }, {
         name: 'filmix',
         title: 'Filmix',
@@ -10196,7 +10196,7 @@
         search: false,
         kp: true,
         imdb: false
-        //disabled: disable_dbg
+        disabled: disable_dbg
       }, {
         name: 'fancdn',
         title: 'FanCDN',
@@ -10204,7 +10204,7 @@
         search: true,
         kp: false,
         imdb: false
-        //disabled: disable_dbg && !isAndroid
+        disabled: disable_dbg && !isAndroid
       }, {
         name: 'fanserials',
         title: 'FanSerials',
@@ -10212,7 +10212,7 @@
         search: false,
         kp: true,
         imdb: false
-        //disabled: disable_dbg && !isAndroid
+        disabled: disable_dbg && !isAndroid
       }, {
         name: 'redheadsound',
         title: 'RedHeadSound',
@@ -10261,16 +10261,16 @@
         source: new alloha(this, object),
         search: false,
         kp: true,
-        imdb: true
-        //disabled: disable_dbg
+        imdb: true,
+        disabled: disable_dbg
       }, {
         name: 'kinopub',
         title: 'KinoPub',
         source: new kinopub(this, object),
         search: true,
         kp: false,
-        imdb: true
-        //disabled: true
+        imdb: true,
+        disabled: true
       }];
       var obj_filter_sources = all_sources.filter(function (s) {
         return !s.disabled;
