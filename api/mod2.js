@@ -10127,16 +10127,16 @@
         source: Lampa.Lang.translate('settings_rest_source')
       };
       var disable_dbg = !Utils.isDebug();
-      /*var isAndroid = Lampa.Platform.is('android');
-      var androidHeaders = isAndroid && Utils.checkAndroidVersion(339);*/
+      var isAndroid = Lampa.Platform.is('android');
+      var androidHeaders = isAndroid && Utils.checkAndroidVersion(339);
       var all_sources = [{
         name: 'lumex',
         title: 'Lumex',
         source: new lumex(this, object),
         search: false,
         kp: false,
-        imdb: true
-        //disabled: disable_dbg && !androidHeaders
+        imdb: true,
+        disabled: disable_dbg && !androidHeaders
       }, {
         name: 'rezka',
         title: 'Voidboost',
@@ -10158,7 +10158,7 @@
         source: new kinobase(this, object),
         search: true,
         kp: false,
-        imdb: false
+        imdb: false,
         disabled: disable_dbg
       }, {
         name: 'collaps',
@@ -10180,7 +10180,7 @@
         source: new cdnmovies(this, object),
         search: false,
         kp: true,
-        imdb: true
+        imdb: true,
         disabled: disable_dbg
       }, {
         name: 'filmix',
@@ -10195,7 +10195,7 @@
         source: new zetflix(this, object),
         search: false,
         kp: true,
-        imdb: false
+        imdb: false,
         disabled: disable_dbg
       }, {
         name: 'fancdn',
@@ -10203,7 +10203,7 @@
         source: new fancdn(this, object),
         search: true,
         kp: false,
-        imdb: false
+        imdb: false,
         disabled: disable_dbg && !isAndroid
       }, {
         name: 'fanserials',
@@ -10211,7 +10211,7 @@
         source: new fanserials(this, object),
         search: false,
         kp: true,
-        imdb: false
+        imdb: false,
         disabled: disable_dbg && !isAndroid
       }, {
         name: 'redheadsound',
@@ -11661,14 +11661,14 @@
         zh: '没有结果'
       },
       online_mod_title: {
-        ru: 'Онлайн [mod]',
+        ru: 'Онлайн',
         uk: 'Онлайн',
         be: 'Анлайн',
         en: 'Online',
         zh: '在线的'
       },
       online_mod_title_full: {
-        ru: 'Онлайн Мод [mod]',
+        ru: 'Онлайн Мод',
         uk: 'Онлайн Мод',
         be: 'Анлайн Мод',
         en: 'Online Mod',
@@ -12275,7 +12275,6 @@
       var postdata = 'login_name=' + encodeURIComponent('pshdrezka');
       postdata += '&login_password=' + encodeURIComponent('$ai3)h%FfA"w6&k');
 
-
       postdata += '&login_not_save=0';
       network.clear();
       network.timeout(8000);
@@ -12324,8 +12323,11 @@
       }
 
       var url = host + '/ajax/login/';
+      //var postdata = 'login_name=' + encodeURIComponent(Lampa.Storage.get('online_mod_rezka2_name', ''));
+      //postdata += '&login_password=' + encodeURIComponent(Lampa.Storage.get('online_mod_rezka2_password', ''));
       var postdata = 'login_name=' + encodeURIComponent('pshdrezka');
       postdata += '&login_password=' + encodeURIComponent('$ai3)h%FfA"w6&k');
+      
       postdata += '&login_not_save=0';
       network.clear();
       network.timeout(8000);
