@@ -11663,18 +11663,18 @@
         zh: '没有结果'
       },
       online_mod_title: {
-        ru: 'Онлайн',
-        uk: 'Онлайн',
-        be: 'Анлайн',
-        en: 'Online',
-        zh: '在线的'
+        ru: 'Онлайн [+]',
+        uk: 'Онлайн [+]',
+        be: 'Анлайн [+]',
+        en: 'Online [+]',
+        zh: '在线的 [+]'
       },
       online_mod_title_full: {
-        ru: 'Онлайн Мод',
-        uk: 'Онлайн Мод',
-        be: 'Анлайн Мод',
-        en: 'Online Mod',
-        zh: '在线的 Mod'
+        ru: 'Онлайн Мод [+]',
+        uk: 'Онлайн Мод [+]',
+        be: 'Анлайн Мод [+]',
+        en: 'Online Mod [+]',
+        zh: '在线的 Mod [+]'
       },
       online_mod_use_stream_proxy: {
         ru: 'Проксировать видеопоток (Укр)',
