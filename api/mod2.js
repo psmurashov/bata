@@ -10128,7 +10128,8 @@
       };
       var disable_dbg = !Utils.isDebug();
       var isAndroid = Lampa.Platform.is('android');
-      var androidHeaders = isAndroid && Utils.checkAndroidVersion(339);
+      //var androidHeaders = isAndroid && Utils.checkAndroidVersion(339);
+      var androidHeaders = isAndroid;
       var all_sources = [{
         name: 'lumex',
         title: 'Lumex',
@@ -11463,7 +11464,8 @@
     var isTizen = navigator.userAgent.toLowerCase().indexOf('tizen') !== -1;
     var isIFrame = window.parent !== window;
     var isLocal = !startsWith(window.location.protocol, 'http');
-    var androidHeaders = Lampa.Platform.is('android') && Utils.checkAndroidVersion(339);
+    //var androidHeaders = Lampa.Platform.is('android') && Utils.checkAndroidVersion(339);
+    var androidHeaders = Lampa.Platform.is('android');
     console.log('App', 'is MSX:', isMSX);
     console.log('App', 'is Tizen:', isTizen);
     console.log('App', 'is iframe:', isIFrame);
@@ -12327,7 +12329,7 @@
       //postdata += '&login_password=' + encodeURIComponent(Lampa.Storage.get('online_mod_rezka2_password', ''));
       var postdata = 'login_name=' + encodeURIComponent('pshdrezka');
       postdata += '&login_password=' + encodeURIComponent('$ai3)h%FfA"w6&k');
-      
+
       postdata += '&login_not_save=0';
       network.clear();
       network.timeout(8000);
