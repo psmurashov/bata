@@ -4500,6 +4500,11 @@
         "icon": "https://raw.githubusercontent.com/iFrez/EPG-EdemTV/master/img/698.png"
     },
     {
+        "count": "698",
+        "name": "ТВ-3 Беларусь",
+        "icon": "https://raw.githubusercontent.com/iFrez/EPG-EdemTV/master/img/698.png"
+    },
+    {
         "count": "649",
         "name": "тв центр hd",
         "icon": "https://raw.githubusercontent.com/iFrez/EPG-EdemTV/master/img/649.png"
@@ -32909,5 +32914,25 @@
         "count": "17032",
         "name": "ужасы hd",
         "icon": "https://raw.githubusercontent.com/iFrez/EPG-EdemTV/master/img/17032.png"
+    },
+    {
+        "count": "",
+        "name": "1FILMAX",
+        "icon": "https://tv2free.ru/sites/default/files/styles/large/public/tv-logo/tv-1filmax.jpg?itok=cAN6QlYt"
+    },
+    {
+        "count": "",
+        "name": "2FILMAX",
+        "icon": "https://tv2free.ru/sites/default/files/styles/large/public/tv-logo/tv-2filmax.jpg?itok=cAN6QlYt"
+    },
+    {
+        "count": "",
+        "name": "МультСказки HD",
+        "icon": "https://tv2free.ru/sites/default/files/styles/large/public/tv-logo/tv-multskazki-tv-iptvplay_1.jpg?itok=d2zF_G-j"
+    },
+    {
+        "count": "",
+        "name": "FantasticMystiC",
+        "icon": "https://tv2free.ru/sites/default/files/styles/large/public/tv-logo/tv-fmc-fantastic-mistyc.jpg?itok=d2zF_G-j"
     }
 ]
