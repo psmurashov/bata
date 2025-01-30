@@ -240,6 +240,7 @@
             pre.textContent = xmlString;
             document.body.appendChild(pre);
 
+            //Сохраняем в XML
             if(TrueFalse === true){
 
                 const xmlDeclaration = '<?xml version="1.0" encoding="windows-1251"?>\n';
@@ -247,7 +248,7 @@
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
-                a.download = `${UUID}.xml`;
+                a.download = `ON_NSCHFDOPPR_2LT-600044534_2LT-11003819335_${formattedDate1}_${UUID}_0_1_0_0_0_00.xml`;
                 document.body.appendChild(a);
                 a.click();
                 document.body.removeChild(a);
