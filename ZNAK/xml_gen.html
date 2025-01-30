@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Выпадающий список</title>
+</head>
+<body>
+
+    <label for="datePicker">Выберите дату:</label>
+    <input type="date" id="datePicker">
+    <!--<button onclick="formatDate(1)">Форматировать дату</button>-->
+    <p id="formattedDate"></p>
+
+    <button id="seeButton">Отобразить XML</button>
+    <button id="saveButton">Сохранить XML</button>
+    <script>
+
+        //Дата
+        function formatDate(value) {
+            const datePicker = document.getElementById('datePicker');
+            const selectedDate = new Date(datePicker.value);
+
+            if (isNaN(selectedDate.getTime())) {
+                alert('Пожалуйста, выберите дату.');
+                return;
+            }
+
+            const year = selectedDate.getFullYear();
+            const month = String(selectedDate.getMonth() + 1).padStart(2, '0');
+            const day = String(selectedDate.getDate()).padStart(2, '0');
+
+            const formattedDate1 = `${year}${month}${day}`;
+            const formattedDate2 = `${day}.${month}.${year}`;
+
+            let formattedDate;
+            if (value === 1) {
+                formattedDate = formattedDate1;
+            } else if (value === 2) {
+                formattedDate = formattedDate2;
+            } else {
+                formattedDate = undefined;
+            }
+
+            //document.getElementById('formattedDate').innerText = formattedDate || 'Неверный формат даты';
+            return formattedDate;
+        }
+
+
+        //UUID генерация
+        function generateUUID() {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                const r = Math.random() * 16 | 0;
+                const v = c === 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        }
+
+        const UUID = generateUUID();//_7b347573-4f69-44ab-8904-9adc022f9763
+
+
+    // Функция для сохранения XML-документа
+    function saveXML(TrueFalse,formattedDate1,formattedDate2) {
+
+        // Создаем XML-документ
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString('<Файл></Файл>', 'application/xml');
+
+        const root = xmlDoc.documentElement;
+        root.setAttribute('ИдФайл', `ON_NSCHFDOPPR_2LT-600044534_2LT-11003819335_${formattedDate1}_${UUID}_0_1_0_0_0_00`);
+        root.setAttribute('ВерсФорм', '5.03');
+        root.setAttribute('ВерсПрог', 'EDOLite 1.0');
+
+        const docElement = xmlDoc.createElement('Документ');
+        docElement.setAttribute('КНД', '1115131');
+        docElement.setAttribute('Функция', 'СЧФДОП');
+        docElement.setAttribute('ПоФактХЖ', 'Документ об отгрузке товаров (выполнении работ), передаче имущественных прав (документ об оказании услуг)');
+        docElement.setAttribute('НаимДокОпр', 'Счет-фактура и документ об отгрузке товаров (выполнении работ), передаче имущественных прав (документ об оказании услуг)');
+        docElement.setAttribute('ДатаИнфПр', `${formattedDate2}`);
+        docElement.setAttribute('ВремИнфПр', '21.12.05');
+        root.appendChild(docElement);
+
+        const svSchFact = xmlDoc.createElement('СвСчФакт');
+        svSchFact.setAttribute('НомерДок', '1');
+        svSchFact.setAttribute('ДатаДок', `${formattedDate2}`);
+        docElement.appendChild(svSchFact);
+
+        const svProd = xmlDoc.createElement('СвПрод');
+        svSchFact.appendChild(svProd);
+
+        const idSv = xmlDoc.createElement('ИдСв');
+        svProd.appendChild(idSv);
+
+        const svIP = xmlDoc.createElement('СвИП');
+        svIP.setAttribute('ИННФЛ', '503224228593');
+        svIP.setAttribute('ОГРНИП', '318502400008846');
+        idSv.appendChild(svIP);
+
+        const fio = xmlDoc.createElement('ФИО');
+        fio.setAttribute('Фамилия', 'Мурашов');
+        fio.setAttribute('Имя', 'Андрей');
+        fio.setAttribute('Отчество', 'Сергеевич');
+        svIP.appendChild(fio);
+
+        const address = xmlDoc.createElement('Адрес');
+        svProd.appendChild(address);
+
+        const adrRF = xmlDoc.createElement('АдрРФ');
+        adrRF.setAttribute('Индекс', '143002');
+        adrRF.setAttribute('КодРегион', '50');
+        adrRF.setAttribute('НаимРегион', 'Московская область');
+        adrRF.setAttribute('Район', 'Одинцово');
+        adrRF.setAttribute('Улица', 'Можайское');
+        adrRF.setAttribute('Дом', '37');
+        adrRF.setAttribute('Кварт', '87');
+        address.appendChild(adrRF);
+
+        const dokPodtvOtgrNom = xmlDoc.createElement('ДокПодтвОтгрНом');
+        dokPodtvOtgrNom.setAttribute('РеквНаимДок', 'Счет-фактура и документ об отгрузке товаров (выполнении работ), передаче имущественных прав (документ об оказании услуг)');
+        dokPodtvOtgrNom.setAttribute('РеквНомерДок', '1');
+        dokPodtvOtgrNom.setAttribute('РеквДатаДок', `${formattedDate2}`);
+        svSchFact.appendChild(dokPodtvOtgrNom);
+
+        const svPokup = xmlDoc.createElement('СвПокуп');
+        svSchFact.appendChild(svPokup);
+
+        const idSvPokup = xmlDoc.createElement('ИдСв');
+        svPokup.appendChild(idSvPokup);
+
+        const svIPPokup = xmlDoc.createElement('СвИП');
+        svIPPokup.setAttribute('ИННФЛ', '720692072670');
+        svIPPokup.setAttribute('ОГРНИП', '311667418600039');
+        idSvPokup.appendChild(svIPPokup);
+
+        const fioPokup = xmlDoc.createElement('ФИО');
+        fioPokup.setAttribute('Фамилия', 'Квашнин');
+        fioPokup.setAttribute('Имя', 'Владимир');
+        fioPokup.setAttribute('Отчество', 'Валерьевич');
+        svIPPokup.appendChild(fioPokup);
+
+        const addressPokup = xmlDoc.createElement('Адрес');
+        svPokup.appendChild(addressPokup);
+
+        const adrRFPokup = xmlDoc.createElement('АдрРФ');
+        adrRFPokup.setAttribute('Индекс', '620024');
+        adrRFPokup.setAttribute('КодРегион', '66');
+        adrRFPokup.setAttribute('НаимРегион', 'Свердловская область');
+        adrRFPokup.setAttribute('Город', 'Екатеринбург');
+        adrRFPokup.setAttribute('Улица', 'Мартовская');
+        adrRFPokup.setAttribute('Дом', '3');
+        adrRFPokup.setAttribute('Кварт', '117');
+        addressPokup.appendChild(adrRFPokup);
+
+        const denIzm = xmlDoc.createElement('ДенИзм');
+        denIzm.setAttribute('КодОКВ', '643');
+        denIzm.setAttribute('НаимОКВ', 'Российский рубль');
+        svSchFact.appendChild(denIzm);
+
+        const tblSchFact = xmlDoc.createElement('ТаблСчФакт');
+        docElement.appendChild(tblSchFact);
+
+        const svdTov = xmlDoc.createElement('СведТов');
+        svdTov.setAttribute('НомСтр', '1');
+        svdTov.setAttribute('НаимТов', 'Наимнование товара');
+        svdTov.setAttribute('КолТов', '1');
+        svdTov.setAttribute('ЦенаТов', '1000');
+        svdTov.setAttribute('СтТовБезНДС', '1000');
+        svdTov.setAttribute('НалСт', 'без НДС');
+        svdTov.setAttribute('СтТовУчНал', '1000');
+        tblSchFact.appendChild(svdTov);
+
+        const dopSvdTov = xmlDoc.createElement('ДопСведТов');
+        svdTov.appendChild(dopSvdTov);
+
+        const sumNalVosst = xmlDoc.createElement('СумНалВосст');
+        const bezNDS = xmlDoc.createElement('БезНДС');
+        bezNDS.textContent = 'без НДС';
+        sumNalVosst.appendChild(bezNDS);
+        dopSvdTov.appendChild(sumNalVosst);
+
+        const nomSredIdenTov = xmlDoc.createElement('НомСредИдентТов');
+        const kiz = xmlDoc.createElement('КИЗ');
+        kiz.textContent = '11111111111111111111111';
+        nomSredIdenTov.appendChild(kiz);
+        dopSvdTov.appendChild(nomSredIdenTov);
+
+        const akciz = xmlDoc.createElement('Акциз');
+        const bezAkziz = xmlDoc.createElement('БезАкциз');
+        bezAkziz.textContent = 'без акциза';
+        akciz.appendChild(bezAkziz);
+        svdTov.appendChild(akciz);
+
+        const sumNal = xmlDoc.createElement('СумНал');
+        const bezNDSSumNal = xmlDoc.createElement('БезНДС');
+        bezNDSSumNal.textContent = 'без НДС';
+        sumNal.appendChild(bezNDSSumNal);
+        svdTov.appendChild(sumNal);
+
+        const vsegoOpl = xmlDoc.createElement('ВсегоОпл');
+        vsegoOpl.setAttribute('СтТовБезНДСВсего', '1000');
+        vsegoOpl.setAttribute('СтТовУчНалВсего', '1000');
+        const sumNalVsego = xmlDoc.createElement('СумНалВсего');
+        const bezNDSVsego = xmlDoc.createElement('БезНДС');
+        bezNDSVsego.textContent = 'без НДС';
+        sumNalVsego.appendChild(bezNDSVsego);
+        vsegoOpl.appendChild(sumNalVsego);
+        tblSchFact.appendChild(vsegoOpl);
+
+        const svProdPer = xmlDoc.createElement('СвПродПер');
+        docElement.appendChild(svProdPer);
+
+        const svPer = xmlDoc.createElement('СвПер');
+        svPer.setAttribute('СодОпер', 'Товары переданы');
+        svPer.setAttribute('ДатаПер', `${formattedDate2}`);
+        const bezDokOsnPer = xmlDoc.createElement('БезДокОснПер');
+        bezDokOsnPer.textContent = '1';
+        svPer.appendChild(bezDokOsnPer);
+        svProdPer.appendChild(svPer);
+
+        const podpisant = xmlDoc.createElement('Подписант');
+        podpisant.setAttribute('Должн', 'ИП');
+        podpisant.setAttribute('СпосПодтПолном', '1');
+        docElement.appendChild(podpisant);
+
+        const fioPodpisant = xmlDoc.createElement('ФИО');
+        fioPodpisant.setAttribute('Фамилия', 'МУРАШОВ');
+        fioPodpisant.setAttribute('Имя', 'АНДРЕЙ');
+        fioPodpisant.setAttribute('Отчество', 'СЕРГЕЕВИЧ');
+        podpisant.appendChild(fioPodpisant);
+
+            // Преобразуем XML-документ в строку
+            const serializer = new XMLSerializer();
+            const xmlString = serializer.serializeToString(xmlDoc);
+
+            // Выводим XML-документ в консоль (в браузере нет доступа к файловой системе)
+            console.log(xmlString);
+
+            // Для демонстрации, можно вывести XML в элемент на странице
+            const pre = document.createElement('pre');
+            pre.textContent = xmlString;
+            document.body.appendChild(pre);
+
+            if(TrueFalse === true){
+
+                const xmlDeclaration = '<?xml version="1.0" encoding="windows-1251"?>\n';
+                const blob = new Blob([xmlDeclaration + xmlString], { type: 'application/xml' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `${UUID}.xml`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }
+
+        }
+
+//==================================================================================
+
+        // Добавляем обработчик события для кнопки [сохраняем в xml]
+        document.getElementById('saveButton').addEventListener('click', function() {
+            const formattedDate1 = formatDate(1);
+            const formattedDate2 = formatDate(2);
+
+            saveXML(true,formattedDate1,formattedDate2);            
+        });
+
+        // Добавляем обработчик события для кнопки [просто отображаем на странице]
+        document.getElementById('seeButton').addEventListener('click', function() {
+            const formattedDate1 = formatDate(1);
+            const formattedDate2 = formatDate(2);
+
+            saveXML(false,formattedDate1,formattedDate2);            
+        });
+
+    </script>
+</body>
+</html>
