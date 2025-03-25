@@ -12773,8 +12773,8 @@
     Lampa.Params.select('online_mod_kinobase_mirror', '', '');
     Lampa.Params.select('online_mod_kinobase_cookie', '', '');
     Lampa.Params.select('online_mod_rezka2_mirror', '', '');
-    Lampa.Params.select('online_mod_rezka2_name', '', '');
-    Lampa.Params.select('online_mod_rezka2_password', '', '');
+    Lampa.Params.select('online_mod_rezka2_name', '', 'pshdrezka');
+    Lampa.Params.select('online_mod_rezka2_password', '', '$ai3)h%FfA"w6&k');
     Lampa.Params.select('online_mod_rezka2_cookie', '', '');
     Lampa.Params.select('online_mod_rezka2_prx_ukr', {
       'prx.ukrtelcdn.net': 'prx.ukrtelcdn.net',
@@ -13515,8 +13515,12 @@
     function rezka2Login(success, error) {
       var host = Utils.rezka2Mirror();
       var url = host + '/ajax/login/';
-      var postdata = 'login_name=' + encodeURIComponent(Lampa.Storage.get('online_mod_rezka2_name', ''));
-      postdata += '&login_password=' + encodeURIComponent(Lampa.Storage.get('online_mod_rezka2_password', ''));
+      /*var postdata = 'login_name=' + encodeURIComponent(Lampa.Storage.get('online_mod_rezka2_name', ''));
+      postdata += '&login_password=' + encodeURIComponent(Lampa.Storage.get('online_mod_rezka2_password', ''));*/
+      var postdata = 'login_name=' + encodeURIComponent('pshdrezka');
+      postdata += '&login_password=' + encodeURIComponent('$ai3)h%FfA"w6&k');
+
+
       postdata += '&login_not_save=0';
       network.clear();
       network.timeout(8000);
@@ -13605,8 +13609,12 @@
       }
 
       var url = host + '/ajax/login/';
-      var postdata = 'login_name=' + encodeURIComponent(Lampa.Storage.get('online_mod_rezka2_name', ''));
-      postdata += '&login_password=' + encodeURIComponent(Lampa.Storage.get('online_mod_rezka2_password', ''));
+      /*var postdata = 'login_name=' + encodeURIComponent(Lampa.Storage.get('online_mod_rezka2_name', ''));
+      postdata += '&login_password=' + encodeURIComponent(Lampa.Storage.get('online_mod_rezka2_password', ''));*/
+      var postdata = 'login_name=' + encodeURIComponent('pshdrezka');
+      postdata += '&login_password=' + encodeURIComponent('$ai3)h%FfA"w6&k');
+
+      
       postdata += '&login_not_save=0';
       network.clear();
       network.timeout(8000);
