@@ -11418,7 +11418,7 @@
         search: false,
         kp: false,
         imdb: true,
-        disabled: disable_dbg || this.isDebug3()
+        disabled: this.isDebug3()
       }, {
         name: 'rezka2',
         title: 'HDrezka',
