@@ -1,5 +1,5 @@
-//30.03.2025 - Fix
 //https://nb557.github.io/plugins/online_mod.js
+//05.04.2025 - Fix
 
 (function () {
     'use strict';
@@ -72,7 +72,7 @@
     }
 
     function fanserialsHost() {
-      return decodeSecret([89, 69, 64, 69, 67, 14, 26, 26, 67, 8, 31, 87, 85, 91, 67, 81, 71, 92, 81, 92, 31, 69, 66], atob('RnVja0Zhbg=='));
+      return decodeSecret([89, 69, 64, 69, 67, 14, 26, 26, 67, 7, 31, 87, 85, 91, 67, 81, 71, 92, 81, 92, 31, 69, 66], atob('RnVja0Zhbg=='));
     }
 
     function fancdnHost() {
@@ -1102,6 +1102,7 @@
       Lampa.Storage.field('online_mod_prefer_http') === true;
       var embed = atob('aHR0cHM6Ly9hcGkubGFtcGEuc3RyZWFtL2x1bWV4Lw==');
       var api_suffix = '/' + encodeURIComponent(btoa(window.location.href));
+      var cub_id = encodeURIComponent(btoa(Lampa.Storage.get('account', '{}').email || 'none'));
       var filter_items = {};
       var choice = {
         season: 0,
@@ -1373,7 +1374,7 @@
             return;
           }
 
-          var api = embed + 'play/' + object.movie.id + '/' + encodeURIComponent(element.media.playlist) + api_suffix;
+          var api = embed + 'play/' + object.movie.id + '/' + encodeURIComponent(element.media.playlist) + '/' + cub_id + api_suffix;
           api = Lampa.Utils.addUrlComponent(api, 'ip=' + encodeURIComponent(ip));
           api = Lampa.Utils.addUrlComponent(api, 'title=' + encodeURIComponent(object.movie.title));
           lumex_api(api, function (json) {
@@ -11347,7 +11348,7 @@
         }
 
         if (url && rezka2_fix_stream && name === 'rezka2') {
-          return url.replace(/\/\/stream\.voidboost\.(cc|top|link|club)\//, '//femeretes.org/');
+          return url.replace(/\/\/(stream\.voidboost\.(cc|top|link|club)|[^\/]*.ukrtelcdn.net)\//, '//femeretes.org/');
         }
 
         return url;
@@ -12794,7 +12795,7 @@
       };
     }
 
-    var mod_version = '30.03.2025';
+    var mod_version = '05.04.2025';
     console.log('App', 'start address:', window.location.href);
     var isMSX = !!(window.TVXHost || window.TVXManager);
     var isTizen = navigator.userAgent.toLowerCase().indexOf('tizen') !== -1;
@@ -14200,3 +14201,4 @@
     });
 
 })();
+
