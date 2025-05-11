@@ -2,189 +2,171 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rubik's Cube Scanner</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Рубикс-Солвер</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
         :root {
-            --primary: #6c5ce7;
-            --secondary: #a29bfe;
-            --dark: #2d3436;
-            --light: #f5f6fa;
-            --success: #00b894;
-            --warning: #fdcb6e;
-            --danger: #d63031;
-            --info: #0984e3;
+            --primary: #4285F4;
+            --red: #EA4335;
+            --blue: #4285F4;
+            --green: #34A853;
+            --orange: #FBBC05;
+            --yellow: #FBBC05;
+            --white: #FFFFFF;
+            --dark: #202124;
+            --light: #F8F9FA;
+            --gray: #9AA0A6;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'Roboto', sans-serif;
             background-color: var(--light);
             color: var(--dark);
             line-height: 1.6;
+            touch-action: manipulation;
         }
 
         .container {
-            max-width: 1000px;
+            max-width: 100%;
+            padding: 15px;
             margin: 0 auto;
-            padding: 20px;
         }
 
         header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
+            padding-top: 10px;
         }
 
         h1 {
             color: var(--primary);
-            margin-bottom: 10px;
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            color: var(--gray);
+            font-size: 14px;
         }
 
         .tabs {
             display: flex;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             border-bottom: 1px solid #ddd;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
         .tab {
-            padding: 10px 20px;
+            padding: 12px 15px;
             cursor: pointer;
             border-bottom: 3px solid transparent;
             transition: all 0.3s;
+            white-space: nowrap;
+            font-size: 14px;
+            font-weight: 500;
         }
 
         .tab.active {
             border-bottom-color: var(--primary);
             color: var(--primary);
-            font-weight: 500;
         }
 
         .tab-content {
             display: none;
-            padding: 20px;
+            padding: 15px;
             background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            margin-bottom: 15px;
         }
 
         .tab-content.active {
             display: block;
         }
 
-        .camera-container {
-            position: relative;
+        .face-input {
             margin-bottom: 20px;
         }
 
-        #camera {
-            width: 100%;
-            background: var(--dark);
+        .face-title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .face-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-right: 10px;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .face-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .sticker {
+            aspect-ratio: 1;
             border-radius: 8px;
-            display: block;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+            border: 1px solid rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        #overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            pointer-events: none;
-        }
-
-        #captureCanvas, #processingCanvas {
+        .sticker i {
+            color: rgba(0,0,0,0.3);
+            font-size: 14px;
             display: none;
         }
 
-        .controls {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .btn {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            background-color: var(--primary);
-            color: white;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .btn:hover {
-            background-color: var(--secondary);
-            transform: translateY(-2px);
-        }
-
-        .btn:disabled {
-            background-color: #b2bec3;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .btn-danger {
-            background-color: var(--danger);
-        }
-
-        .btn-danger:hover {
-            background-color: #e17055;
-        }
-
-        .btn-warning {
-            background-color: var(--warning);
-            color: var(--dark);
-        }
-
-        .btn-warning:hover {
-            background-color: #ffeaa7;
-        }
-
-        .btn-success {
-            background-color: var(--success);
-        }
-
-        .btn-success:hover {
-            background-color: #55efc4;
+        .sticker.selected i {
+            display: block;
         }
 
         .color-picker {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 20px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-top: 10px;
         }
 
         .color-option {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
+            aspect-ratio: 1;
+            border-radius: 8px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             border: 2px solid transparent;
-            transition: all 0.3s;
         }
 
         .color-option.selected {
             border-color: var(--dark);
-            transform: scale(1.1);
+            transform: scale(1.05);
         }
 
         .color-option i {
             color: rgba(0,0,0,0.7);
-            font-size: 14px;
+            font-size: 16px;
             display: none;
         }
 
@@ -192,63 +174,49 @@
             display: block;
         }
 
-        .face-preview {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 5px;
-            margin-bottom: 20px;
-            max-width: 300px;
-        }
-
-        .sticker {
-            aspect-ratio: 1;
-            border-radius: 5px;
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            background-color: var(--primary);
+            color: white;
             cursor: pointer;
-            transition: all 0.3s;
-            position: relative;
-        }
-
-        .sticker:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 10px rgba(0,0,0,0.2);
-        }
-
-        .progress-indicator {
+            font-weight: 500;
+            transition: all 0.2s;
             display: flex;
+            align-items: center;
             justify-content: center;
-            gap: 15px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
+            gap: 8px;
+            width: 100%;
+            margin-bottom: 10px;
+            font-size: 16px;
         }
 
-        .progress-face {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            position: relative;
-            border: 2px solid transparent;
+        .btn:active {
+            transform: scale(0.98);
         }
 
-        .progress-face.scanned {
-            border-color: var(--success);
+        .btn:disabled {
+            background-color: #DADCE0;
+            color: #80868B;
+            cursor: not-allowed;
+            transform: none;
         }
 
-        .progress-face.current {
-            animation: pulse 1.5s infinite;
+        .btn-solve {
+            background-color: var(--green);
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
+        .btn-reset {
+            background-color: var(--red);
         }
 
         .solution {
             background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            margin-top: 20px;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            margin-top: 15px;
             display: none;
         }
 
@@ -259,24 +227,24 @@
         .solution-steps {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 8px;
             margin-top: 15px;
         }
 
         .step {
             display: flex;
             align-items: center;
-            padding: 10px 15px;
-            background: #f1f2f6;
-            border-radius: 5px;
-            gap: 15px;
+            padding: 12px 15px;
+            background: #F1F3F4;
+            border-radius: 8px;
+            gap: 12px;
         }
 
         .step-number {
             background: var(--primary);
             color: white;
-            width: 25px;
-            height: 25px;
+            width: 24px;
+            height: 24px;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -290,137 +258,38 @@
             color: var(--primary);
         }
 
-        .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s;
-        }
-
-        .modal.show {
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        .modal-content {
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            width: 90%;
-            max-width: 400px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-            transform: translateY(-20px);
-            transition: transform 0.3s;
-        }
-
-        .modal.show .modal-content {
-            transform: translateY(0);
-        }
-
-        .modal-header {
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .modal-footer {
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        .processing-message {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.7);
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 1001;
-            color: white;
-            font-size: 18px;
-            gap: 20px;
-        }
-
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid rgba(255,255,255,0.3);
-            border-radius: 50%;
-            border-top-color: white;
-            animation: spin 1s ease-in-out infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        .auto-scan-controls {
-            display: flex;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
         .history-item {
             padding: 15px;
             background: white;
-            border-radius: 8px;
+            border-radius: 12px;
             margin-bottom: 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.2s;
         }
 
-        .history-item:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        .history-item:active {
+            transform: scale(0.98);
         }
 
         .history-date {
-            color: #636e72;
-            font-size: 14px;
+            color: var(--gray);
+            font-size: 12px;
         }
 
-        .color-calibration-info {
-            font-size: 14px;
-            color: #636e72;
-            margin-top: 5px;
+        .empty-state {
+            text-align: center;
+            padding: 30px 0;
+            color: var(--gray);
         }
 
-        .edit-face-mode {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
-        @media (max-width: 768px) {
-            .controls {
-                flex-direction: column;
-            }
-            
-            .btn {
-                width: 100%;
-                justify-content: center;
-            }
-            
-            .face-preview {
-                max-width: 100%;
+        @media (min-width: 500px) {
+            .container {
+                max-width: 500px;
+                margin: 0 auto;
             }
         }
     </style>
@@ -428,71 +297,87 @@
 <body>
     <div class="container">
         <header>
-            <h1>Rubik's Cube Scanner</h1>
-            <p>Отсканируйте свой кубик Рубика и получите решение</p>
+            <h1>Рубикс-Солвер</h1>
+            <div class="subtitle">Введите цвета кубика для получения решения</div>
         </header>
 
         <div class="tabs">
-            <div class="tab active" data-tab="scan">Сканирование</div>
+            <div class="tab active" data-tab="input">Ввод цветов</div>
             <div class="tab" data-tab="solution">Решение</div>
             <div class="tab" data-tab="history">История</div>
-            <div class="tab" data-tab="settings">Настройки</div>
         </div>
 
-        <div id="scan-tab" class="tab-content active">
-            <div class="camera-container">
-                <video id="camera" autoplay playsinline></video>
-                <canvas id="overlay"></canvas>
-                <canvas id="captureCanvas"></canvas>
-                <canvas id="processingCanvas"></canvas>
+        <div id="input-tab" class="tab-content active">
+            <div class="face-input">
+                <div class="face-title">
+                    <div class="face-color" style="background-color: var(--white);"></div>
+                    Белая грань (верх)
+                </div>
+                <div class="face-grid" id="white-face">
+                    <!-- Стикеры будут добавлены через JS -->
+                </div>
+                <div class="color-picker" id="white-picker">
+                    <!-- Варианты цветов будут добавлены через JS -->
+                </div>
             </div>
 
-            <div class="progress-indicator" id="progressIndicator"></div>
-
-            <div class="controls">
-                <button id="captureBtn" class="btn">
-                    <i class="fas fa-camera"></i> Захватить грань
-                </button>
-                <button id="autoScanBtn" class="btn btn-success">
-                    <i class="fas fa-robot"></i> Авто-сканирование
-                </button>
-                <button id="solveBtn" class="btn" disabled>
-                    <i class="fas fa-magic"></i> Решить кубик
-                </button>
-                <button id="resetBtn" class="btn btn-danger">
-                    <i class="fas fa-trash"></i> Сбросить
-                </button>
+            <div class="face-input">
+                <div class="face-title">
+                    <div class="face-color" style="background-color: var(--green);"></div>
+                    Зеленая грань (перед)
+                </div>
+                <div class="face-grid" id="green-face"></div>
+                <div class="color-picker" id="green-picker"></div>
             </div>
 
-            <div class="auto-scan-controls" id="autoScanControls" style="display: none;">
-                <button id="cancelAutoScanBtn" class="btn btn-warning">
-                    <i class="fas fa-stop-circle"></i> Отменить
-                </button>
-                <button id="nextFaceBtn" class="btn btn-success">
-                    <i class="fas fa-arrow-circle-right"></i> Следующая грань
-                </button>
+            <div class="face-input">
+                <div class="face-title">
+                    <div class="face-color" style="background-color: var(--red);"></div>
+                    Красная грань (право)
+                </div>
+                <div class="face-grid" id="red-face"></div>
+                <div class="color-picker" id="red-picker"></div>
             </div>
 
-            <h3>Выберите цвет грани:</h3>
-            <div class="color-picker" id="colorPicker"></div>
-
-            <h3>Текущая грань:</h3>
-            <div class="face-preview" id="currentFacePreview"></div>
-
-            <div class="edit-face-mode">
-                <button id="editSingleStickerBtn" class="btn">
-                    <i class="fas fa-edit"></i> Редактировать стикеры
-                </button>
-                <button id="editWholeFaceBtn" class="btn">
-                    <i class="fas fa-layer-group"></i> Редактировать всю грань
-                </button>
+            <div class="face-input">
+                <div class="face-title">
+                    <div class="face-color" style="background-color: var(--blue);"></div>
+                    Синяя грань (зад)
+                </div>
+                <div class="face-grid" id="blue-face"></div>
+                <div class="color-picker" id="blue-picker"></div>
             </div>
+
+            <div class="face-input">
+                <div class="face-title">
+                    <div class="face-color" style="background-color: var(--orange);"></div>
+                    Оранжевая грань (лево)
+                </div>
+                <div class="face-grid" id="orange-face"></div>
+                <div class="color-picker" id="orange-picker"></div>
+            </div>
+
+            <div class="face-input">
+                <div class="face-title">
+                    <div class="face-color" style="background-color: var(--yellow);"></div>
+                    Желтая грань (низ)
+                </div>
+                <div class="face-grid" id="yellow-face"></div>
+                <div class="color-picker" id="yellow-picker"></div>
+            </div>
+
+            <button id="solveBtn" class="btn btn-solve" disabled>
+                <i class="fas fa-magic"></i> Решить кубик
+            </button>
+            <button id="resetBtn" class="btn btn-reset">
+                <i class="fas fa-trash"></i> Сбросить все
+            </button>
         </div>
 
         <div id="solution-tab" class="tab-content">
             <div class="solution" id="solution">
                 <h2>Решение</h2>
-                <p id="solutionInfo">Отсканируйте все грани кубика, чтобы получить решение.</p>
+                <p id="solutionInfo">Введите цвета всех граней кубика, чтобы получить решение.</p>
                 <div class="solution-steps" id="solutionSteps"></div>
             </div>
         </div>
@@ -501,331 +386,54 @@
             <h2>История решений</h2>
             <div id="historyList"></div>
         </div>
-
-        <div id="settings-tab" class="tab-content">
-            <h2>Настройки</h2>
-            <div class="controls">
-                <button id="calibrateBtn" class="btn">
-                    <i class="fas fa-palette"></i> Калибровать текущий цвет
-                </button>
-                <button id="resetCalibrationBtn" class="btn btn-danger">
-                    <i class="fas fa-undo"></i> Сбросить калибровку
-                </button>
-            </div>
-            <div id="calibrationInfo"></div>
-        </div>
-
-        <div class="modal" id="editModal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3>Изменить цвет стикера</h3>
-                </div>
-                <div class="color-picker" id="modalColorPicker"></div>
-                <div class="modal-footer">
-                    <button id="cancelEditBtn" class="btn btn-warning">Отмена</button>
-                    <button id="confirmEditBtn" class="btn btn-success">Применить</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="modal" id="editFaceModal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3>Редактирование всей грани</h3>
-                </div>
-                <div class="face-preview" id="editFacePreview"></div>
-                <div class="color-picker" id="faceColorPicker"></div>
-                <div class="modal-footer">
-                    <button id="cancelEditFaceBtn" class="btn btn-warning">Отмена</button>
-                    <button id="confirmEditFaceBtn" class="btn btn-success">Сохранить</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="processing-message" id="processingMessage">
-            <div class="spinner"></div>
-            <div id="processingText">Обработка...</div>
-            <div id="processingProgress"></div>
-        </div>
     </div>
 
-    <!--<script src="https://cdn.jsdelivr.net/npm/@techstark/opencv-js@4.5.5/dist/opencv.min.js"></script>-->
-    <script src="https://cdn.jsdelivr.net/npm/@techstark/opencv-js@4.10.0-release.1/dist/opencv.min.js"></script>
-    <!--<script src="https://cdn.jsdelivr.net/npm/rubiks-cube-solver@1.0.2/dist/solver.min.js"></script>-->
     <script src="https://cdn.jsdelivr.net/npm/rubiks-cube-solver@1.2.0/lib/index.common.min.js"></script>
     <script>
         // Глобальные переменные
-        let cvReady = false;
-        let stream = null;
         let currentColor = 'white';
+        let selectedSticker = null;
         let scannedFaces = {
-            white: null, red: null, blue: null,
-            green: null, orange: null, yellow: null
+            white: Array(9).fill('white'),
+            green: Array(9).fill('green'),
+            red: Array(9).fill('red'),
+            blue: Array(9).fill('blue'),
+            orange: Array(9).fill('orange'),
+            yellow: Array(9).fill('yellow')
         };
-        let faceOrder = [];
-        let colorCalibration = {
-            white: { r: 255, g: 255, b: 255, h: 0, s: 0, v: 100 },
-            red: { r: 255, g: 0, b: 0, h: 0, s: 100, v: 100 },
-            blue: { r: 0, g: 0, b: 255, h: 240, s: 100, v: 100 },
-            green: { r: 0, g: 255, b: 0, h: 120, s: 100, v: 100 },
-            orange: { r: 255, g: 165, b: 0, h: 30, s: 100, v: 100 },
-            yellow: { r: 255, g: 255, b: 0, h: 60, s: 100, v: 100 }
-        };
-        let isProcessing = false;
-        let currentEditingSticker = null;
-        let currentEditingFace = null;
-        let autoScanInterval = null;
-        let isAutoScanning = false;
-        let currentScanningStep = 0;
-        let editWholeFaceMode = false;
-
-        const scanningOrder = ['white', 'green', 'red', 'blue', 'orange', 'yellow'];
-        const colorDetectionThreshold = 50; // Порог для определения цвета
 
         const colorMap = {
-            white: 'U', red: 'R', blue: 'B',
-            green: 'F', orange: 'L', yellow: 'D'
+            white: 'U', 
+            green: 'F', 
+            red: 'R', 
+            blue: 'B', 
+            orange: 'L', 
+            yellow: 'D'
+        };
+
+        const colorValues = {
+            white: '#FFFFFF',
+            red: '#EA4335',
+            blue: '#4285F4',
+            green: '#34A853',
+            orange: '#FBBC05',
+            yellow: '#FBBC05'
         };
 
         // Основная инициализация
         document.addEventListener('DOMContentLoaded', function() {
-            // Проверяем загрузку OpenCV с таймаутом
-            const openCvTimeout = setTimeout(() => {
-                if (!cvReady) {
-                    console.error('OpenCV не загрузился в течение 10 секунд');
-                    showError('Не удалось загрузить OpenCV. Попробуйте перезагрузить страницу.');
-                }
-            }, 10000);
-
-            if (window.cv) {
-                cv.onRuntimeInitialized = function() {
-                    clearTimeout(openCvTimeout);
-                    cvReady = true;
-                    console.log('OpenCV ready');
-                    initApp();
-                };
-            } else {
-                console.error('OpenCV not loaded');
-                clearTimeout(openCvTimeout);
-                showError('Библиотека OpenCV не загружена. Проверьте подключение к интернету.');
-                initApp();
-            }
-
+            initTabs();
+            initFaces();
+            initColorPickers();
+            initButtons();
+            loadState();
+            
             // Проверяем загрузку solver'а
             if (!window.RubiksCubeSolver) {
                 console.error('RubiksCubeSolver not loaded');
-                showError('Библиотека для решения кубика не загружена. Проверьте подключение к интернету.');
+                alert('Библиотека для решения кубика не загружена. Проверьте подключение к интернету.');
             }
         });
-
-        function initApp() {
-            initColorPicker();
-            initModalColorPickers();
-            initProgressIndicator();
-            initTabs();
-            initModals();
-            initCamera();
-            loadState();
-            updateCalibrationInfo();
-            
-            // Инициализация кнопок
-            document.getElementById('captureBtn').addEventListener('click', captureFace);
-            document.getElementById('autoScanBtn').addEventListener('click', startAutoScan);
-            document.getElementById('solveBtn').addEventListener('click', solveCube);
-            document.getElementById('resetBtn').addEventListener('click', resetAll);
-            document.getElementById('calibrateBtn').addEventListener('click', calibrateColor);
-            document.getElementById('resetCalibrationBtn').addEventListener('click', resetCalibration);
-            document.getElementById('cancelAutoScanBtn').addEventListener('click', cancelAutoScan);
-            document.getElementById('nextFaceBtn').addEventListener('click', proceedToNextFace);
-            document.getElementById('editSingleStickerBtn').addEventListener('click', () => {
-                editWholeFaceMode = false;
-                updateEditButtons();
-            });
-            document.getElementById('editWholeFaceBtn').addEventListener('click', () => {
-                editWholeFaceMode = true;
-                updateEditButtons();
-            });
-        }
-
-        function updateEditButtons() {
-            const singleBtn = document.getElementById('editSingleStickerBtn');
-            const wholeBtn = document.getElementById('editWholeFaceBtn');
-            
-            if (editWholeFaceMode) {
-                singleBtn.classList.remove('btn-primary');
-                singleBtn.classList.add('btn-secondary');
-                wholeBtn.classList.remove('btn-secondary');
-                wholeBtn.classList.add('btn-primary');
-            } else {
-                singleBtn.classList.remove('btn-secondary');
-                singleBtn.classList.add('btn-primary');
-                wholeBtn.classList.remove('btn-primary');
-                wholeBtn.classList.add('btn-secondary');
-            }
-        }
-
-        // Инициализация камеры
-        async function initCamera() {
-            try {
-                stream = await navigator.mediaDevices.getUserMedia({ 
-                    video: {
-                        facingMode: 'environment',
-                        width: { ideal: 1280 },
-                        height: { ideal: 720 }
-                    }
-                });
-                const camera = document.getElementById('camera');
-                camera.srcObject = stream;
-                startOverlayDrawing();
-            } catch (err) {
-                console.error("Camera error:", err);
-                showError("Не удалось получить доступ к камере. Пожалуйста, разрешите использование камеры.");
-            }
-        }
-
-        function startOverlayDrawing() {
-            const video = document.getElementById('camera');
-            const overlay = document.getElementById('overlay');
-            
-            function draw() {
-                if (!stream || !video.videoWidth) {
-                    requestAnimationFrame(draw);
-                    return;
-                }
-                
-                overlay.width = video.videoWidth;
-                overlay.height = video.videoHeight;
-                const ctx = overlay.getContext('2d');
-                
-                ctx.clearRect(0, 0, overlay.width, overlay.height);
-                
-                const centerX = overlay.width / 2;
-                const centerY = overlay.height / 2;
-                const size = Math.min(overlay.width, overlay.height) * 0.6;
-                
-                // Рисуем рамку для грани
-                ctx.strokeStyle = '#00FF00';
-                ctx.lineWidth = 2;
-                ctx.strokeRect(centerX - size/2, centerY - size/2, size, size);
-                
-                // Рисуем сетку 3x3
-                for (let i = 1; i < 3; i++) {
-                    // Вертикальные линии
-                    ctx.beginPath();
-                    ctx.moveTo(centerX - size/2 + (size/3)*i, centerY - size/2);
-                    ctx.lineTo(centerX - size/2 + (size/3)*i, centerY + size/2);
-                    ctx.stroke();
-                    
-                    // Горизонтальные линии
-                    ctx.beginPath();
-                    ctx.moveTo(centerX - size/2, centerY - size/2 + (size/3)*i);
-                    ctx.lineTo(centerX + size/2, centerY - size/2 + (size/3)*i);
-                    ctx.stroke();
-                }
-                
-                // Текст инструкции
-                ctx.fillStyle = '#00FF00';
-                ctx.font = '16px Montserrat';
-                ctx.textAlign = 'center';
-                ctx.fillText('Поместите грань кубика в эту область', centerX, centerY - size/2 - 10);
-                
-                requestAnimationFrame(draw);
-            }
-            
-            draw();
-        }
-
-        // Инициализация color picker
-        function initColorPicker() {
-            const colors = [
-                { name: 'white', hex: '#FFFFFF', display: 'Белая (верх)' },
-                { name: 'red', hex: '#FF0000', display: 'Красная (право)' },
-                { name: 'blue', hex: '#0000FF', display: 'Синяя (зад)' },
-                { name: 'green', hex: '#00FF00', display: 'Зелёная (перед)' },
-                { name: 'orange', hex: '#FFA500', display: 'Оранжевая (лево)' },
-                { name: 'yellow', hex: '#FFFF00', display: 'Жёлтая (низ)' }
-            ];
-            
-            const colorPicker = document.getElementById('colorPicker');
-            
-            colors.forEach(color => {
-                const option = document.createElement('div');
-                option.className = 'color-option';
-                option.style.backgroundColor = color.hex;
-                option.setAttribute('data-color', color.name);
-                option.setAttribute('title', color.display);
-                
-                const icon = document.createElement('i');
-                icon.className = 'fas fa-check';
-                option.appendChild(icon);
-                
-                option.addEventListener('click', function() {
-                    document.querySelectorAll('.color-option').forEach(opt => {
-                        opt.classList.remove('selected');
-                    });
-                    this.classList.add('selected');
-                    currentColor = color.name;
-                    updateCurrentFaceDisplay();
-                });
-                
-                colorPicker.appendChild(option);
-            });
-        }
-
-        function initModalColorPickers() {
-            const colors = [
-                { name: 'white', hex: '#FFFFFF' },
-                { name: 'red', hex: '#FF0000' },
-                { name: 'blue', hex: '#0000FF' },
-                { name: 'green', hex: '#00FF00' },
-                { name: 'orange', hex: '#FFA500' },
-                { name: 'yellow', hex: '#FFFF00' }
-            ];
-            
-            // Инициализация для модального окна редактирования стикера
-            const modalColorPicker = document.getElementById('modalColorPicker');
-            colors.forEach(color => {
-                const option = document.createElement('div');
-                option.className = 'color-option';
-                option.style.backgroundColor = color.hex;
-                option.setAttribute('data-color', color.name);
-                
-                const icon = document.createElement('i');
-                icon.className = 'fas fa-check';
-                option.appendChild(icon);
-                
-                modalColorPicker.appendChild(option);
-            });
-            
-            // Инициализация для модального окна редактирования всей грани
-            const faceColorPicker = document.getElementById('faceColorPicker');
-            colors.forEach(color => {
-                const option = document.createElement('div');
-                option.className = 'color-option';
-                option.style.backgroundColor = color.hex;
-                option.setAttribute('data-color', color.name);
-                
-                const icon = document.createElement('i');
-                icon.className = 'fas fa-check';
-                option.appendChild(icon);
-                
-                faceColorPicker.appendChild(option);
-            });
-        }
-
-        // Инициализация индикатора прогресса
-        function initProgressIndicator() {
-            const progressIndicator = document.getElementById('progressIndicator');
-            
-            scanningOrder.forEach((color, index) => {
-                const circle = document.createElement('div');
-                circle.className = 'progress-face';
-                circle.style.backgroundColor = getColorHex(color);
-                circle.setAttribute('data-color', color);
-                circle.setAttribute('data-step', index + 1);
-                progressIndicator.appendChild(circle);
-            });
-        }
 
         // Инициализация вкладок
         function initTabs() {
@@ -854,700 +462,130 @@
             });
         }
 
-        // Инициализация модальных окон
-        function initModals() {
-            const editModal = document.getElementById('editModal');
-            const editFaceModal = document.getElementById('editFaceModal');
-            const cancelBtn = document.getElementById('cancelEditBtn');
-            const confirmBtn = document.getElementById('confirmEditBtn');
-            const cancelFaceBtn = document.getElementById('cancelEditFaceBtn');
-            const confirmFaceBtn = document.getElementById('confirmEditFaceBtn');
+        // Инициализация граней
+        function initFaces() {
+            const faceIds = ['white', 'green', 'red', 'blue', 'orange', 'yellow'];
             
-            cancelBtn.addEventListener('click', () => editModal.classList.remove('show'));
-            confirmBtn.addEventListener('click', applyStickerCorrection);
-            cancelFaceBtn.addEventListener('click', () => editFaceModal.classList.remove('show'));
-            confirmFaceBtn.addEventListener('click', applyFaceCorrection);
-        }
-
-        // Обновление текущей грани
-        function updateCurrentFaceDisplay() {
-            const currentFacePreview = document.getElementById('currentFacePreview');
-            currentFacePreview.innerHTML = '';
-            
-            // Обновляем выбранный цвет в picker'е
-            document.querySelectorAll('.color-option').forEach(opt => {
-                opt.classList.remove('selected');
-                if (opt.getAttribute('data-color') === currentColor) {
-                    opt.classList.add('selected');
-                }
-            });
-            
-            // Создаем preview грани
-            for (let i = 0; i < 9; i++) {
-                const sticker = document.createElement('div');
-                sticker.className = 'sticker';
+            faceIds.forEach(faceId => {
+                const faceGrid = document.getElementById(`${faceId}-face`);
                 
-                // Если грань уже отсканирована, показываем реальные цвета
-                if (scannedFaces[currentColor]) {
-                    sticker.style.backgroundColor = getColorHex(scannedFaces[currentColor][i]);
-                    sticker.addEventListener('click', (e) => {
-                        if (editWholeFaceMode) {
-                            openEditFaceModal(currentColor);
-                        } else {
-                            openEditModal(currentColor, i);
-                        }
+                // Создаем 9 стикеров для каждой грани
+                for (let i = 0; i < 9; i++) {
+                    const sticker = document.createElement('div');
+                    sticker.className = 'sticker';
+                    sticker.style.backgroundColor = colorValues[faceId];
+                    sticker.setAttribute('data-face', faceId);
+                    sticker.setAttribute('data-index', i);
+                    
+                    const icon = document.createElement('i');
+                    icon.className = 'fas fa-check';
+                    sticker.appendChild(icon);
+                    
+                    sticker.addEventListener('click', function() {
+                        selectSticker(this);
                     });
-                } else {
-                    // Иначе показываем цвет выбранной грани
-                    sticker.style.backgroundColor = getColorHex(currentColor);
-                }
-                
-                sticker.setAttribute('data-index', i);
-                currentFacePreview.appendChild(sticker);
-            }
-            
-            // Обновляем индикатор прогресса
-            updateProgressIndicator();
-        }
-
-        // Открытие модального окна для редактирования стикера
-        function openEditModal(faceColor, stickerIndex) {
-            currentEditingFace = faceColor;
-            currentEditingSticker = stickerIndex;
-            
-            const currentColor = scannedFaces[faceColor][stickerIndex];
-            document.querySelectorAll('#modalColorPicker .color-option').forEach(opt => {
-                opt.classList.remove('selected');
-                if (opt.getAttribute('data-color') === currentColor) {
-                    opt.classList.add('selected');
+                    
+                    faceGrid.appendChild(sticker);
                 }
             });
-            
-            document.getElementById('editModal').classList.add('show');
         }
 
-        // Открытие модального окна для редактирования всей грани
-        function openEditFaceModal(faceColor) {
-            currentEditingFace = faceColor;
+        // Инициализация выбора цветов
+        function initColorPickers() {
+            const faceIds = ['white', 'green', 'red', 'blue', 'orange', 'yellow'];
             
-            const editFacePreview = document.getElementById('editFacePreview');
-            editFacePreview.innerHTML = '';
-            
-            // Создаем preview грани для редактирования
-            for (let i = 0; i < 9; i++) {
-                const sticker = document.createElement('div');
-                sticker.className = 'sticker';
-                sticker.style.backgroundColor = getColorHex(scannedFaces[faceColor][i]);
-                sticker.setAttribute('data-index', i);
+            faceIds.forEach(faceId => {
+                const colorPicker = document.getElementById(`${faceId}-picker`);
+                const colors = ['white', 'red', 'blue', 'green', 'orange', 'yellow'];
                 
-                sticker.addEventListener('click', function() {
-                    const selectedOption = document.querySelector('#faceColorPicker .color-option.selected');
-                    if (!selectedOption) return;
+                colors.forEach(color => {
+                    const colorOption = document.createElement('div');
+                    colorOption.className = 'color-option';
+                    colorOption.style.backgroundColor = colorValues[color];
+                    colorOption.setAttribute('data-color', color);
                     
-                    const selectedColor = selectedOption.getAttribute('data-color');
-                    sticker.style.backgroundColor = getColorHex(selectedColor);
+                    const icon = document.createElement('i');
+                    icon.className = 'fas fa-check';
+                    colorOption.appendChild(icon);
+                    
+                    colorOption.addEventListener('click', function() {
+                        if (!selectedSticker) return;
+                        
+                        const face = selectedSticker.getAttribute('data-face');
+                        const index = parseInt(selectedSticker.getAttribute('data-index'));
+                        const color = this.getAttribute('data-color');
+                        
+                        // Обновляем цвет стикера
+                        selectedSticker.style.backgroundColor = colorValues[color];
+                        scannedFaces[face][index] = color;
+                        
+                        // Сбрасываем выделение
+                        resetSelection();
+                        
+                        // Проверяем, все ли грани заполнены
+                        checkAllFacesFilled();
+                        
+                        // Сохраняем состояние
+                        saveState();
+                    });
+                    
+                    colorPicker.appendChild(colorOption);
                 });
-                
-                editFacePreview.appendChild(sticker);
-            }
-            
-            document.getElementById('editFaceModal').classList.add('show');
-        }
-
-        // Применение изменений цвета стикера
-        function applyStickerCorrection() {
-            const selectedOption = document.querySelector('#modalColorPicker .color-option.selected');
-            if (!selectedOption) return;
-            
-            const selectedColor = selectedOption.getAttribute('data-color');
-            scannedFaces[currentEditingFace][currentEditingSticker] = selectedColor;
-            
-            updateCurrentFaceDisplay();
-            document.getElementById('editModal').classList.remove('show');
-            saveState();
-        }
-
-        // Применение изменений всей грани
-        function applyFaceCorrection() {
-            const editFacePreview = document.getElementById('editFacePreview');
-            const stickers = editFacePreview.querySelectorAll('.sticker');
-            
-            stickers.forEach((sticker, index) => {
-                const color = getColorNameFromHex(sticker.style.backgroundColor);
-                scannedFaces[currentEditingFace][index] = color;
             });
+        }
+
+        // Инициализация кнопок
+        function initButtons() {
+            document.getElementById('solveBtn').addEventListener('click', solveCube);
+            document.getElementById('resetBtn').addEventListener('click', resetAll);
+        }
+
+        // Выбор стикера
+        function selectSticker(sticker) {
+            // Сбрасываем предыдущее выделение
+            resetSelection();
             
-            updateCurrentFaceDisplay();
-            document.getElementById('editFaceModal').classList.remove('show');
-            saveState();
-        }
-
-        // Получение названия цвета по HEX
-        function getColorNameFromHex(hex) {
-            const colors = {
-                '#FFFFFF': 'white',
-                '#FF0000': 'red',
-                '#0000FF': 'blue',
-                '#00FF00': 'green',
-                '#FFA500': 'orange',
-                '#FFFF00': 'yellow'
-            };
-            return colors[hex] || 'white';
-        }
-
-        // Получение HEX кода цвета
-        function getColorHex(color) {
-            const colors = {
-                white: '#FFFFFF',
-                red: '#FF0000',
-                blue: '#0000FF',
-                green: '#00FF00',
-                orange: '#FFA500',
-                yellow: '#FFFF00'
-            };
-            return colors[color] || '#000000';
-        }
-
-        // Получение названия цвета
-        function getColorName(color) {
-            const names = {
-                white: 'Белая (верх)',
-                red: 'Красная (право)',
-                blue: 'Синяя (зад)',
-                green: 'Зелёная (перед)',
-                orange: 'Оранжевая (лево)',
-                yellow: 'Жёлтая (низ)'
-            };
-            return names[color] || color;
-        }
-
-        // Обновление индикатора прогресса
-        function updateProgressIndicator() {
-            document.querySelectorAll('.progress-face').forEach(circle => {
-                const color = circle.getAttribute('data-color');
-                circle.classList.toggle('scanned', !!scannedFaces[color]);
-                circle.classList.toggle('current', color === currentColor);
+            // Выделяем новый стикер
+            sticker.classList.add('selected');
+            selectedSticker = sticker;
+            
+            // Показываем соответствующий color picker
+            const faceId = sticker.getAttribute('data-face');
+            document.querySelectorAll('.color-picker').forEach(picker => {
+                picker.style.display = 'none';
             });
-            
-            // Проверяем, все ли грани отсканированы
-            checkAllFacesScanned();
+            document.getElementById(`${faceId}-picker`).style.display = 'grid';
         }
 
-        // Проверка завершенности сканирования
-        function checkAllFacesScanned() {
-            const allScanned = Object.values(scannedFaces).every(face => face !== null);
-            document.getElementById('solveBtn').disabled = !allScanned;
-            
-            if (allScanned) {
-                document.getElementById('solutionInfo').textContent = 'Все грани отсканированы! Нажмите "Решить кубик" для получения решения.';
-            }
-        }
-
-        // Захват изображения с камеры
-        function captureImage() {
-            const video = document.getElementById('camera');
-            const canvas = document.getElementById('captureCanvas');
-            
-            if (!stream || !video.videoWidth) return null;
-            
-            canvas.width = video.videoWidth;
-            canvas.height = video.videoHeight;
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-            
-            return canvas.toDataURL('image/jpeg');
-        }
-
-        // Обработка изображения с OpenCV
-        async function processImage() {
-            if (!cvReady) {
-                throw new Error('OpenCV not ready');
+        // Сброс выделения
+        function resetSelection() {
+            if (selectedSticker) {
+                selectedSticker.classList.remove('selected');
+                selectedSticker = null;
             }
             
-            // Объявляем все переменные OpenCV
-            let src, dst, contours, hierarchy, approx, srcPoints, dstPoints, perspectiveMatrix, warped, hsv;
-            
-            const processingMessage = document.getElementById('processingMessage');
-            const processingText = document.getElementById('processingText');
-            const processingProgress = document.getElementById('processingProgress');
-            
-            isProcessing = true;
-            processingMessage.style.display = 'flex';
-            processingText.textContent = "Обработка изображения...";
-            processingProgress.textContent = "";
-            
-            try {
-                // 1. Захватываем изображение
-                processingProgress.textContent = "Захват изображения...";
-                await new Promise(resolve => setTimeout(resolve, 100));
-                src = cv.imread('captureCanvas');
-                dst = new cv.Mat();
-                contours = new cv.MatVector();
-                hierarchy = new cv.Mat();
-                
-                // 2. Обрабатываем изображение
-                processingProgress.textContent = "Преобразование в градации серого...";
-                await new Promise(resolve => setTimeout(resolve, 100));
-                cv.cvtColor(src, dst, cv.COLOR_RGBA2GRAY);
-                
-                processingProgress.textContent = "Применение фильтра...";
-                await new Promise(resolve => setTimeout(resolve, 100));
-                cv.GaussianBlur(dst, dst, new cv.Size(5, 5), 0);
-                
-                processingProgress.textContent = "Обнаружение границ...";
-                await new Promise(resolve => setTimeout(resolve, 100));
-                cv.Canny(dst, dst, 50, 150, 3, false);
-                
-                processingProgress.textContent = "Поиск контуров...";
-                await new Promise(resolve => setTimeout(resolve, 100));
-                cv.findContours(dst, contours, hierarchy, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE);
-                
-                // 3. Находим наибольший контур
-                processingProgress.textContent = "Анализ контуров...";
-                await new Promise(resolve => setTimeout(resolve, 100));
-                let maxArea = 0;
-                let maxContour = null;
-                
-                for (let i = 0; i < contours.size(); ++i) {
-                    const contour = contours.get(i);
-                    const area = cv.contourArea(contour);
-                    
-                    // Игнорируем слишком маленькие контуры
-                    if (area < 1000) continue;
-                    
-                    // Аппроксимируем контур
-                    approx = new cv.Mat();
-                    const epsilon = 0.05 * cv.arcLength(contour, true);
-                    cv.approxPolyDP(contour, approx, epsilon, true);
-                    
-                    // Ищем квадрат (4 угла)
-                    if (approx.rows === 4 && area > maxArea) {
-                        maxArea = area;
-                        if (maxContour) maxContour.delete();
-                        maxContour = approx;
-                    } else {
-                        approx.delete();
-                    }
-                }
-                
-                if (!maxContour) {
-                    throw new Error("Не удалось обнаружить грань кубика. Убедитесь, что грань полностью видна в рамке.");
-                }
-                
-                // 4. Перспективное преобразование
-                processingProgress.textContent = "Коррекция перспективы...";
-                await new Promise(resolve => setTimeout(resolve, 100));
-                const size = 300;
-                srcPoints = cv.matFromArray(4, 1, cv.CV_32FC2, getCorners(maxContour));
-                dstPoints = cv.matFromArray(4, 1, cv.CV_32FC2, [
-                    0, 0, size, 0, size, size, 0, size
-                ]);
-                
-                perspectiveMatrix = cv.getPerspectiveTransform(srcPoints, dstPoints);
-                warped = new cv.Mat();
-                cv.warpPerspective(src, warped, perspectiveMatrix, new cv.Size(size, size));
-                
-                // 5. Преобразование в HSV для лучшего определения цвета
-                hsv = new cv.Mat();
-                cv.cvtColor(warped, hsv, cv.COLOR_RGB2HSV);
-                
-                // 6. Определение цветов
-                processingProgress.textContent = "Определение цветов...";
-                await new Promise(resolve => setTimeout(resolve, 100));
-                const faceColors = detectFaceColors(warped, hsv);
-                
-                // Проверка центрального цвета
-                if (faceColors[4] !== currentColor) {
-                    throw new Error(`Центральный цвет (${faceColors[4]}) не соответствует выбранной грани (${currentColor}). Проверьте калибровку цветов.`);
-                }
-                
-                return faceColors;
-            } finally {
-                // Освобождаем ресурсы OpenCV
-                [src, dst, contours, hierarchy, approx, srcPoints, dstPoints, perspectiveMatrix, warped, hsv]
-                    .forEach(obj => obj && !obj.isDeleted && obj.delete());
-                
-                isProcessing = false;
-                processingMessage.style.display = 'none';
-            }
+            document.querySelectorAll('.color-picker').forEach(picker => {
+                picker.style.display = 'none';
+            });
         }
 
-        // Получение углов квадрата
-        function getCorners(approx) {
-            const corners = [];
-            for (let i = 0; i < 4; i++) {
-                corners.push({
-                    x: approx.data32S[i * 2],
-                    y: approx.data32S[i * 2 + 1]
-                });
-            }
+        // Проверка, все ли грани заполнены
+        function checkAllFacesFilled() {
+            let allFilled = true;
             
-            // Сортировка углов: top-left, top-right, bottom-right, bottom-left
-            corners.sort((a, b) => a.y - b.y);
-            const topCorners = corners.slice(0, 2).sort((a, b) => a.x - b.x);
-            const bottomCorners = corners.slice(2, 4).sort((a, b) => a.x - b.x);
-            
-            return [
-                topCorners[0].x, topCorners[0].y,
-                topCorners[1].x, topCorners[1].y,
-                bottomCorners[1].x, bottomCorners[1].y,
-                bottomCorners[0].x, bottomCorners[0].y
-            ];
-        }
-
-        // Определение цветов на грани (с использованием HSV)
-        function detectFaceColors(faceImage, hsvImage) {
-            const size = faceImage.rows;
-            const cellSize = size / 3;
-            const face = [];
-            const canvas = document.getElementById('processingCanvas');
-            const ctx = canvas.getContext('2d');
-            
-            canvas.width = size;
-            canvas.height = size;
-            cv.imshow(canvas, faceImage);
-            
-            // Создаем маленькое изображение для HSV анализа
-            const hsvCanvas = document.createElement('canvas');
-            hsvCanvas.width = size;
-            hsvCanvas.height = size;
-            const hsvCtx = hsvCanvas.getContext('2d');
-            cv.imshow(hsvCanvas, hsvImage);
-            
-            for (let row = 0; row < 3; row++) {
-                for (let col = 0; col < 3; col++) {
-                    const x = col * cellSize + cellSize / 2;
-                    const y = row * cellSize + cellSize / 2;
-                    const sampleSize = 15;
-                    
-                    // Получаем RGB цвет
-                    const sampleData = ctx.getImageData(
-                        x - sampleSize/2, y - sampleSize/2, 
-                        sampleSize, sampleSize
-                    ).data;
-                    
-                    // Получаем HSV цвет
-                    const hsvData = hsvCtx.getImageData(
-                        x - sampleSize/2, y - sampleSize/2, 
-                        sampleSize, sampleSize
-                    ).data;
-                    
-                    // Вычисляем средний RGB цвет
-                    let r = 0, g = 0, b = 0;
-                    for (let i = 0; i < sampleData.length; i += 4) {
-                        r += sampleData[i];
-                        g += sampleData[i + 1];
-                        b += sampleData[i + 2];
-                    }
-                    
-                    // Вычисляем средний HSV цвет
-                    let h = 0, s = 0, v = 0;
-                    for (let i = 0; i < hsvData.length; i += 4) {
-                        h += hsvData[i];
-                        s += hsvData[i + 1];
-                        v += hsvData[i + 2];
-                    }
-                    
-                    const pixelCount = sampleData.length / 4;
-                    r = Math.round(r / pixelCount);
-                    g = Math.round(g / pixelCount);
-                    b = Math.round(b / pixelCount);
-                    h = Math.round(h / pixelCount);
-                    s = Math.round(s / pixelCount);
-                    v = Math.round(v / pixelCount);
-                    
-                    // Находим ближайший цвет с использованием и RGB и HSV
-                    face.push(findClosestColorAdvanced(r, g, b, h, s, v));
+            for (const face in scannedFaces) {
+                if (scannedFaces[face].includes(face)) {
+                    // Если есть хотя бы один стикер с цветом по умолчанию
+                    allFilled = false;
+                    break;
                 }
             }
             
-            return face;
-        }
-
-        // Улучшенный поиск ближайшего цвета с использованием RGB и HSV
-        function findClosestColorAdvanced(r, g, b, h, s, v) {
-            let minDistance = Infinity;
-            let closestColor = 'unknown';
-            
-            for (const color in colorCalibration) {
-                const calib = colorCalibration[color];
-                
-                // Вычисляем расстояние в RGB пространстве
-                const rgbDistance = Math.sqrt(
-                    Math.pow(r - calib.r, 2) + 
-                    Math.pow(g - calib.g, 2) + 
-                    Math.pow(b - calib.b, 2)
-                );
-                
-                // Вычисляем расстояние в HSV пространстве (учитываем циклический характер Hue)
-                let hDistance = Math.abs(h - calib.h);
-                hDistance = Math.min(hDistance, 360 - hDistance);
-                
-                const hsvDistance = Math.sqrt(
-                    Math.pow(hDistance, 2) + 
-                    Math.pow(s - calib.s, 2) + 
-                    Math.pow(v - calib.v, 2)
-                );
-                
-                // Комбинированное расстояние (взвешенная сумма)
-                const combinedDistance = rgbDistance * 0.7 + hsvDistance * 0.3;
-                
-                if (combinedDistance < minDistance && combinedDistance < colorDetectionThreshold) {
-                    minDistance = combinedDistance;
-                    closestColor = color;
-                }
-            }
-            
-            return closestColor;
-        }
-
-        // Калибровка цвета
-        function calibrateColor() {
-            if (isProcessing) return;
-            
-            const processingMessage = document.getElementById('processingMessage');
-            const processingText = document.getElementById('processingText');
-            const processingProgress = document.getElementById('processingProgress');
-            
-            processingText.textContent = "Калибровка цвета...";
-            processingProgress.textContent = "";
-            processingMessage.style.display = 'flex';
-            
-            setTimeout(async () => {
-                try {
-                    const video = document.getElementById('camera');
-                    const canvas = document.getElementById('captureCanvas');
-                    const ctx = canvas.getContext('2d');
-                    
-                    canvas.width = video.videoWidth;
-                    canvas.height = video.videoHeight;
-                    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-                    
-                    const sampleSize = 50;
-                    const x = canvas.width / 2 - sampleSize / 2;
-                    const y = canvas.height / 2 - sampleSize / 2;
-                    
-                    processingProgress.textContent = "Анализ цвета...";
-                    await new Promise(resolve => setTimeout(resolve, 100));
-                    
-                    const sampleData = ctx.getImageData(x, y, sampleSize, sampleSize).data;
-                    
-                    // Вычисляем средний RGB цвет
-                    let r = 0, g = 0, b = 0;
-                    for (let i = 0; i < sampleData.length; i += 4) {
-                        r += sampleData[i];
-                        g += sampleData[i + 1];
-                        b += sampleData[i + 2];
-                    }
-                    
-                    const pixelCount = sampleData.length / 4;
-                    r = Math.round(r / pixelCount);
-                    g = Math.round(g / pixelCount);
-                    b = Math.round(b / pixelCount);
-                    
-                    // Вычисляем HSV значения
-                    const max = Math.max(r, g, b);
-                    const min = Math.min(r, g, b);
-                    let h, s, v;
-                    
-                    v = Math.round((max / 255) * 100);
-                    
-                    if (max === 0) {
-                        s = 0;
-                    } else {
-                        s = Math.round(((max - min) / max) * 100);
-                    }
-                    
-                    if (max === min) {
-                        h = 0;
-                    } else if (max === r && g >= b) {
-                        h = Math.round(60 * ((g - b) / (max - min)));
-                    } else if (max === r && g < b) {
-                        h = Math.round(60 * ((g - b) / (max - min)) + 360);
-                    } else if (max === g) {
-                        h = Math.round(60 * ((b - r) / (max - min)) + 120);
-                    } else if (max === b) {
-                        h = Math.round(60 * ((r - g) / (max - min)) + 240);
-                    }
-                    
-                    // Сохраняем калибровку
-                    colorCalibration[currentColor] = { r, g, b, h, s, v };
-                    
-                    saveState();
-                    updateCalibrationInfo();
-                    
-                    alert(`Цвет "${getColorName(currentColor)}" откалиброван:\nRGB: (${r}, ${g}, ${b})\nHSV: (${h}, ${s}%, ${v}%)`);
-                } catch (error) {
-                    console.error("Calibration error:", error);
-                    alert("Ошибка при калибровке цвета");
-                } finally {
-                    processingMessage.style.display = 'none';
-                }
-            }, 100);
-        }
-
-        // Сброс калибровки
-        function resetCalibration() {
-            if (confirm("Вы уверены, что хотите сбросить калибровку цветов к значениям по умолчанию?")) {
-                colorCalibration = {
-                    white: { r: 255, g: 255, b: 255, h: 0, s: 0, v: 100 },
-                    red: { r: 255, g: 0, b: 0, h: 0, s: 100, v: 100 },
-                    blue: { r: 0, g: 0, b: 255, h: 240, s: 100, v: 100 },
-                    green: { r: 0, g: 255, b: 0, h: 120, s: 100, v: 100 },
-                    orange: { r: 255, g: 165, b: 0, h: 30, s: 100, v: 100 },
-                    yellow: { r: 255, g: 255, b: 0, h: 60, s: 100, v: 100 }
-                };
-                
-                saveState();
-                updateCalibrationInfo();
-                alert("Калибровка цветов сброшена к значениям по умолчанию.");
-            }
-        }
-
-        // Обновление информации о калибровке
-        function updateCalibrationInfo() {
-            const calibrationInfo = document.getElementById('calibrationInfo');
-            let html = '<h3>Текущая калибровка:</h3><ul>';
-            
-            for (const color in colorCalibration) {
-                const calib = colorCalibration[color];
-                html += `
-                    <li>
-                        <span style="display: inline-block; width: 20px; height: 20px; background-color: ${getColorHex(color)}; border: 1px solid #000; vertical-align: middle;"></span>
-                        ${getColorName(color)}: RGB(${calib.r}, ${calib.g}, ${calib.b}), HSV(${calib.h}, ${calib.s}%, ${calib.v}%)
-                    </li>
-                `;
-            }
-            
-            html += '</ul>';
-            calibrationInfo.innerHTML = html;
-        }
-
-        // Захват грани
-        async function captureFace() {
-            if (isProcessing) return;
-            
-            try {
-                if (scannedFaces[currentColor] && !confirm(`Грань ${getColorName(currentColor)} уже отсканирована. Перезаписать?`)) {
-                    return;
-                }
-                
-                captureImage();
-                const faceColors = await processImage();
-                
-                scannedFaces[currentColor] = faceColors;
-                faceOrder.push(currentColor);
-                
-                updateCurrentFaceDisplay();
-                saveState();
-                
-                alert(`Грань ${getColorName(currentColor)} сохранена!`);
-            } catch (error) {
-                console.error("Capture error:", error);
-                showError(`Ошибка: ${error.message}`);
-            }
-        }
-
-        // Авто-сканирование
-        async function startAutoScan() {
-            if (isProcessing) return;
-            
-            if (!confirm(`Авто-сканирование проведет вас через все 6 граней кубика. Подготовьте ${getColorName(scanningOrder[0])} грань и нажмите OK, когда будете готовы.`)) {
-                return;
-            }
-            
-            currentScanningStep = 0;
-            isAutoScanning = true;
-            document.getElementById('autoScanControls').style.display = 'flex';
-            await autoScanNextFace();
-        }
-
-        // Отмена автосканирования
-        function cancelAutoScan() {
-            if (confirm("Прервать авто-сканирование?")) {
-                isAutoScanning = false;
-                currentScanningStep = 0;
-                document.getElementById('autoScanControls').style.display = 'none';
-            }
-        }
-
-        // Переход к следующей грани
-        function proceedToNextFace() {
-            if (!isAutoScanning) return;
-            
-            currentScanningStep++;
-            autoScanNextFace();
-        }
-
-        // Сканирование следующей грани
-        async function autoScanNextFace() {
-            if (!isAutoScanning || currentScanningStep >= scanningOrder.length) {
-                isAutoScanning = false;
-                document.getElementById('autoScanControls').style.display = 'none';
-                
-                if (currentScanningStep >= scanningOrder.length) {
-                    alert("Все грани отсканированы!");
-                }
-                return;
-            }
-            
-            currentColor = scanningOrder[currentScanningStep];
-            updateCurrentFaceDisplay();
-            
-            const processingMessage = document.getElementById('processingMessage');
-            const processingText = document.getElementById('processingText');
-            const processingProgress = document.getElementById('processingProgress');
-            
-            processingText.textContent = `Готовимся к сканированию ${getColorName(currentColor)} грани...`;
-            processingProgress.textContent = `Шаг ${currentScanningStep + 1} из ${scanningOrder.length}`;
-            processingMessage.style.display = 'flex';
-            
-            try {
-                await new Promise(resolve => setTimeout(resolve, 1500));
-                
-                captureImage();
-                const faceColors = await processImage();
-                
-                scannedFaces[currentColor] = faceColors;
-                faceOrder.push(currentColor);
-                
-                updateCurrentFaceDisplay();
-                saveState();
-                
-                if (isAutoScanning) {
-                    currentScanningStep++;
-                    
-                    if (currentScanningStep < scanningOrder.length) {
-                        const nextColor = scanningOrder[currentScanningStep];
-                        processingText.textContent = `Подготовьте ${getColorName(nextColor)} грань...`;
-                        await new Promise(resolve => setTimeout(resolve, 500));
-                    }
-                    
-                    await autoScanNextFace();
-                }
-            } catch (error) {
-                console.error("Auto-scan error:", error);
-                showError(`Ошибка при сканировании: ${error.message}`);
-                
-                // Предлагаем повторить текущую грань или отменить
-                if (confirm(`Ошибка при сканировании ${getColorName(currentColor)} грани. Повторить попытку?`)) {
-                    await autoScanNextFace();
-                } else {
-                    isAutoScanning = false;
-                    document.getElementById('autoScanControls').style.display = 'none';
-                }
-            } finally {
-                processingMessage.style.display = 'none';
-            }
+            document.getElementById('solveBtn').disabled = !allFilled;
         }
 
         // Решение кубика
         function solveCube() {
-            if (Object.values(scannedFaces).some(face => face === null)) {
-                alert("Пожалуйста, отсканируйте все грани перед решением.");
-                return;
-            }
-            
             try {
                 const cubeState = convertToSolverFormat();
                 const solver = new RubiksCubeSolver();
@@ -1555,9 +593,12 @@
                 
                 displaySolution(solution);
                 saveToHistory(cubeState, solution);
+                
+                // Переключаемся на вкладку с решением
+                document.querySelector('.tab[data-tab="solution"]').click();
             } catch (error) {
                 console.error("Solving error:", error);
-                showError("Не удалось решить кубик. Пожалуйста, проверьте правильность введённых цветов.");
+                alert("Не удалось решить кубик. Пожалуйста, проверьте правильность введённых цветов.");
             }
         }
 
@@ -1571,11 +612,11 @@
             
             return [
                 solverFaces['U'] || 'UUUUUUUUU',
-                solverFaces['R'] || 'RRRRRRRRR',
                 solverFaces['F'] || 'FFFFFFFFF',
-                solverFaces['D'] || 'DDDDDDDDD',
+                solverFaces['R'] || 'RRRRRRRRR',
+                solverFaces['B'] || 'BBBBBBBBB',
                 solverFaces['L'] || 'LLLLLLLLL',
-                solverFaces['B'] || 'BBBBBBBBB'
+                solverFaces['D'] || 'DDDDDDDDD'
             ];
         }
 
@@ -1641,16 +682,12 @@
             
             document.getElementById('solutionInfo').textContent = `Решение найдено! ${steps.length} шагов:`;
             document.getElementById('solution').classList.add('show');
-            document.querySelector('.tab[data-tab="solution"]').click();
-            document.getElementById('solution').scrollIntoView({ behavior: 'smooth' });
         }
 
         // Сохранение состояния
         function saveState() {
             const state = {
                 scannedFaces,
-                colorCalibration,
-                faceOrder,
                 lastUpdated: new Date().toISOString()
             };
             localStorage.setItem('rubikscanState', JSON.stringify(state));
@@ -1664,18 +701,20 @@
             try {
                 const state = JSON.parse(savedState);
                 
-                if (state.scannedFaces && state.colorCalibration && state.faceOrder) {
+                if (state.scannedFaces) {
                     scannedFaces = state.scannedFaces;
-                    colorCalibration = state.colorCalibration;
-                    faceOrder = state.faceOrder;
                     
-                    updateProgressIndicator();
-                    
-                    if (scannedFaces[currentColor]) {
-                        updateCurrentFaceDisplay();
-                    } else {
-                        updateCurrentFaceDisplay();
+                    // Обновляем стикеры
+                    for (const face in scannedFaces) {
+                        for (let i = 0; i < 9; i++) {
+                            const sticker = document.querySelector(`#${face}-face .sticker[data-index="${i}"]`);
+                            if (sticker) {
+                                sticker.style.backgroundColor = colorValues[scannedFaces[face][i]];
+                            }
+                        }
                     }
+                    
+                    checkAllFacesFilled();
                 }
             } catch (error) {
                 console.error("Load state error:", error);
@@ -1708,7 +747,7 @@
             const history = JSON.parse(localStorage.getItem('rubikscanHistory') || '[]');
             
             if (history.length === 0) {
-                historyList.innerHTML = '<p style="text-align: center; color: #636E72;">История пуста</p>';
+                historyList.innerHTML = '<div class="empty-state">История решений пуста</div>';
                 return;
             }
             
@@ -1730,16 +769,25 @@
                 historyItem.addEventListener('click', function() {
                     if (confirm("Загрузить это состояние кубика?")) {
                         scannedFaces = {...item.faces};
-                        faceOrder = Object.keys(item.faces).filter(color => item.faces[color] !== null);
                         
-                        updateProgressIndicator();
+                        // Обновляем стикеры
+                        for (const face in scannedFaces) {
+                            for (let i = 0; i < 9; i++) {
+                                const sticker = document.querySelector(`#${face}-face .sticker[data-index="${i}"]`);
+                                if (sticker) {
+                                    sticker.style.backgroundColor = colorValues[scannedFaces[face][i]];
+                                }
+                            }
+                        }
                         
-                        if (Object.values(scannedFaces).every(face => face !== null)) {
+                        checkAllFacesFilled();
+                        
+                        if (item.solution) {
                             displaySolution(item.solution);
                             document.getElementById('solution').classList.add('show');
                         }
                         
-                        document.querySelector('.tab[data-tab="scan"]').click();
+                        document.querySelector('.tab[data-tab="input"]').click();
                     }
                 });
                 
@@ -1749,34 +797,36 @@
 
         // Сброс
         function resetAll() {
-            if (confirm("Вы уверены, что хотите сбросить все отсканированные грани и калибровку?")) {
-                for (const color in scannedFaces) {
-                    scannedFaces[color] = null;
-                }
-                faceOrder = [];
-                
-                colorCalibration = {
-                    white: { r: 255, g: 255, b: 255, h: 0, s: 0, v: 100 },
-                    red: { r: 255, g: 0, b: 0, h: 0, s: 100, v: 100 },
-                    blue: { r: 0, g: 0, b: 255, h: 240, s: 100, v: 100 },
-                    green: { r: 0, g: 255, b: 0, h: 120, s: 100, v: 100 },
-                    orange: { r: 255, g: 165, b: 0, h: 30, s: 100, v: 100 },
-                    yellow: { r: 255, g: 255, b: 0, h: 60, s: 100, v: 100 }
+            if (confirm("Вы уверены, что хотите сбросить все введенные цвета?")) {
+                // Сбрасываем цвета к значениям по умолчанию
+                scannedFaces = {
+                    white: Array(9).fill('white'),
+                    green: Array(9).fill('green'),
+                    red: Array(9).fill('red'),
+                    blue: Array(9).fill('blue'),
+                    orange: Array(9).fill('orange'),
+                    yellow: Array(9).fill('yellow')
                 };
+                
+                // Обновляем стикеры
+                for (const face in scannedFaces) {
+                    for (let i = 0; i < 9; i++) {
+                        const sticker = document.querySelector(`#${face}-face .sticker[data-index="${i}"]`);
+                        if (sticker) {
+                            sticker.style.backgroundColor = colorValues[face];
+                        }
+                    }
+                }
                 
                 document.getElementById('solveBtn').disabled = true;
                 document.getElementById('solution').classList.remove('show');
-                updateCurrentFaceDisplay();
-                updateProgressIndicator();
-                updateCalibrationInfo();
                 
+                // Сбрасываем выделение
+                resetSelection();
+                
+                // Очищаем localStorage
                 localStorage.removeItem('rubikscanState');
             }
-        }
-
-        // Показать ошибку
-        function showError(message) {
-            alert(message);
         }
     </script>
 </body>
