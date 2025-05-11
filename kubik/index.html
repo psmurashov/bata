@@ -7,6 +7,10 @@
     <script src="https://docs.opencv.org/4.5.5/opencv.js" async></script>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <script src="https://docs.opencv.org/4.5.5/opencv.js" async></script>
+    <script src="https://cdn.jsdelivr.net/npm/rubiks-cube-solver@1.2.0/lib/index.common.min.js"></script> 
+        
     <style>
         :root {
             --primary: #6C5CE7;
@@ -663,8 +667,13 @@
             </div>
         </div>
     </div>
-    
-    <script src="https://cdn.jsdelivr.net/npm/rubiks-cube-solver@1.2.0/lib/index.common.min.js"></script>
+
+    <div class="canvas-container" style="display: none;">
+        <canvas id="captureCanvas"></canvas>
+        <canvas id="processingCanvas"></canvas>
+    </div>
+
     <script src="app.js"></script>
+
 </body>
 </html>

@@ -752,28 +752,29 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Solve the cube
-    solveBtn.addEventListener('click', function() {
-        if (Object.values(scannedFaces).some(face => face === null)) {
-            alert("Пожалуйста, отсканируйте все грани перед решением.");
-            return;
-        }
+// Solve the cube
+solveBtn.addEventListener('click', function() {
+    if (Object.values(scannedFaces).some(face => face === null)) {
+        alert("Пожалуйста, отсканируйте все грани перед решением.");
+        return;
+    }
+
+    // Convert our representation to the format expected by the solver
+    const cubeState = convertToSolverFormat();
+    
+    try {
+        // Use the rubiks-cube-solver library (v1.2.0)
+        const solver = new RubiksCubeSolver();
+        const solution = solver.solve(cubeState);
+        displaySolution(solution);
         
-        // Convert our representation to the format expected by the solver
-        const cubeState = convertToSolverFormat();
-        
-        try {
-            // Use the rubiks-cube-solver library
-            const solution = rubiksCubeSolver.solve(cubeState);
-            displaySolution(solution);
-            
-            // Save to history
-            saveToHistory(cubeState, solution);
-        } catch (error) {
-            console.error("Ошибка при решении кубика:", error);
-            alert("Не удалось решить кубик. Пожалуйста, проверьте правильность введённых цветов.");
-        }
-    });
+        // Save to history
+        saveToHistory(cubeState, solution);
+    } catch (error) {
+        console.error("Ошибка при решении кубика:", error);
+        alert("Не удалось решить кубик. Пожалуйста, проверьте правильность введённых цветов.");
+    }
+});
     
     // Convert to solver format
     function convertToSolverFormat() {
