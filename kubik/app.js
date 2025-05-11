@@ -3,12 +3,8 @@ let cvReady = false;
 let stream = null;
 let currentColor = 'white';
 let scannedFaces = {
-    white: null,
-    red: null,
-    blue: null,
-    green: null,
-    orange: null,
-    yellow: null
+    white: null, red: null, blue: null,
+    green: null, orange: null, yellow: null
 };
 let faceOrder = [];
 let colorCalibration = {
@@ -23,106 +19,119 @@ let isProcessing = false;
 let currentEditingSticker = null;
 let currentEditingFace = null;
 
-// Порядок сканирования граней
 const scanningOrder = ['white', 'green', 'red', 'blue', 'orange', 'yellow'];
 let currentScanningStep = 0;
 
-// Соответствие цветов для solver'а
 const colorMap = {
-    white: 'U',
-    red: 'R',
-    blue: 'B',
-    green: 'F',
-    orange: 'L',
-    yellow: 'D'
+    white: 'U', red: 'R', blue: 'B',
+    green: 'F', orange: 'L', yellow: 'D'
 };
 
-// Основная функция инициализации
+// Основная инициализация
 document.addEventListener('DOMContentLoaded', function() {
     // Проверяем загрузку OpenCV
-    if (!window.cv) {
+    if (window.cv) {
+        cv.onRuntimeInitialized = function() {
+            cvReady = true;
+            console.log('OpenCV ready');
+            initApp();
+        };
+    } else {
         console.error('OpenCV not loaded');
-        alert('Библиотека обработки изображений не загружена. Пожалуйста, обновите страницу.');
-        return;
+        initApp();
     }
-    
-    // Инициализация интерфейса
+
+    // Проверяем загрузку solver'а
+    if (!window.RubiksCubeSolver) {
+        console.error('RubiksCubeSolver not loaded');
+    }
+});
+
+function initApp() {
     initColorPicker();
     initProgressIndicator();
     initTabs();
     initModal();
-    updateCurrentFaceDisplay();
-    loadState();
     initCamera();
+    loadState();
     
-    // Проверяем загрузку solver'а
-    if (!window.RubiksCubeSolver) {
-        console.error('RubiksCubeSolver not loaded');
-        alert('Библиотека решения кубика не загружена. Пожалуйста, обновите страницу.');
-    }
-});
+    // Инициализация кнопок
+    document.getElementById('captureBtn').addEventListener('click', captureFace);
+    document.getElementById('autoScanBtn').addEventListener('click', startAutoScan);
+    document.getElementById('solveBtn').addEventListener('click', solveCube);
+    document.getElementById('resetBtn').addEventListener('click', resetAll);
+    document.getElementById('calibrateBtn').addEventListener('click', calibrateColor);
+}
 
 // Инициализация камеры
 async function initCamera() {
     try {
         stream = await navigator.mediaDevices.getUserMedia({ 
-            video: { 
+            video: {
                 facingMode: 'environment',
                 width: { ideal: 1280 },
                 height: { ideal: 720 }
-            } 
+            }
         });
-        document.getElementById('camera').srcObject = stream;
-        requestAnimationFrame(drawOverlay);
+        const camera = document.getElementById('camera');
+        camera.srcObject = stream;
+        startOverlayDrawing();
     } catch (err) {
-        console.error("Camera access error:", err);
+        console.error("Camera error:", err);
         alert("Не удалось получить доступ к камере. Пожалуйста, разрешите использование камеры.");
     }
 }
 
-// Отрисовка overlay для камеры
-function drawOverlay() {
+function startOverlayDrawing() {
     const video = document.getElementById('camera');
     const overlay = document.getElementById('overlay');
     
-    if (!stream || !video.videoWidth) {
-        requestAnimationFrame(drawOverlay);
-        return;
-    }
-    
-    overlay.width = video.videoWidth;
-    overlay.height = video.videoHeight;
-    const ctx = overlay.getContext('2d');
-    
-    ctx.clearRect(0, 0, overlay.width, overlay.height);
-    
-    const centerX = overlay.width / 2;
-    const centerY = overlay.height / 2;
-    const size = Math.min(overlay.width, overlay.height) * 0.6;
-    
-    ctx.strokeStyle = '#00FF00';
-    ctx.lineWidth = 2;
-    ctx.strokeRect(centerX - size/2, centerY - size/2, size, size);
-    
-    // Grid lines
-    for (let i = 1; i < 3; i++) {
-        ctx.beginPath();
-        ctx.moveTo(centerX - size/2 + (size/3)*i, centerY - size/2);
-        ctx.lineTo(centerX - size/2 + (size/3)*i, centerY + size/2);
-        ctx.stroke();
+    function draw() {
+        if (!stream || !video.videoWidth) {
+            requestAnimationFrame(draw);
+            return;
+        }
         
-        ctx.beginPath();
-        ctx.moveTo(centerX - size/2, centerY - size/2 + (size/3)*i);
-        ctx.lineTo(centerX + size/2, centerY - size/2 + (size/3)*i);
-        ctx.stroke();
+        overlay.width = video.videoWidth;
+        overlay.height = video.videoHeight;
+        const ctx = overlay.getContext('2d');
+        
+        ctx.clearRect(0, 0, overlay.width, overlay.height);
+        
+        const centerX = overlay.width / 2;
+        const centerY = overlay.height / 2;
+        const size = Math.min(overlay.width, overlay.height) * 0.6;
+        
+        // Рисуем рамку для грани
+        ctx.strokeStyle = '#00FF00';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(centerX - size/2, centerY - size/2, size, size);
+        
+        // Рисуем сетку 3x3
+        for (let i = 1; i < 3; i++) {
+            // Вертикальные линии
+            ctx.beginPath();
+            ctx.moveTo(centerX - size/2 + (size/3)*i, centerY - size/2);
+            ctx.lineTo(centerX - size/2 + (size/3)*i, centerY + size/2);
+            ctx.stroke();
+            
+            // Горизонтальные линии
+            ctx.beginPath();
+            ctx.moveTo(centerX - size/2, centerY - size/2 + (size/3)*i);
+            ctx.lineTo(centerX + size/2, centerY - size/2 + (size/3)*i);
+            ctx.stroke();
+        }
+        
+        // Текст инструкции
+        ctx.fillStyle = '#00FF00';
+        ctx.font = '16px Montserrat';
+        ctx.textAlign = 'center';
+        ctx.fillText('Поместите грань кубика в эту область', centerX, centerY - size/2 - 10);
+        
+        requestAnimationFrame(draw);
     }
     
-    ctx.fillStyle = '#00FF00';
-    ctx.font = '16px Montserrat';
-    ctx.textAlign = 'center';
-    ctx.fillText('Поместите грань кубика в эту область', centerX, centerY - size/2 - 10);
-    
-    requestAnimationFrame(drawOverlay);
+    draw();
 }
 
 // Инициализация color picker
@@ -140,20 +149,7 @@ function initColorPicker() {
     const modalColorPicker = document.getElementById('modalColorPicker');
     
     colors.forEach(color => {
-        // Main picker
-        const option = createColorOption(color);
-        option.addEventListener('click', () => {
-            currentColor = color.name;
-            updateCurrentFaceDisplay();
-        });
-        colorPicker.appendChild(option);
-        
-        // Modal picker
-        const modalOption = createColorOption(color);
-        modalColorPicker.appendChild(modalOption);
-    });
-    
-    function createColorOption(color) {
+        // Основной color picker
         const option = document.createElement('div');
         option.className = 'color-option';
         option.style.backgroundColor = color.hex;
@@ -164,8 +160,27 @@ function initColorPicker() {
         icon.className = 'fas fa-check';
         option.appendChild(icon);
         
-        return option;
-    }
+        option.addEventListener('click', function() {
+            document.querySelectorAll('.color-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            this.classList.add('selected');
+            currentColor = color.name;
+            updateCurrentFaceDisplay();
+        });
+        
+        colorPicker.appendChild(option);
+        
+        // Color picker для модального окна
+        const modalOption = option.cloneNode(true);
+        modalOption.addEventListener('click', function() {
+            document.querySelectorAll('#modalColorPicker .color-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            this.classList.add('selected');
+        });
+        modalColorPicker.appendChild(modalOption);
+    });
 }
 
 // Инициализация индикатора прогресса
@@ -179,6 +194,33 @@ function initProgressIndicator() {
         circle.setAttribute('data-color', color);
         circle.setAttribute('data-step', index + 1);
         progressIndicator.appendChild(circle);
+    });
+}
+
+// Инициализация вкладок
+function initTabs() {
+    const tabs = document.querySelectorAll('.tab');
+    tabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+            const tabId = this.getAttribute('data-tab');
+            
+            // Обновляем активную вкладку
+            tabs.forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+            
+            // Показываем соответствующее содержимое
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+                if (content.id === `${tabId}-tab`) {
+                    content.classList.add('active');
+                }
+            });
+            
+            // Загружаем историю при необходимости
+            if (tabId === 'history') {
+                loadHistory();
+            }
+        });
     });
 }
 
@@ -219,16 +261,19 @@ function updateCurrentFaceDisplay() {
     for (let i = 0; i < 9; i++) {
         const sticker = document.createElement('div');
         sticker.className = 'sticker';
-        sticker.style.backgroundColor = getColorHex(currentColor);
-        sticker.setAttribute('data-index', i);
         
+        // Если грань уже отсканирована, показываем реальные цвета
         if (scannedFaces[currentColor]) {
             sticker.style.backgroundColor = getColorHex(scannedFaces[currentColor][i]);
             sticker.addEventListener('click', () => {
                 openEditModal(currentColor, i);
             });
+        } else {
+            // Иначе показываем цвет выбранной грани
+            sticker.style.backgroundColor = getColorHex(currentColor);
         }
         
+        sticker.setAttribute('data-index', i);
         currentFacePreview.appendChild(sticker);
     }
     
@@ -298,6 +343,9 @@ function updateProgressIndicator() {
         circle.classList.toggle('scanned', !!scannedFaces[color]);
         circle.classList.toggle('current', color === currentColor);
     });
+    
+    // Проверяем, все ли грани отсканированы
+    checkAllFacesScanned();
 }
 
 // Проверка завершенности сканирования
@@ -305,29 +353,6 @@ function checkAllFacesScanned() {
     const allScanned = Object.values(scannedFaces).every(face => face !== null);
     document.getElementById('solveBtn').disabled = !allScanned;
     document.getElementById('solution').classList.toggle('show', allScanned);
-}
-
-// Инициализация вкладок
-function initTabs() {
-    document.querySelectorAll('.tab').forEach(tab => {
-        tab.addEventListener('click', function() {
-            const tabId = this.getAttribute('data-tab');
-            
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            this.classList.add('active');
-            
-            document.querySelectorAll('.tab-content').forEach(content => {
-                content.classList.remove('active');
-                if (content.id === `${tabId}-tab`) {
-                    content.classList.add('active');
-                }
-            });
-            
-            if (tabId === 'history') {
-                loadHistory();
-            }
-        });
-    });
 }
 
 // Захват изображения с камеры
@@ -347,10 +372,11 @@ function captureImage() {
 
 // Обработка изображения с OpenCV
 async function processImage() {
-    if (!window.cv || !window.cv.Mat) {
-        throw new Error('OpenCV not initialized');
+    if (!cvReady) {
+        throw new Error('OpenCV not ready');
     }
     
+    // Объявляем все переменные OpenCV
     let src, dst, contours, hierarchy, approx, srcPoints, dstPoints, perspectiveMatrix, warped;
     
     const processingMessage = document.getElementById('processingMessage');
@@ -361,30 +387,19 @@ async function processImage() {
     processingText.textContent = "Обработка изображения...";
     
     try {
-        // 1. Захватываем изображение с камеры
+        // 1. Захватываем изображение
         src = cv.imread('captureCanvas');
         dst = new cv.Mat();
         contours = new cv.MatVector();
         hierarchy = new cv.Mat();
         
-        // 2. Улучшаем изображение для обнаружения граней
-        // Конвертируем в grayscale
+        // 2. Обрабатываем изображение
         cv.cvtColor(src, dst, cv.COLOR_RGBA2GRAY);
-        
-        // Увеличиваем контраст
-        cv.convertScaleAbs(dst, dst, 1.5, 0);
-        
-        // Применяем размытие
         cv.GaussianBlur(dst, dst, new cv.Size(5, 5), 0);
-        
-        // Детектируем края (используем адаптивный порог)
-        const thresholdValue = cv.mean(dst)[0];
-        cv.Canny(dst, dst, Math.max(0, thresholdValue * 0.5), Math.min(255, thresholdValue * 1.5), 3, false);
-        
-        // 3. Находим контуры
+        cv.Canny(dst, dst, 50, 150, 3, false);
         cv.findContours(dst, contours, hierarchy, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE);
         
-        // 4. Ищем подходящий контур (квадратную грань)
+        // 3. Находим наибольший контур
         let maxArea = 0;
         let maxContour = null;
         
@@ -392,15 +407,15 @@ async function processImage() {
             const contour = contours.get(i);
             const area = cv.contourArea(contour);
             
-            // Фильтруем слишком маленькие области
+            // Игнорируем слишком маленькие контуры
             if (area < 1000) continue;
             
             // Аппроксимируем контур
-            const epsilon = 0.05 * cv.arcLength(contour, true);
             approx = new cv.Mat();
+            const epsilon = 0.05 * cv.arcLength(contour, true);
             cv.approxPolyDP(contour, approx, epsilon, true);
             
-            // Проверяем, что это квадрат (4 угла)
+            // Ищем квадрат (4 угла)
             if (approx.rows === 4 && area > maxArea) {
                 maxArea = area;
                 maxContour = approx;
@@ -410,10 +425,10 @@ async function processImage() {
         }
         
         if (!maxContour) {
-            throw new Error("Не удалось обнаружить грань кубика. Убедитесь, что грань полностью видна в рамке и хорошо освещена.");
+            throw new Error("Не удалось обнаружить грань кубика. Убедитесь, что грань полностью видна в рамке.");
         }
         
-        // 5. Перспективное преобразование
+        // 4. Перспективное преобразование
         const size = 300;
         srcPoints = cv.matFromArray(4, 1, cv.CV_32FC2, getCorners(maxContour));
         dstPoints = cv.matFromArray(4, 1, cv.CV_32FC2, [
@@ -424,7 +439,7 @@ async function processImage() {
         warped = new cv.Mat();
         cv.warpPerspective(src, warped, perspectiveMatrix, new cv.Size(size, size));
         
-        // 6. Определение цветов
+        // 5. Определение цветов
         processingText.textContent = "Определение цветов...";
         const faceColors = detectFaceColors(warped);
         
@@ -435,7 +450,7 @@ async function processImage() {
         
         return faceColors;
     } finally {
-        // Освобождаем ресурсы
+        // Освобождаем ресурсы OpenCV
         [src, dst, contours, hierarchy, approx, srcPoints, dstPoints, perspectiveMatrix, warped]
             .forEach(obj => obj && !obj.isDeleted && obj.delete());
         
@@ -443,98 +458,6 @@ async function processImage() {
         processingMessage.style.display = 'none';
     }
 }
-
-
-/*async function processImage() {
-    if (!window.cv || !window.cv.Mat) {
-        throw new Error('OpenCV not initialized');
-    }
-    
-    // Объявляем все переменные в начале функции
-    let src, dst, contours, hierarchy, approx, srcPoints, dstPoints, perspectiveMatrix, warped;
-    
-    const processingMessage = document.getElementById('processingMessage');
-    const processingText = document.getElementById('processingText');
-    
-    isProcessing = true;
-    processingMessage.style.display = 'flex';
-    processingText.textContent = "Обработка изображения...";
-    
-    try {
-        src = cv.imread('captureCanvas');
-        dst = new cv.Mat();
-        contours = new cv.MatVector();
-        hierarchy = new cv.Mat();
-        
-        // Преобразование и обработка изображения
-        cv.cvtColor(src, dst, cv.COLOR_RGBA2GRAY);
-        cv.GaussianBlur(dst, dst, new cv.Size(5, 5), 0);
-        cv.Canny(dst, dst, 50, 150, 3, false);
-        cv.findContours(dst, contours, hierarchy, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE);
-        
-        // Находим наибольший контур
-        let maxArea = 0;
-        let maxContour = null;
-        
-        for (let i = 0; i < contours.size(); ++i) {
-            const contour = contours.get(i);
-            const area = cv.contourArea(contour);
-            if (area > maxArea) {
-                maxArea = area;
-                maxContour = contour;
-            }
-        }
-        
-        if (!maxContour) {
-            throw new Error("Не удалось обнаружить грань кубика");
-        }
-        
-        // Аппроксимация контура
-        const epsilon = 0.05 * cv.arcLength(maxContour, true);
-        approx = new cv.Mat();
-        cv.approxPolyDP(maxContour, approx, epsilon, true);
-        
-        if (approx.rows !== 4) {
-            throw new Error("Не удалось распознать квадратную грань");
-        }
-        
-        // Перспективное преобразование
-        const size = 300;
-        srcPoints = cv.matFromArray(4, 1, cv.CV_32FC2, getCorners(approx));
-        dstPoints = cv.matFromArray(4, 1, cv.CV_32FC2, [
-            0, 0, size, 0, size, size, 0, size
-        ]);
-        
-        perspectiveMatrix = cv.getPerspectiveTransform(srcPoints, dstPoints);
-        warped = new cv.Mat();
-        cv.warpPerspective(src, warped, perspectiveMatrix, new cv.Size(size, size));
-        
-        // Определение цветов
-        processingText.textContent = "Определение цветов...";
-        const faceColors = detectFaceColors(warped);
-        
-        // Проверка центрального цвета
-        if (faceColors[4] !== currentColor) {
-            throw new Error(`Центральный цвет (${faceColors[4]}) не соответствует выбранной грани (${currentColor})`);
-        }
-        
-        return faceColors;
-    } finally {
-        // Освобождение ресурсов
-        if (src) src.delete();
-        if (dst) dst.delete();
-        if (contours) contours.delete();
-        if (hierarchy) hierarchy.delete();
-        if (approx) approx.delete();
-        if (srcPoints) srcPoints.delete();
-        if (dstPoints) dstPoints.delete();
-        if (perspectiveMatrix) perspectiveMatrix.delete();
-        if (warped) warped.delete();
-        
-        isProcessing = false;
-        processingMessage.style.display = 'none';
-    }
-}*/
 
 // Получение углов квадрата
 function getCorners(approx) {
@@ -546,7 +469,7 @@ function getCorners(approx) {
         });
     }
     
-    // Сортировка углов
+    // Сортировка углов: top-left, top-right, bottom-right, bottom-left
     corners.sort((a, b) => a.y - b.y);
     const topCorners = corners.slice(0, 2).sort((a, b) => a.x - b.x);
     const bottomCorners = corners.slice(2, 4).sort((a, b) => a.x - b.x);
@@ -582,7 +505,7 @@ function detectFaceColors(faceImage) {
                 sampleSize, sampleSize
             ).data;
             
-            // Вычисление среднего цвета
+            // Вычисляем средний цвет
             let r = 0, g = 0, b = 0;
             for (let i = 0; i < sampleData.length; i += 4) {
                 r += sampleData[i];
@@ -595,7 +518,7 @@ function detectFaceColors(faceImage) {
             g = Math.round(g / pixelCount);
             b = Math.round(b / pixelCount);
             
-            // Поиск ближайшего цвета
+            // Находим ближайший цвет из калибровки
             face.push(findClosestColor(r, g, b));
         }
     }
@@ -626,7 +549,7 @@ function findClosestColor(r, g, b) {
 }
 
 // Калибровка цвета
-document.getElementById('calibrateBtn').addEventListener('click', async function() {
+function calibrateColor() {
     if (isProcessing) return;
     
     const processingMessage = document.getElementById('processingMessage');
@@ -635,47 +558,49 @@ document.getElementById('calibrateBtn').addEventListener('click', async function
     processingText.textContent = "Калибровка цвета...";
     processingMessage.style.display = 'flex';
     
-    try {
-        const video = document.getElementById('camera');
-        const canvas = document.getElementById('captureCanvas');
-        const ctx = canvas.getContext('2d');
-        
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
-        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-        
-        const sampleSize = 50;
-        const x = canvas.width / 2 - sampleSize / 2;
-        const y = canvas.height / 2 - sampleSize / 2;
-        
-        const sampleData = ctx.getImageData(x, y, sampleSize, sampleSize).data;
-        
-        let r = 0, g = 0, b = 0;
-        for (let i = 0; i < sampleData.length; i += 4) {
-            r += sampleData[i];
-            g += sampleData[i + 1];
-            b += sampleData[i + 2];
+    setTimeout(() => {
+        try {
+            const video = document.getElementById('camera');
+            const canvas = document.getElementById('captureCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            
+            const sampleSize = 50;
+            const x = canvas.width / 2 - sampleSize / 2;
+            const y = canvas.height / 2 - sampleSize / 2;
+            
+            const sampleData = ctx.getImageData(x, y, sampleSize, sampleSize).data;
+            
+            let r = 0, g = 0, b = 0;
+            for (let i = 0; i < sampleData.length; i += 4) {
+                r += sampleData[i];
+                g += sampleData[i + 1];
+                b += sampleData[i + 2];
+            }
+            
+            const pixelCount = sampleData.length / 4;
+            colorCalibration[currentColor] = {
+                r: Math.round(r / pixelCount),
+                g: Math.round(g / pixelCount),
+                b: Math.round(b / pixelCount)
+            };
+            
+            saveState();
+            alert(`Цвет "${getColorName(currentColor)}" откалиброван: RGB(${colorCalibration[currentColor].r}, ${colorCalibration[currentColor].g}, ${colorCalibration[currentColor].b})`);
+        } catch (error) {
+            console.error("Calibration error:", error);
+            alert("Ошибка при калибровке цвета");
+        } finally {
+            processingMessage.style.display = 'none';
         }
-        
-        const pixelCount = sampleData.length / 4;
-        colorCalibration[currentColor] = {
-            r: Math.round(r / pixelCount),
-            g: Math.round(g / pixelCount),
-            b: Math.round(b / pixelCount)
-        };
-        
-        saveState();
-        alert(`Цвет "${getColorName(currentColor)}" откалиброван: RGB(${colorCalibration[currentColor].r}, ${colorCalibration[currentColor].g}, ${colorCalibration[currentColor].b})`);
-    } catch (error) {
-        console.error("Calibration error:", error);
-        alert("Ошибка при калибровке цвета");
-    } finally {
-        processingMessage.style.display = 'none';
-    }
-});
+    }, 100);
+}
 
 // Захват грани
-document.getElementById('captureBtn').addEventListener('click', async function() {
+async function captureFace() {
     if (isProcessing) return;
     
     try {
@@ -690,7 +615,6 @@ document.getElementById('captureBtn').addEventListener('click', async function()
         faceOrder.push(currentColor);
         
         updateCurrentFaceDisplay();
-        checkAllFacesScanned();
         saveState();
         
         alert(`Грань ${getColorName(currentColor)} сохранена!`);
@@ -698,15 +622,15 @@ document.getElementById('captureBtn').addEventListener('click', async function()
         console.error("Capture error:", error);
         alert(`Ошибка: ${error.message}`);
     }
-});
+}
 
 // Авто-сканирование
-document.getElementById('autoScanBtn').addEventListener('click', async function() {
+async function startAutoScan() {
     if (isProcessing) return;
     
     currentScanningStep = 0;
     await autoScanNextFace();
-});
+}
 
 async function autoScanNextFace() {
     if (currentScanningStep >= scanningOrder.length) {
@@ -738,7 +662,6 @@ async function autoScanNextFace() {
         faceOrder.push(currentColor);
         
         updateCurrentFaceDisplay();
-        checkAllFacesScanned();
         saveState();
         
         currentScanningStep++;
@@ -752,7 +675,7 @@ async function autoScanNextFace() {
 }
 
 // Решение кубика
-document.getElementById('solveBtn').addEventListener('click', function() {
+function solveCube() {
     if (Object.values(scannedFaces).some(face => face === null)) {
         alert("Пожалуйста, отсканируйте все грани перед решением.");
         return;
@@ -769,7 +692,7 @@ document.getElementById('solveBtn').addEventListener('click', function() {
         console.error("Solving error:", error);
         alert("Не удалось решить кубик. Пожалуйста, проверьте правильность введённых цветов.");
     }
-});
+}
 
 // Преобразование в формат solver'а
 function convertToSolverFormat() {
@@ -876,7 +799,6 @@ function loadState() {
             faceOrder = state.faceOrder;
             
             updateProgressIndicator();
-            checkAllFacesScanned();
             
             if (scannedFaces[currentColor]) {
                 updateFacePreview(currentColor, scannedFaces[currentColor]);
@@ -940,7 +862,6 @@ function loadHistory() {
                 faceOrder = Object.keys(item.faces).filter(color => item.faces[color] !== null);
                 
                 updateProgressIndicator();
-                checkAllFacesScanned();
                 
                 if (Object.values(scannedFaces).every(face => face !== null)) {
                     displaySolution(item.solution);
@@ -956,7 +877,7 @@ function loadHistory() {
 }
 
 // Сброс
-document.getElementById('resetBtn').addEventListener('click', function() {
+function resetAll() {
     if (confirm("Вы уверены, что хотите сбросить все отсканированные грани и калибровку?")) {
         for (const color in scannedFaces) {
             scannedFaces[color] = null;
@@ -979,4 +900,4 @@ document.getElementById('resetBtn').addEventListener('click', function() {
         
         localStorage.removeItem('rubikscanState');
     }
-});
+}

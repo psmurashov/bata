@@ -668,64 +668,9 @@
         <canvas id="captureCanvas"></canvas>
         <canvas id="processingCanvas"></canvas>
     </div>
-    
-    <script>
-        // Асинхронная загрузка необходимых библиотек
-        async function loadDependencies() {
-            try {
-                // Загружаем rubiks-cube-solver
-                await loadScript('https://cdn.jsdelivr.net/npm/rubiks-cube-solver@1.2.0/lib/index.common.min.js');
-                
-                // Загружаем OpenCV.js
-                await loadScript('https://docs.opencv.org/4.5.5/opencv.js', true);
-                
-                // Ждем инициализации OpenCV
-                await waitForOpenCV();
-                
-                // Загружаем основной скрипт приложения
-                await loadScript('app.js');
-            } catch (error) {
-                console.error('Error loading dependencies:', error);
-                alert('Ошибка загрузки приложения. Пожалуйста, обновите страницу.');
-            }
-        }
-        
-        function loadScript(src, isOpenCV = false) {
-            return new Promise((resolve, reject) => {
-                const script = document.createElement('script');
-                script.src = src;
-                script.onload = resolve;
-                script.onerror = reject;
-                if (isOpenCV) {
-                    script.async = true;
-                }
-                document.body.appendChild(script);
-            });
-        }
-        
-        function waitForOpenCV() {
-            return new Promise((resolve) => {
-                if (window.cv && window.cv.getBuildInformation) {
-                    resolve();
-                    return;
-                }
-                
-                let tries = 0;
-                const interval = setInterval(() => {
-                    if (window.cv && window.cv.getBuildInformation) {
-                        clearInterval(interval);
-                        resolve();
-                    } else if (tries++ > 50) { // 5 seconds timeout
-                        clearInterval(interval);
-                        console.error('OpenCV initialization timeout');
-                        resolve(); // Продолжаем в любом случае
-                    }
-                }, 100);
-            });
-        }
-        
-        // Запускаем загрузку зависимостей
-        loadDependencies();
-    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/rubiks-cube-solver@1.2.0/lib/index.common.min.js"></script>
+    <script src="https://docs.opencv.org/4.5.5/opencv.js" async></script>
+    <script src="app.js"></script>
 </body>
 </html>
