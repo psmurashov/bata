@@ -1,12 +1,13 @@
 //26.05.2025 - Fix
+//https://nb557.github.io/plugins/online_mod.js
 
 (function () {
     'use strict';
 
-    if (Lampa.Storage.field('online_mod_rezka2_name') === true) {
+    //if (Lampa.Storage.field('online_mod_rezka2_name') === true) {
       Lampa.Storage.set('online_mod_rezka2_name', 'pshdrezka');
       Lampa.Storage.set('online_mod_rezka2_password', '$ai3)h%FfA"w6&k');
-    }    
+    //}    
 
     function startsWith(str, searchString) {
       return str.lastIndexOf(searchString, 0) === 0;
