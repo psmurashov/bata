@@ -1,0 +1,6 @@
+#EXTM3U url-tvg="https://iptvx.one/epg/epg.xml.gz"
+#PLAYLIST:F
+
+
+#EXTINF:-1 tvg-logo="https://online-tv.live/images/1filmax.png" group-title="Кинозал",1FILMAX Фантастика
+https://tv.tvcdnpotok.com/141/index.m3u8?wmsAuthSign=42ecaaa0c4ad7ab2db95bdcf2fcec7cd-1750981892-702i241i252i901
