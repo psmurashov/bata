@@ -744,7 +744,7 @@
 
              // Сохраняем обновленный массив обратно в хранилище
              Lampa.Storage.set('iptv_playlist_custom', JSON.stringify(currentPlaylist));
-         }
+         };
 
          // Если такого объекта нет, добавляем новый объект
          if (!exists2) {
@@ -752,12 +752,12 @@
                   id: Lampa.Utils.uid(),
                   custom: true,
                   url: "https://homtv.ru/hkino.m3u",
-                  name: "Основной"
+                  name: "Резервный"
              };
-             currentPlaylist2.push(newItem2);
+             currentPlaylist.push(newItem2);
 
              // Сохраняем обновленный массив обратно в хранилище
-             Lampa.Storage.set('iptv_playlist_custom', JSON.stringify(currentPlaylist2));
+             Lampa.Storage.set('iptv_playlist_custom', JSON.stringify(currentPlaylist));
          }
 
         }
