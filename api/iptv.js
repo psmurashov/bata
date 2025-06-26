@@ -751,7 +751,7 @@
              let newItem2 = {
                   id: Lampa.Utils.uid(),
                   custom: true,
-                  url: "https://homtv.ru/hkino.m3u",
+                  url: "https://psmurashov.github.io/bata/api/f.m3u",
                   name: "Резервный"
              };
              currentPlaylist.push(newItem2);
