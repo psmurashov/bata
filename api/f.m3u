@@ -2,5 +2,5 @@
 #PLAYLIST:F
 
 
-#EXTINF:-1 tvg-logo="https://online-tv.live/images/1filmax.png" group-title="Кинозал",1FILMAX f
-hls.goodgame.ru/hls/204708_prem.m3u8?expires=1751053070&token=I_IGi1xzKYNAO34YNoImTQ
+#EXTINF:-1 tvg-logo="https://online-tv.live/images/1filmax.png" group-title="Кинозал",1FILMAX s
+http://hls.goodgame.ru/hls/204708_prem.m3u8?expires=1751053070&token=I_IGi1xzKYNAO34YNoImTQ
