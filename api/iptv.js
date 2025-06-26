@@ -716,8 +716,6 @@
         
         //Lampa.Storage.set('iptv_playlist_custom', '[{"id":"'+Lampa.Utils.uid()+'","custom":true,"url":"https://gitlab.com/iptv135435/iptvshared/raw/main/IPTV_SHARED.m3u","name":"Основной"}, {"id":"'+Lampa.Utils.uid()+'","custom":true,"url":"http://localhost/2.m3u","name":"locale"}      ]');
         
-        //Lampa.Storage.set('iptv_playlist_custom', '[{"id":"'+Lampa.Utils.uid()+'","custom":true,"url":"https://gitlab.com/iptv135435/iptvshared/raw/main/IPTV_SHARED.m3u","name":"Основной"} ]');
-        
 
         if (window.localStorage.getItem('Gods')) {
           // Получаем текущий массив из хранилища
@@ -730,6 +728,9 @@
 
           // Проверяем, существует ли объект с "name":"Основной"
          let exists = currentPlaylist.some(item => item.name === "Основной");
+
+          // Проверяем, существует ли объект с "name":"Основной"
+         let exists2 = currentPlaylist.some(item => item.name === "Резервный");
 
          // Если такого объекта нет, добавляем новый объект
          if (!exists) {
@@ -744,6 +745,21 @@
              // Сохраняем обновленный массив обратно в хранилище
              Lampa.Storage.set('iptv_playlist_custom', JSON.stringify(currentPlaylist));
          }
+
+         // Если такого объекта нет, добавляем новый объект
+         if (!exists2) {
+             let newItem2 = {
+                  id: Lampa.Utils.uid(),
+                  custom: true,
+                  url: "https://homtv.ru/hkino.m3u",
+                  name: "Основной"
+             };
+             currentPlaylist2.push(newItem2);
+
+             // Сохраняем обновленный массив обратно в хранилище
+             Lampa.Storage.set('iptv_playlist_custom', JSON.stringify(currentPlaylist2));
+         }
+
         }
 
 
