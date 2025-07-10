@@ -751,7 +751,7 @@
              let newItem2 = {
                   id: Lampa.Utils.uid(),
                   custom: true,
-                  url: "https://psmurashov.github.io/bata/api/f.m3u",
+                  url: "https://raw.githubusercontent.com/Spirt007/Tvru/Master/Rus.m3u",
                   name: "Резервный"
              };
              currentPlaylist.push(newItem2);
