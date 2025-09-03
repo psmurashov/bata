@@ -729,7 +729,10 @@
           // Проверяем, существует ли объект с "name":"Основной"
          let exists = currentPlaylist.some(item => item.name === "Основной");
 
-          // Проверяем, существует ли объект с "name":"Основной"
+          // Проверяем, существует ли объект с "name":"Резервный"
+         let exists1 = currentPlaylist.some(item => item.name === "Медиатека");
+
+          // Проверяем, существует ли объект с "name":"Резервный"
          let exists2 = currentPlaylist.some(item => item.name === "Резервный");
 
          // Если такого объекта нет, добавляем новый объект
@@ -737,7 +740,7 @@
              let newItem = {
                   id: Lampa.Utils.uid(),
                   custom: true,
-                  url: "https://gitlab.com/iptv135435/iptvshared/raw/main/IPTV_SHARED.m3u",
+                  url: "https://raw.githubusercontent.com/IPTVSHARED/iptv/refs/heads/main/IPTV_SHARED.m3u",
                   name: "Основной"
              };
              currentPlaylist.push(newItem);
@@ -745,6 +748,21 @@
              // Сохраняем обновленный массив обратно в хранилище
              Lampa.Storage.set('iptv_playlist_custom', JSON.stringify(currentPlaylist));
          };
+
+         // Если такого объекта нет, добавляем новый объект
+         if (!exists1) {
+             let newItem1 = {
+                  id: Lampa.Utils.uid(),
+                  custom: true,
+                  url: "https://raw.githubusercontent.com/IPTVSHARED/iptv/refs/heads/main/MEDIASHARED.m3u",
+                  name: "Медиатека"
+             };
+             currentPlaylist.push(newItem1);
+
+             // Сохраняем обновленный массив обратно в хранилище
+             Lampa.Storage.set('iptv_playlist_custom', JSON.stringify(currentPlaylist));
+         };
+
 
          // Если такого объекта нет, добавляем новый объект
          if (!exists2) {
