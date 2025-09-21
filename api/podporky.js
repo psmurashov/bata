@@ -281,10 +281,10 @@
     }
 
     window.plugin_podbor_ready || function _() {
-        function v() {
-            if (window.plugin_podbor_ready) return;
+     function v() {
+      if (window.plugin_podbor_ready) return;
             
-            if ("1" == Lampa.Storage.get("porborki_kach") && e(),
+        if ("1" == Lampa.Storage.get("porborki_kach") && e(),
             "1" == Lampa.Storage.get("porborki_rus") && r(),
             "1" == Lampa.Storage.get("porborki_okko") && t(),
             "1" == Lampa.Storage.get("porborki_ivi") && n(),
@@ -298,7 +298,7 @@
             "1" == Lampa.Storage.get("porborki_mult13") && s(),
             "1" == Lampa.Storage.get("porborki_mult14") && m(),
             "1" == Lampa.Storage.get("porborki_mult15") && p(),
-            "1" == Lampa.Storage.get("porborki_start") && d()),
+            "1" == Lampa.Storage.get("porborki_start") && d())
             
             window.plugin_podbor_ready = !0,
             
