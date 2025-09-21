@@ -113,7 +113,7 @@
 
 
     function a18() {
-        var e = $('<li class="menu__item selector" data-action="kion"><div class="menu__ico">' + _ + '</div><div class="menu__text">a18</div></li>');
+        var e = $('<li class="menu__item selector" data-action="a18"><div class="menu__ico">' + _ + '</div><div class="menu__text">a18</div></li>');
         
         e.on("hover:enter", function() {
             Lampa.Activity.push({
@@ -298,10 +298,8 @@
             "1" == Lampa.Storage.get("porborki_mult13") && s(),
             "1" == Lampa.Storage.get("porborki_mult14") && m(),
             "1" == Lampa.Storage.get("porborki_mult15") && p(),
-            "1" == Lampa.Storage.get("porborki_start") && d())
-            
-            window.plugin_podbor_ready = !0,
-            
+            "1" == Lampa.Storage.get("porborki_start") && d()),window.plugin_podbor_ready = !0,
+
             Lampa.SettingsApi.addComponent({
                 component: "porborki",
                 icon: '<svg height="36" viewBox="0 0 38 36" fill="none" xmlns="http://www.w3.org/2000/svg">\n                <rect x="2" y="8" width="34" height="21" rx="3" stroke="white" stroke-width="3"/>\n                <line x1="13.0925" y1="2.34874" x2="16.3487" y2="6.90754" stroke="white" stroke-width="3" stroke-linecap="round"/>\n                <line x1="1.5" y1="-1.5" x2="9.31665" y2="-1.5" transform="matrix(-0.757816 0.652468 0.652468 0.757816 26.197 2)" stroke="white" stroke-width="3" stroke-linecap="round"/>\n                <line x1="9.5" y1="34.5" x2="29.5" y2="34.5" stroke="white" stroke-width="3" stroke-linecap="round"/>\n            </svg>',
