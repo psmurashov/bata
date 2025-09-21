@@ -113,12 +113,12 @@
 
 
     function a18() {
-        var e = $('<li class="menu__item selector" data-action="kion"><div class="menu__ico">' + _ + '</div><div class="menu__text">18a</div></li>');
+        var e = $('<li class="menu__item selector" data-action="kion"><div class="menu__ico">' + _ + '</div><div class="menu__text">a18</div></li>');
         
         e.on("hover:enter", function() {
             Lampa.Activity.push({
                 url: "discover/tv?language=ru&with_networks=338437",
-                title: "18",
+                title: "a18",
                 component: "category_full",
                 source: "cub",
                 sort: "now",
@@ -291,7 +291,7 @@
             "1" == Lampa.Storage.get("porborki_wink") && o(),
             "1" == Lampa.Storage.get("porborki_kion") && i(),
             "1" == Lampa.Storage.get("porborki_netflix") && a(),
-            "1" == Lampa.Storage.get("porborki_18a") && a18(),
+            "1" == Lampa.Storage.get("porborki_a18") && a18(),
             "1" == Lampa.Storage.get("porborki_kr") && c(),
             "1" == Lampa.Storage.get("porborki_kp") && l(),
             "1" == Lampa.Storage.get("porborki_mult12") && u(),
@@ -324,7 +324,7 @@
                 },
                 field: {name: "Мультфильмы (cub)"},
                 onChange: function(_) {
-                    1 == _ && 0 == $('[data-action="mult"]').length ? m() : Lampa.Helper.show("Необходимо переоткрыть Lampa")
+                    1 == _ && 0 == $('[data-action="mult"]').length ? m() : Lampa.Helper.show("Необходимо переоткрыть movies")
                 }
             }),
             
@@ -338,7 +338,7 @@
                 },
                 field: {name: "Мультфильмы (tmdb)"},
                 onChange: function(_) {
-                    1 == _ && 0 == $('[data-action="mult12"]').length ? u() : Lampa.Helper.show("Необходимо переоткрыть Lampa")
+                    1 == _ && 0 == $('[data-action="mult12"]').length ? u() : Lampa.Helper.show("Необходимо переоткрыть movies")
                 }
             }),
             
@@ -352,7 +352,7 @@
                 },
                 field: {name: "Nickelodeon"},
                 onChange: function(_) {
-                    1 == _ && 0 == $('[data-action="mult15"]').length ? p() : Lampa.Helper.show("Необходимо переоткрыть Lampa")
+                    1 == _ && 0 == $('[data-action="mult15"]').length ? p() : Lampa.Helper.show("Необходимо переоткрыть movies")
                 }
             }),
             
@@ -366,7 +366,7 @@
                 },
                 field: {name: "Мультcериалы"},
                 onChange: function(_) {
-                    1 == _ && 0 == $('[data-action="mult13"]').length ? s() : Lampa.Helper.show("Необходимо переоткрыть Lampa")
+                    1 == _ && 0 == $('[data-action="mult13"]').length ? s() : Lampa.Helper.show("Необходимо переоткрыть movies")
                 }
             }),
             
@@ -380,7 +380,7 @@
                 },
                 field: {name: "Русские"},
                 onChange: function(_) {
-                    1 == _ && 0 == $('[data-action="rus"]').length ? r() : Lampa.Helper.show("Необходимо переоткрыть Lampa")
+                    1 == _ && 0 == $('[data-action="rus"]').length ? r() : Lampa.Helper.show("Необходимо переоткрыть movies")
                 }
             }),
             
@@ -394,7 +394,7 @@
                 },
                 field: {name: "В качестве"},
                 onChange: function(_) {
-                    1 == _ && 0 == $('[data-action="hd"]').length ? e() : Lampa.Helper.show("Необходимо переоткрыть Lampa")
+                    1 == _ && 0 == $('[data-action="hd"]').length ? e() : Lampa.Helper.show("Необходимо переоткрыть movies")
                 }
             }),
             
@@ -408,7 +408,7 @@
                 },
                 field: {name: "Okko"},
                 onChange: function(_) {
-                    1 == _ && 0 == $('[data-action="okko"]').length ? t() : Lampa.Helper.show("Необходимо переоткрыть Lampa")
+                    1 == _ && 0 == $('[data-action="okko"]').length ? t() : Lampa.Helper.show("Необходимо переоткрыть movies")
                 }
             }),
             
@@ -422,7 +422,7 @@
                 },
                 field: {name: "Кинопоиск"},
                 onChange: function(_) {
-                    1 == _ && 0 == $('[data-action="kp"]').length ? l() : Lampa.Helper.show("Необходимо переоткрыть Lampa")
+                    1 == _ && 0 == $('[data-action="kp"]').length ? l() : Lampa.Helper.show("Необходимо переоткрыть movies")
                 }
             }),
             
@@ -436,7 +436,7 @@
                 },
                 field: {name: "ИВИ"},
                 onChange: function(_) {
-                    1 == _ && 0 == $('[data-action="ivi"]').length ? n() : Lampa.Helper.show("Необходимо переоткрыть Lampa")
+                    1 == _ && 0 == $('[data-action="ivi"]').length ? n() : Lampa.Helper.show("Необходимо переоткрыть movies")
                 }
             }),
             
@@ -450,7 +450,7 @@
                 },
                 field: {name: "Wink"},
                 onChange: function(_) {
-                    1 == _ && 0 == $('[data-action="wink"]').length ? o() : Lampa.Helper.show("Необходимо переоткрыть Lampa")
+                    1 == _ && 0 == $('[data-action="wink"]').length ? o() : Lampa.Helper.show("Необходимо переоткрыть movies")
                 }
             }),
             
@@ -464,7 +464,7 @@
                 },
                 field: {name: "KION"},
                 onChange: function(_) {
-                    1 == _ && 0 == $('[data-action="kion"]').length ? i() : Lampa.Helper.show("Необходимо переоткрыть Lampa")
+                    1 == _ && 0 == $('[data-action="kion"]').length ? i() : Lampa.Helper.show("Необходимо переоткрыть movies")
                 }
             }),
             
@@ -492,21 +492,21 @@
                 },
                 field: {name: "Netflix"},
                 onChange: function(_) {
-                    1 == _ && 0 == $('[data-action="netflix"]').length ? a() : Lampa.Helper.show("Необходимо переоткрыть Lampa")
+                    1 == _ && 0 == $('[data-action="netflix"]').length ? a() : Lampa.Helper.show("Необходимо переоткрыть movies")
                 }
             }),
 
             Lampa.SettingsApi.addParam({
                 component: "porborki",
                 param: {
-                    name: "porborki_18a",
+                    name: "porborki_a18",
                     type: "select",
                     values: {1: "Показать", 0: "Скрыть"},
                     default: 0
                 },
-                field: {name: "18"},
+                field: {name: "a18"},
                 onChange: function(_) {
-                    1 == _ && 0 == $('[data-action="18a"]').length ? a() : Lampa.Helper.show("Необходимо переоткрыть Lampa")
+                    1 == _ && 0 == $('[data-action="a18"]').length ? a() : Lampa.Helper.show("Необходимо переоткрыть movies")
                 }
             }),            
             
@@ -520,7 +520,7 @@
                 },
                 field: {name: "Дорамы"},
                 onChange: function(_) {
-                    1 == _ && 0 == $('[data-action="kr"]').length ? c() : Lampa.Helper.show("Необходимо переоткрыть Lampa")
+                    1 == _ && 0 == $('[data-action="kr"]').length ? c() : Lampa.Helper.show("Необходимо переоткрыть movies")
                 }
             });
         }
