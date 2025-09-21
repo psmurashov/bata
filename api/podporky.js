@@ -506,7 +506,7 @@
                 },
                 field: {name: "a18"},
                 onChange: function(_) {
-                    1 == _ && 0 == $('[data-action="a18"]').length ? a() : Lampa.Helper.show("Необходимо переоткрыть movies")
+                    1 == _ && 0 == $('[data-action="a18"]').length ? a18() : Lampa.Helper.show("Необходимо переоткрыть movies")
                 }
             }),            
             
