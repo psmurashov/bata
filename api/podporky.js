@@ -97,6 +97,7 @@
         var e = $('<li class="menu__item selector" data-action="a18"><div class="menu__ico">' + _ + '</div><div class="menu__text">Коллекции</div></li>');
         e.on("hover:enter", function() {
             Lampa.Activity.push({
+            	url:"",
                 title: "Коллекции",
                 component: "cub_collections_main",
                 page: 1
