@@ -94,12 +94,14 @@
     }
 
     function a18() {
-        var e = $('<li class="menu__item selector" data-action="a18"><div class="menu__ico">' + _ + '</div><div class="menu__text">Вселенная Marvel Comics</div></li>');
+        var e = $('<li class="menu__item selector" data-action="a18"><div class="menu__ico">' + _ + '</div><div class="menu__text">Коллекция</div></li>');
         e.on("hover:enter", function() {
             Lampa.Activity.push({
-            	url:"249",
-                title: "Вселенная Marvel Comics",
-                component: "cub_collections_view",
+            	url:"",
+                title: "Коллекция",
+                component: "cub_collections_main",
+                source: "cub",
+                card_type: "true",
                 page: 1
             })
         }), $(".menu .menu__list").eq(0).append(e)
