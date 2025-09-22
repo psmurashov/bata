@@ -92,6 +92,21 @@
             })
         }), $(".menu .menu__list").eq(0).append(e)
     }
+
+    function a18() {
+        var e = $('<li class="menu__item selector" data-action="kion"><div class="menu__ico">' + _ + '</div><div class="menu__text">18+</div></li>');
+        e.on("hover:enter", function() {
+            Lampa.Activity.push({
+                url: "?card=338437",
+                title: "18+",
+                component: "category_full",
+                source: "tmdb",
+                sort: "now",
+                card_type: "true",
+                page: 1
+            })
+        }), $(".menu .menu__list").eq(0).append(e)
+    }    
     
     function r() {
         var e = $('<li class="menu__item selector" data-action="rus"><div class="menu__ico">' + _ + '</div><div class="menu__text">Русские</div></li>');
@@ -232,6 +247,7 @@
                 "1" == Lampa.Storage.get("porborki_mult13") && s(),
                 "1" == Lampa.Storage.get("porborki_mult14") && m(),
                 "1" == Lampa.Storage.get("porborki_mult15") && p(),
+                "1" == Lampa.Storage.get("porborki_18") && a18(),
                 "1" == Lampa.Storage.get("porborki_start") && d()
             ), window.plugin_podbor_ready = !0, 
             
@@ -493,6 +509,25 @@
                     1 == _ && 0 == $('[data-action="netflix"]').length ? a() : Lampa.Helper.show("Необходимо переоткрыть Lampa")
                 }
             }),
+
+            Lampa.SettingsApi.addParam({
+                component: "porborki",
+                param: {
+                    name: "porborki_18",
+                    type: "select",
+                    values: {
+                        1: "Показать",
+                        0: "Скрыть"
+                    },
+                    default: 0
+                },
+                field: {
+                    name: "18+"
+                },
+                onChange: function(_) {
+                    1 == _ && 0 == $('[data-action="a18"]').length ? a18() : Lampa.Helper.show("Необходимо переоткрыть Lampa")
+                }
+            }),            
             
             Lampa.SettingsApi.addParam({
                 component: "porborki",
