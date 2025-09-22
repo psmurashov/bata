@@ -94,14 +94,12 @@
     }
 
     function a18() {
-        var e = $('<li class="menu__item selector" data-action="a18"><div class="menu__ico">' + _ + '</div><div class="menu__text">Marvel</div></li>');
+        var e = $('<li class="menu__item selector" data-action="a18"><div class="menu__ico">' + _ + '</div><div class="menu__text">Коллекции</div></li>');
         e.on("hover:enter", function() {
             Lampa.Activity.push({
-                url: "movie",
-                title: "Компания",
-                component: "company",
-                id: "420",
-                source: "cub",
+            	url:"",
+                title: "Коллекции",
+                component: "cub_collections_main",
                 card_type: "true",
                 page: 1
             })
@@ -522,7 +520,7 @@
                     default: 0
                 },
                 field: {
-                    name: "Marvel"
+                    name: "Коллекции"
                 },
                 onChange: function(_) {
                     1 == _ && 0 == $('[data-action="a18"]').length ? a18() : Lampa.Helper.show("Необходимо переоткрыть Lampa")
