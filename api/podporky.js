@@ -94,13 +94,13 @@
     }
 
     function a18() {
-        var e = $('<li class="menu__item selector" data-action="a18"><div class="menu__ico">' + _ + '</div><div class="menu__text">18\+</div></li>');
+        var e = $('<li class="menu__item selector" data-action="a18"><div class="menu__ico">' + _ + '</div><div class="menu__text">Marvel</div></li>');
         e.on("hover:enter", function() {
             Lampa.Activity.push({
-                url: "?title=Персоны",
-                title: "18\+",
-                component: "actor",
-                id: "573833",
+                url: "movie",
+                title: "Компания",
+                component: "company",
+                id: "420",
                 source: "cub",
                 card_type: "true",
                 page: 1
@@ -522,7 +522,7 @@
                     default: 0
                 },
                 field: {
-                    name: "18+"
+                    name: "Marvel"
                 },
                 onChange: function(_) {
                     1 == _ && 0 == $('[data-action="a18"]').length ? a18() : Lampa.Helper.show("Необходимо переоткрыть Lampa")
