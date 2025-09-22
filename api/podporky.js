@@ -94,11 +94,11 @@
     }
 
     function a18() {
-        var e = $('<li class="menu__item selector" data-action="kion"><div class="menu__ico">' + _ + '</div><div class="menu__text">18+</div></li>');
+        var e = $('<li class="menu__item selector" data-action="a18"><div class="menu__ico">' + _ + '</div><div class="menu__text">18\+</div></li>');
         e.on("hover:enter", function() {
             Lampa.Activity.push({
                 url: "?card=338437",
-                title: "18+",
+                title: "18\+",
                 component: "category_full",
                 source: "tmdb",
                 sort: "now",
