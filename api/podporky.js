@@ -97,10 +97,10 @@
         var e = $('<li class="menu__item selector" data-action="a18"><div class="menu__ico">' + _ + '</div><div class="menu__text">18\+</div></li>');
         e.on("hover:enter", function() {
             Lampa.Activity.push({
-                url: "?card=338437",
-                media:"movie",
+                url: "?title=Персоны",
                 title: "18\+",
-                component: "category_full",
+                component: "actor",
+                id: "573833",
                 source: "cub",
                 card_type: "true",
                 page: 1
