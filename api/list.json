@@ -932,7 +932,7 @@
             "results":
             [
                 {
-                    "id": 207,
+                    "id": 209,
                     "cid": 1,
                     "name": "Подборки",
                     "author": "@movies",
@@ -955,7 +955,7 @@
                     "available_cube": 1
                 },
                 {
-                    "id": 207,
+                    "id": 208,
                     "cid": 1,
                     "name": "Подборки +",
                     "author": "@movies",
