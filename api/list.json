@@ -959,7 +959,7 @@
                     "cid": 1,
                     "name": "Collections",
                     "author": "@movies",
-                    "link": "https://psmurashov.github.io/bata/plugins/collections",
+                    "link": "https://psmurashov.github.io/bata/plugins/collections/collections.js",
                     "descr": "Подборки от lampishe.",
                     "instruction": "",
                     "time": 1718944292533,
