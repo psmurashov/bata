@@ -957,9 +957,9 @@
                 {
                     "id": 208,
                     "cid": 1,
-                    "name": "Подборки +",
+                    "name": "Подборки ++",
                     "author": "@movies",
-                    "link": "https://raw.githubusercontent.com/lampishe/lampa-fixes/main/plugins/collections/collections.js",
+                    "link": "https://raw.githubusercontent.com/lampishe/lampa-fixes/main/plugins/collections",
                     "descr": "Подборки от lampishe.",
                     "instruction": "",
                     "time": 1718944292533,
