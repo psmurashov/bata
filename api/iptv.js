@@ -735,6 +735,9 @@
           // Проверяем, существует ли объект с "name":"Резервный"
          let exists2 = currentPlaylist.some(item => item.name === "Резервный");
 
+          // Проверяем, существует ли объект с "name":"Резервный"
+         let exists3 = currentPlaylist.some(item => item.name === "Торрент ТВ");
+
          // Если такого объекта нет, добавляем новый объект
          if (!exists) {
              let newItem = {
@@ -751,13 +754,13 @@
 
          // Если такого объекта нет, добавляем новый объект
          if (!exists1) {
-             let newItem1 = {
+             let newItem = {
                   id: Lampa.Utils.uid(),
                   custom: true,
                   url: "https://raw.githubusercontent.com/IPTVSHARED/iptv/refs/heads/main/MEDIASHARED.m3u",
                   name: "Медиатека"
              };
-             currentPlaylist.push(newItem1);
+             currentPlaylist.push(newItem);
 
              // Сохраняем обновленный массив обратно в хранилище
              Lampa.Storage.set('iptv_playlist_custom', JSON.stringify(currentPlaylist));
@@ -766,17 +769,33 @@
 
          // Если такого объекта нет, добавляем новый объект
          if (!exists2) {
-             let newItem2 = {
+             let newItem = {
                   id: Lampa.Utils.uid(),
                   custom: true,
                   url: "https://raw.githubusercontent.com/Spirt007/Tvru/Master/Rus.m3u",
                   name: "Резервный"
              };
-             currentPlaylist.push(newItem2);
+             currentPlaylist.push(newItem);
+
+             // Сохраняем обновленный массив обратно в хранилище
+             Lampa.Storage.set('iptv_playlist_custom', JSON.stringify(currentPlaylist));
+         };
+
+
+         // Если такого объекта нет, добавляем новый объект
+         if (!exists3) {
+             let newItem = {
+                  id: Lampa.Utils.uid(),
+                  custom: true,
+                  url: "https://raw.githubusercontent.com/IPTVSHARED/iptv/refs/heads/main/TOPPEHT_TB.m3u",
+                  name: "Торрент ТВ"
+             };
+             currentPlaylist.push(newItem);
 
              // Сохраняем обновленный массив обратно в хранилище
              Lampa.Storage.set('iptv_playlist_custom', JSON.stringify(currentPlaylist));
          }
+
 
         }
 
