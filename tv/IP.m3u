@@ -1381,14 +1381,6 @@ https://edge50.dc.beltelecom.by/ngtrk/smil:belarus3.smil/chunklist_b5160000_slen
 #EXTINF:-1 group-title="Кино и сериалы",Мир сериала
 http://217.21.34.160:38007/mirseriala/index.m3u8
 
-#EXTINF:0 tvg-id="1169" tvg-logo="http://epg.cdntv.online/img/1169.png" group-title="Кинозалы", 1Filmax
-#EXTGRP:Кинозалы
-http://cdntv.online/low/mwjiaxhzte/1169.m3u8
-
-#EXTINF:0 tvg-id="1170" tvg-logo="http://epg.cdntv.online/img/1170.png" group-title="Кинозалы", 2Filmax
-#EXTGRP:Кинозалы
-http://cdntv.online/low/mwjiaxhzte/1170.m3u8
-
 
 #EXTINF:-0 tvg-id="vhs-ka" group-title="Кинозалы" tvg-logo="https://epg.iptvx.one/picons/vhs-ka.png", VHS-ка HD
 http://95.66.188.74/VHS/index.m3u8
