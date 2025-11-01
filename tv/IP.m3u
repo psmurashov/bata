@@ -1382,21 +1382,20 @@ https://edge50.dc.beltelecom.by/ngtrk/smil:belarus3.smil/chunklist_b5160000_slen
 http://217.21.34.160:38007/mirseriala/index.m3u8
 
 
-#EXTM3U
-#EXTINF:-0 tvg-id="1FILMAX" group-title="Кинозалы", 1FILMAX
-#EXTVLCOPT:http-user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:144.0) Gecko/20100101 Firefox/144.0
-#EXTVLCOPT:http-referrer=https://goodgame.ru/
-#EXTVLCOPT:http-reconnect=true
-#EXTVLCOPT:network-caching=1500
-http://hls.goodgame.ru/hls/204708.m3u8?expires=1762107858&token=8toZsWF3DVRmKEzhqlHAjA
 
-#EXTM3U
-#EXTINF:-0 tvg-id="1_FILMAX" group-title="Кинозалы", 1FILMAX
+#EXTINF:-0 tvg-id="1FILMAX" group-title="Кинозалы" , 1FILMAX
 #EXTVLCOPT:http-user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:144.0) Gecko/20100101 Firefox/144.0
 #EXTVLCOPT:http-referrer=https://goodgame.ru/
-#EXTVLCOPT:http-continuous=1
-#EXTVLCOPT:no-video-title-show
-http://hls.goodgame.ru/hls/204708.m3u8?expires=1762107858&token=8toZsWF3DVRmKEzhqlHAjA
+#EXTVLCOPT:http-header=Origin: https://goodgame.ru
+#EXTVLCOPT:http-header=Accept: */*
+#EXTVLCOPT:http-header=Accept-Language: ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3
+#EXTVLCOPT:http-header=Accept-Encoding: gzip, deflate, br
+#EXTVLCOPT:http-header=Connection: keep-alive
+#EXTVLCOPT:http-header=Sec-Fetch-Dest: empty
+#EXTVLCOPT:http-header=Sec-Fetch-Mode: cors
+#EXTVLCOPT:http-header=Sec-Fetch-Site: same-site
+#EXTVLCOPT:network-caching=1000
+https://hls.goodgame.ru/manifest/204708_master.m3u8?expires=1762111002&token=_3pS2-P7K1pFq-swlZjNAA
 
 
 
