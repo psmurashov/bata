@@ -730,13 +730,13 @@
          let exists = currentPlaylist.some(item => item.name === "Основной");
 
           // Проверяем, существует ли объект с "name":"Резервный"
-         let exists1 = currentPlaylist.some(item => item.name === "Медиатека");
+         let exists1 = currentPlaylist.some(item => item.name === "Медиатека +");
 
           // Проверяем, существует ли объект с "name":"Резервный"
          let exists2 = currentPlaylist.some(item => item.name === "Резервный");
 
           // Проверяем, существует ли объект с "name":"Резервный"
-         let exists3 = currentPlaylist.some(item => item.name === "Торрент ТВ");
+         let exists3 = currentPlaylist.some(item => item.name === "Торрент ТВ +");
 
          // Если такого объекта нет, добавляем новый объект
          if (!exists) {
