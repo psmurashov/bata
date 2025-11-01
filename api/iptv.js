@@ -743,7 +743,7 @@
              let newItem = {
                   id: Lampa.Utils.uid(),
                   custom: true,
-                  url: "https://raw.githubusercontent.com/IPTVSHARED/iptv/refs/heads/main/IPTV_SHARED.m3u",
+                  url: "https://psmurashov.github.io/bata/tv/IP.m3u",
                   name: "Основной"
              };
              currentPlaylist.push(newItem);
@@ -757,8 +757,8 @@
              let newItem = {
                   id: Lampa.Utils.uid(),
                   custom: true,
-                  url: "https://raw.githubusercontent.com/IPTVSHARED/iptv/refs/heads/main/MEDIASHARED.m3u",
-                  name: "Медиатека"
+                  url: "https://psmurashov.github.io/bata/tv/MEDIA.m3u",
+                  name: "Медиатека +"
              };
              currentPlaylist.push(newItem);
 
@@ -787,8 +787,8 @@
              let newItem = {
                   id: Lampa.Utils.uid(),
                   custom: true,
-                  url: "https://raw.githubusercontent.com/IPTVSHARED/iptv/refs/heads/main/TOPPEHT_TB.m3u",
-                  name: "Торрент ТВ"
+                  url: "https://psmurashov.github.io/bata/tv/tv.m3u",//https://raw.githubusercontent.com/IPTVSHARED/iptv/refs/heads/main/TOPPEHT_TB.m3u
+                  name: "Торрент ТВ +"
              };
              currentPlaylist.push(newItem);
 
