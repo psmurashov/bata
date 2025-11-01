@@ -1382,6 +1382,10 @@ https://edge50.dc.beltelecom.by/ngtrk/smil:belarus3.smil/chunklist_b5160000_slen
 http://217.21.34.160:38007/mirseriala/index.m3u8
 
 
+#EXTINF:-0 tvg-id="vhs-ka" group-title="Кинозалы", 1FILMAX
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36 OPR/98.0.0.0
+hls.goodgame.ru/hls/204708.m3u8?expires=1762107858&token=8toZsWF3DVRmKEzhqlHAjA
+
 #EXTINF:-0 tvg-id="vhs-ka" group-title="Кинозалы" tvg-logo="https://epg.iptvx.one/picons/vhs-ka.png", VHS-ка HD
 http://95.66.188.74/VHS/index.m3u8
 
@@ -3457,10 +3461,6 @@ http://stream.ehrhiti.lv:8000/khr.mp3
 #EXTVLCOPT:http-user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36 OPR/98.0.0.0
 http://rt-vlg-penza-htlive.cdn.ngenix.net/hls/CH_R01_EXPRESS/variant.m3u8
 
-
-#EXTINF:-0 tvg-id="vhs-ka" group-title="Кинозалы", 1FILMAX
-#EXTVLCOPT:http-user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36 OPR/98.0.0.0
-hls.goodgame.ru/hls/204708.m3u8?expires=1762107858&token=8toZsWF3DVRmKEzhqlHAjA
 
 
 
