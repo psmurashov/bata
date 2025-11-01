@@ -738,6 +738,9 @@
           // Проверяем, существует ли объект с "name":"Резервный"
          let exists3 = currentPlaylist.some(item => item.name === "Торрент ТВ +");
 
+          // Проверяем, существует ли объект с "name":"Резервный"
+         let exists4 = currentPlaylist.some(item => item.name === "Резервный 2");
+
          // Если такого объекта нет, добавляем новый объект
          if (!exists) {
              let newItem = {
@@ -789,6 +792,20 @@
                   custom: true,
                   url: "https://psmurashov.github.io/bata/tv/tv.m3u",//https://raw.githubusercontent.com/IPTVSHARED/iptv/refs/heads/main/TOPPEHT_TB.m3u
                   name: "Торрент ТВ +"
+             };
+             currentPlaylist.push(newItem);
+
+             // Сохраняем обновленный массив обратно в хранилище
+             Lampa.Storage.set('iptv_playlist_custom', JSON.stringify(currentPlaylist));
+         };
+
+         // Если такого объекта нет, добавляем новый объект
+         if (!exists4) {
+             let newItem = {
+                  id: Lampa.Utils.uid(),
+                  custom: true,
+                  url: "http://loganet.vercel.app/LoganetXAll.m3u",
+                  name: "Резервный 2"
              };
              currentPlaylist.push(newItem);
 
