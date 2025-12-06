@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Прыг-Скок - Тапающая игра</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #fff;
+            overflow: hidden;
+            height: 100vh;
+            touch-action: manipulation;
+        }
+
+        #game-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            max-width: 500px;
+            margin: 0 auto;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+        }
+
+        #game-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        #ui {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .ui-panel {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            padding: 12px 15px;
+            display: flex;
+            align-items: center;
+            backdrop-filter: blur(5px);
+            pointer-events: auto;
+        }
+
+        #stats {
+            top: 15px;
+            left: 15px;
+            gap: 15px;
+        }
+
+        .stat {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .stat i {
+            font-size: 1.4rem;
+        }
+
+        #coins-stat i {
+            color: #ffd700;
+        }
+
+        #lives-stat i {
+            color: #ff4d6d;
+        }
+
+        #power-stat i {
+            color: #00ccff;
+        }
+
+        .stat-value {
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+
+        #combo-container {
+            top: 15px;
+            right: 15px;
+            flex-direction: column;
+            align-items: flex-end;
+            padding: 10px 15px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        #combo-text {
+            font-size: 1.1rem;
+            color: #ffd700;
+        }
+
+        #combo-count {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #ff9e00;
+            text-shadow: 0 0 10px rgba(255, 158, 0, 0.7);
+        }
+
+        #level-indicator {
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 8px 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            background: rgba(106, 13, 173, 0.8);
+        }
+
+        #game-start, #game-over, #level-complete {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            transition: opacity 0.5s;
+        }
+
+        #game-over, #level-complete {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .game-screen h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, #ff9e00, #ff0058);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+        }
+
+        .game-screen p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            text-align: center;
+            max-width: 80%;
+            line-height: 1.5;
+            color: #ccc;
+        }
+
+        .stats-summary {
+            display: flex;
+            gap: 25px;
+            margin: 20px 0 30px;
+        }
+
+        .stat-summary {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .stat-summary i {
+            font-size: 2rem;
+        }
+
+        .stat-summary .value {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .btn {
+            background: linear-gradient(to right, #6a0dad, #9d4edd);
+            border: none;
+            border-radius: 50px;
+            color: white;
+            font-size: 1.3rem;
+            font-weight: bold;
+            padding: 15px 40px;
+            margin: 10px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            pointer-events: auto;
+            box-shadow: 0 5px 15px rgba(106, 13, 173, 0.4);
+        }
+
+        .btn:hover, .btn:active {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(106, 13, 173, 0.6);
+        }
+
+        .btn i {
+            margin-right: 10px;
+        }
+
+        #pause-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            z-index: 3;
+            pointer-events: auto;
+        }
+
+        #controls-hint {
+            position: absolute;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            text-align: center;
+            backdrop-filter: blur(5px);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.7; }
+            50% { opacity: 1; }
+            100% { opacity: 0.7; }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .bounce {
+            animation: bounce 0.5s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .shake {
+            animation: shake 0.3s ease;
+        }
+
+        .power-active {
+            color: #00ccff !important;
+            text-shadow: 0 0 10px rgba(0, 204, 255, 0.7);
+        }
+
+        @media (max-width: 500px) {
+            .game-screen h1 {
+                font-size: 2.2rem;
+            }
+            
+            .btn {
+                padding: 12px 30px;
+                font-size: 1.1rem;
+            }
+            
+            .stat-value {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <canvas id="game-canvas"></canvas>
+        
+        <div id="ui">
+            <div class="ui-panel" id="stats">
+                <div class="stat" id="coins-stat">
+                    <i class="fas fa-coins"></i>
+                    <span class="stat-value" id="coins-value">0</span>
+                </div>
+                <div class="stat" id="lives-stat">
+                    <i class="fas fa-heart"></i>
+                    <span class="stat-value" id="lives-value">3</span>
+                </div>
+                <div class="stat" id="power-stat">
+                    <i class="fas fa-bolt"></i>
+                    <span class="stat-value" id="power-value">0%</span>
+                </div>
+            </div>
+            
+            <div class="ui-panel" id="combo-container">
+                <div id="combo-text">КОМБО</div>
+                <div id="combo-count">x1</div>
+            </div>
+            
+            <div class="ui-panel" id="level-indicator">
+                Уровень <span id="current-level">1</span>
+            </div>
+            
+            <button class="btn ui-panel" id="pause-btn">
+                <i class="fas fa-pause"></i>
+            </button>
+            
+            <div id="controls-hint">
+                Тапайте, чтобы прыгать!
+            </div>
+        </div>
+        
+        <div id="game-start" class="game-screen">
+            <h1>ПРЫГ-СКОК</h1>
+            <p>Тапайте по экрану, чтобы прыгать, собирайте монетки и избегайте препятствий!</p>
+            <div class="stats-summary">
+                <div class="stat-summary">
+                    <i class="fas fa-flag"></i>
+                    <div class="value" id="total-levels">5</div>
+                    <div class="label">Уровней</div>
+                </div>
+                <div class="stat-summary">
+                    <i class="fas fa-coins"></i>
+                    <div class="value" id="total-coins">0</div>
+                    <div class="label">Монет</div>
+                </div>
+            </div>
+            <button class="btn" id="start-btn">
+                <i class="fas fa-play"></i> НАЧАТЬ ИГРУ
+            </button>
+            <button class="btn" id="levels-btn">
+                <i class="fas fa-list"></i> ВЫБОР УРОВНЯ
+            </button>
+        </div>
+        
+        <div id="game-over" class="game-screen">
+            <h1>ИГРА ОКОНЧЕНА</h1>
+            <p>Вы прошли <span id="final-level">1</span> уровень и собрали <span id="final-coins">0</span> монет!</p>
+            <div class="stats-summary">
+                <div class="stat-summary">
+                    <i class="fas fa-coins"></i>
+                    <div class="value" id="gameover-coins">0</div>
+                    <div class="label">Монет</div>
+                </div>
+                <div class="stat-summary">
+                    <i class="fas fa-bolt"></i>
+                    <div class="value" id="max-combo">x1</div>
+                    <div class="label">Макс. комбо</div>
+                </div>
+            </div>
+            <button class="btn" id="restart-btn">
+                <i class="fas fa-redo"></i> ИГРАТЬ СНОВА
+            </button>
+            <button class="btn" id="menu-btn">
+                <i class="fas fa-home"></i> МЕНЮ
+            </button>
+        </div>
+        
+        <div id="level-complete" class="game-screen">
+            <h1>УРОВЕНЬ ПРОЙДЕН!</h1>
+            <p>Уровень <span id="completed-level">1</span> завершен!</p>
+            <div class="stats-summary">
+                <div class="stat-summary">
+                    <i class="fas fa-coins"></i>
+                    <div class="value" id="level-coins">0</div>
+                    <div class="label">Монет собрано</div>
+                </div>
+                <div class="stat-summary">
+                    <i class="fas fa-star"></i>
+                    <div class="value" id="level-score">100</div>
+                    <div class="label">Очки</div>
+                </div>
+            </div>
+            <button class="btn" id="next-level-btn">
+                <i class="fas fa-arrow-right"></i> СЛЕДУЮЩИЙ УРОВЕНЬ
+            </button>
+            <button class="btn" id="level-menu-btn">
+                <i class="fas fa-home"></i> МЕНЮ
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Элементы DOM
+        const canvas = document.getElementById('game-canvas');
+        const ctx = canvas.getContext('2d');
+        const gameStartScreen = document.getElementById('game-start');
+        const gameOverScreen = document.getElementById('game-over');
+        const levelCompleteScreen = document.getElementById('level-complete');
+        const startBtn = document.getElementById('start-btn');
+        const restartBtn = document.getElementById('restart-btn');
+        const nextLevelBtn = document.getElementById('next-level-btn');
+        const menuBtn = document.getElementById('menu-btn');
+        const levelMenuBtn = document.getElementById('level-menu-btn');
+        const levelsBtn = document.getElementById('levels-btn');
+        const pauseBtn = document.getElementById('pause-btn');
+        
+        const coinsValue = document.getElementById('coins-value');
+        const livesValue = document.getElementById('lives-value');
+        const powerValue = document.getElementById('power-value');
+        const comboContainer = document.getElementById('combo-container');
+        const comboCount = document.getElementById('combo-count');
+        const currentLevelElement = document.getElementById('current-level');
+        const totalLevelsElement = document.getElementById('total-levels');
+        const finalLevelElement = document.getElementById('final-level');
+        const finalCoinsElement = document.getElementById('final-coins');
+        const gameoverCoinsElement = document.getElementById('gameover-coins');
+        const maxComboElement = document.getElementById('max-combo');
+        const completedLevelElement = document.getElementById('completed-level');
+        const levelCoinsElement = document.getElementById('level-coins');
+        const levelScoreElement = document.getElementById('level-score');
+        
+        // Размеры игры
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        // Переменные игры
+        let gameState = 'start'; // start, playing, paused, gameover, levelcomplete
+        let currentLevel = 1;
+        let coins = 0;
+        let lives = 3;
+        let power = 0;
+        let combo = 1;
+        let maxCombo = 1;
+        let comboTime = 0;
+        let score = 0;
+        let isPowerActive = false;
+        let powerActiveTime = 0;
+        
+        // Позиция игрока
+        const player = {
+            x: 100,
+            y: canvas.height / 2,
+            width: 60,
+            height: 80,
+            velocityY: 0,
+            gravity: 0.8,
+            jumpForce: -16,
+            color: '#FF4757',
+            isJumping: false
+        };
+        
+        // Элементы уровня
+        let platforms = [];
+        let coinsList = [];
+        let obstacles = [];
+        let powerUps = [];
+        
+        // Время игры
+        let lastTime = 0;
+        let gameSpeed = 5;
+        let levelProgress = 0;
+        let levelLength = 3000;
+        
+        // Звуковые эффекты (используем Web Audio API для простоты)
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        
+        // Редактор уровней - можно легко добавлять новые уровни
+        const levels = [
+            {
+                // Уровень 1
+                name: "Начальный уровень",
+                platforms: [
+                    { x: 0, y: canvas.height - 100, width: 400, height: 20 },
+                    { x: 500, y: canvas.height - 150, width: 300, height: 20 },
+                    { x: 900, y: canvas.height - 200, width: 300, height: 20 },
+                    { x: 1300, y: canvas.height - 100, width: 400, height: 20 },
+                    { x: 1800, y: canvas.height - 250, width: 300, height: 20 },
+                    { x: 2200, y: canvas.height - 150, width: 400, height: 20 }
+                ],
+                coins: [
+                    { x: 250, y: canvas.height - 160 },
+                    { x: 300, y: canvas.height - 160 },
+                    { x: 350, y: canvas.height - 160 },
+                    { x: 600, y: canvas.height - 210 },
+                    { x: 650, y: canvas.height - 210 },
+                    { x: 1000, y: canvas.height - 260 },
+                    { x: 1050, y: canvas.height - 260 },
+                    { x: 1400, y: canvas.height - 160 },
+                    { x: 1450, y: canvas.height - 160 },
+                    { x: 1900, y: canvas.height - 310 },
+                    { x: 1950, y: canvas.height - 310 }
+                ],
+                obstacles: [
+                    { x: 800, y: canvas.height - 120, width: 40, height: 80 },
+                    { x: 1200, y: canvas.height - 120, width: 40, height: 80 },
+                    { x: 1700, y: canvas.height - 120, width: 40, height: 80 }
+                ],
+                powerUps: [
+                    { x: 1600, y: canvas.height - 300, type: 'superJump' }
+                ],
+                length: 2600
+            },
+            {
+                // Уровень 2
+                name: "Парящие платформы",
+                platforms: [
+                    { x: 0, y: canvas.height - 100, width: 300, height: 20 },
+                    { x: 400, y: canvas.height - 200, width: 200, height: 20 },
+                    { x: 700, y: canvas.height - 300, width: 200, height: 20 },
+                    { x: 1000, y: canvas.height - 200, width: 200, height: 20 },
+                    { x: 1300, y: canvas.height - 100, width: 300, height: 20 },
+                    { x: 1700, y: canvas.height - 250, width: 250, height: 20 },
+                    { x: 2050, y: canvas.height - 350, width: 250, height: 20 },
+                    { x: 2400, y: canvas.height - 200, width: 300, height: 20 }
+                ],
+                coins: [
+                    { x: 450, y: canvas.height - 260 },
+                    { x: 500, y: canvas.height - 260 },
+                    { x: 750, y: canvas.height - 360 },
+                    { x: 800, y: canvas.height - 360 },
+                    { x: 1050, y: canvas.height - 260 },
+                    { x: 1100, y: canvas.height - 260 },
+                    { x: 1750, y: canvas.height - 310 },
+                    { x: 1800, y: canvas.height - 310 },
+                    { x: 2100, y: canvas.height - 410 },
+                    { x: 2150, y: canvas.height - 410 },
+                    { x: 2450, y: canvas.height - 260 },
+                    { x: 2500, y: canvas.height - 260 }
+                ],
+                obstacles: [
+                    { x: 350, y: canvas.height - 120, width: 40, height: 80 },
+                    { x: 900, y: canvas.height - 220, width: 40, height: 80 },
+                    { x: 1600, y: canvas.height - 120, width: 40, height: 80 },
+                    { x: 2300, y: canvas.height - 120, width: 40, height: 80 }
+                ],
+                powerUps: [
+                    { x: 1500, y: canvas.height - 350, type: 'shield' },
+                    { x: 1950, y: canvas.height - 450, type: 'superJump' }
+                ],
+                length: 2800
+            },
+            {
+                // Уровень 3
+                name: "Сложные препятствия",
+                platforms: [
+                    { x: 0, y: canvas.height - 100, width: 400, height: 20 },
+                    { x: 500, y: canvas.height - 180, width: 300, height: 20 },
+                    { x: 900, y: canvas.height - 100, width: 200, height: 20 },
+                    { x: 1200, y: canvas.height - 220, width: 300, height: 20 },
+                    { x: 1600, y: canvas.height - 140, width: 200, height: 20 },
+                    { x: 1900, y: canvas.height - 280, width: 300, height: 20 },
+                    { x: 2300, y: canvas.height - 180, width: 400, height: 20 }
+                ],
+                coins: [
+                    { x: 550, y: canvas.height - 240 },
+                    { x: 600, y: canvas.height - 240 },
+                    { x: 1250, y: canvas.height - 280 },
+                    { x: 1300, y: canvas.height - 280 },
+                    { x: 1950, y: canvas.height - 340 },
+                    { x: 2000, y: canvas.height - 340 },
+                    { x: 2350, y: canvas.height - 240 },
+                    { x: 2400, y: canvas.height - 240 },
+                    { x: 2450, y: canvas.height - 240 }
+                ],
+                obstacles: [
+                    { x: 450, y: canvas.height - 120, width: 40, height: 80 },
+                    { x: 850, y: canvas.height - 120, width: 40, height: 80 },
+                    { x: 1150, y: canvas.height - 120, width: 40, height: 80 },
+                    { x: 1550, y: canvas.height - 120, width: 40, height: 80 },
+                    { x: 1850, y: canvas.height - 120, width: 40, height: 80 },
+                    { x: 2250, y: canvas.height - 120, width: 40, height: 80 }
+                ],
+                powerUps: [
+                    { x: 1700, y: canvas.height - 300, type: 'magnet' }
+                ],
+                length: 2700
+            }
+        ];
+        
+        // Инициализация уровня
+        function initLevel(levelNum) {
+            const level = levels[levelNum - 1];
+            if (!level) return false;
+            
+            platforms = JSON.parse(JSON.stringify(level.platforms));
+            coinsList = JSON.parse(JSON.stringify(level.coins));
+            obstacles = JSON.parse(JSON.stringify(level.obstacles));
+            powerUps = JSON.parse(JSON.stringify(level.powerUps));
+            levelLength = level.length;
+            levelProgress = 0;
+            
+            // Сброс позиции игрока
+            player.x = 100;
+            player.y = canvas.height / 2;
+            player.velocityY = 0;
+            
+            currentLevel = levelNum;
+            currentLevelElement.textContent = currentLevel;
+            
+            return true;
+        }
+        
+        // Отрисовка игрока
+        function drawPlayer() {
+            // Тело игрока
+            ctx.fillStyle = isPowerActive ? '#00CCFF' : player.color;
+            ctx.fillRect(player.x, player.y, player.width, player.height);
+            
+            // Глаза
+            ctx.fillStyle = '#FFFFFF';
+            ctx.fillRect(player.x + 15, player.y + 15, 10, 10);
+            ctx.fillRect(player.x + 35, player.y + 15, 10, 10);
+            
+            // Улыбка
+            ctx.beginPath();
+            ctx.strokeStyle = '#FFFFFF';
+            ctx.lineWidth = 3;
+            ctx.arc(player.x + 30, player.y + 40, 15, 0.2, 0.8 * Math.PI);
+            ctx.stroke();
+            
+            // Эффект суперсилы
+            if (isPowerActive) {
+                ctx.strokeStyle = '#00CCFF';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.arc(player.x + player.width/2, player.y + player.height/2, player.width + 5, 0, 2 * Math.PI);
+                ctx.stroke();
+            }
+        }
+        
+        // Отрисовка платформ
+        function drawPlatforms() {
+            platforms.forEach(platform => {
+                // Смещение платформы в зависимости от прогресса уровня
+                const platformX = platform.x - levelProgress;
+                
+                // Рисуем только видимые платформы
+                if (platformX + platform.width > 0 && platformX < canvas.width) {
+                    // Градиент для платформы
+                    const gradient = ctx.createLinearGradient(platformX, platform.y, platformX, platform.y + platform.height);
+                    gradient.addColorStop(0, '#9D4EDD');
+                    gradient.addColorStop(1, '#7B2CBF');
+                    
+                    ctx.fillStyle = gradient;
+                    ctx.fillRect(platformX, platform.y, platform.width, platform.height);
+                    
+                    // Текстура платформы
+                    ctx.fillStyle = '#C77DFF';
+                    for (let i = 0; i < platform.width; i += 20) {
+                        ctx.fillRect(platformX + i, platform.y, 10, 5);
+                    }
+                }
+            });
+        }
+        
+        // Отрисовка монет
+        function drawCoins() {
+            coinsList.forEach(coin => {
+                const coinX = coin.x - levelProgress;
+                
+                // Рисуем только видимые монеты
+                if (coinX > 0 && coinX < canvas.width) {
+                    // Анимация вращения монеты
+                    const rotation = Date.now() / 200;
+                    
+                    ctx.save();
+                    ctx.translate(coinX + 15, coin.y + 15);
+                    ctx.rotate(rotation);
+                    
+                    // Градиент для монеты
+                    const gradient = ctx.createRadialGradient(0, 0, 5, 0, 0, 15);
+                    gradient.addColorStop(0, '#FFD700');
+                    gradient.addColorStop(1, '#FFA500');
+                    
+                    ctx.fillStyle = gradient;
+                    ctx.beginPath();
+                    ctx.arc(0, 0, 15, 0, 2 * Math.PI);
+                    ctx.fill();
+                    
+                    // Буква "C" на монете
+                    ctx.fillStyle = '#B8860B';
+                    ctx.font = 'bold 16px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText('C', 0, 0);
+                    
+                    ctx.restore();
+                }
+            });
+        }
+        
+        // Отрисовка препятствий
+        function drawObstacles() {
+            obstacles.forEach(obstacle => {
+                const obstacleX = obstacle.x - levelProgress;
+                
+                // Рисуем только видимые препятствия
+                if (obstacleX + obstacle.width > 0 && obstacleX < canvas.width) {
+                    // Градиент для препятствия
+                    const gradient = ctx.createLinearGradient(obstacleX, obstacle.y, obstacleX + obstacle.width, obstacle.y + obstacle.height);
+                    gradient.addColorStop(0, '#FF4D6D');
+                    gradient.addColorStop(1, '#C9184A');
+                    
+                    ctx.fillStyle = gradient;
+                    ctx.fillRect(obstacleX, obstacle.y, obstacle.width, obstacle.height);
+                    
+                    // Шипы на препятствии
+                    ctx.fillStyle = '#FF8FA3';
+                    for (let i = 5; i < obstacle.width; i += 15) {
+                        ctx.beginPath();
+                        ctx.moveTo(obstacleX + i, obstacle.y);
+                        ctx.lineTo(obstacleX + i + 7, obstacle.y - 10);
+                        ctx.lineTo(obstacleX + i + 14, obstacle.y);
+                        ctx.closePath();
+                        ctx.fill();
+                    }
+                }
+            });
+        }
+        
+        // Отрисовка суперсил
+        function drawPowerUps() {
+            powerUps.forEach(powerUp => {
+                const powerUpX = powerUp.x - levelProgress;
+                
+                // Рисуем только видимые суперсилы
+                if (powerUpX > 0 && powerUpX < canvas.width) {
+                    // Анимация пульсации
+                    const pulse = Math.sin(Date.now() / 200) * 3;
+                    
+                    ctx.save();
+                    ctx.translate(powerUpX + 20, powerUp.y + 20);
+                    
+                    // Градиент в зависимости от типа
+                    let gradient;
+                    if (powerUp.type === 'superJump') {
+                        gradient = ctx.createRadialGradient(0, 0, 10, 0, 0, 20 + pulse);
+                        gradient.addColorStop(0, '#00FFAA');
+                        gradient.addColorStop(1, '#00CC88');
+                    } else if (powerUp.type === 'shield') {
+                        gradient = ctx.createRadialGradient(0, 0, 10, 0, 0, 20 + pulse);
+                        gradient.addColorStop(0, '#00AAFF');
+                        gradient.addColorStop(1, '#0088CC');
+                    } else if (powerUp.type === 'magnet') {
+                        gradient = ctx.createRadialGradient(0, 0, 10, 0, 0, 20 + pulse);
+                        gradient.addColorStop(0, '#FFAA00');
+                        gradient.addColorStop(1, '#CC8800');
+                    }
+                    
+                    ctx.fillStyle = gradient;
+                    ctx.beginPath();
+                    ctx.arc(0, 0, 20 + pulse, 0, 2 * Math.PI);
+                    ctx.fill();
+                    
+                    // Иконка в зависимости от типа
+                    ctx.fillStyle = '#FFFFFF';
+                    ctx.font = 'bold 20px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    
+                    if (powerUp.type === 'superJump') {
+                        ctx.fillText('↑', 0, 0);
+                    } else if (powerUp.type === 'shield') {
+                        ctx.fillText('⛊', 0, 0);
+                    } else if (powerUp.type === 'magnet') {
+                        ctx.fillText('↯', 0, 0);
+                    }
+                    
+                    ctx.restore();
+                }
+            });
+        }
+        
+        // Отрисовка фона
+        function drawBackground() {
+            // Градиентный фон
+            const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+            gradient.addColorStop(0, '#1a1a2e');
+            gradient.addColorStop(1, '#16213e');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Звезды
+            ctx.fillStyle = '#FFFFFF';
+            for (let i = 0; i < 50; i++) {
+                const x = (i * 47 + levelProgress / 3) % canvas.width;
+                const y = (i * 31) % canvas.height;
+                const size = Math.sin(i + Date.now() / 1000) * 1.5 + 1.5;
+                ctx.fillRect(x, y, size, size);
+            }
+            
+            // Горы на заднем плане
+            ctx.fillStyle = '#0f3460';
+            ctx.beginPath();
+            ctx.moveTo(0, canvas.height);
+            for (let i = 0; i < canvas.width; i += 100) {
+                const x = (i - levelProgress / 5) % canvas.width;
+                const y = canvas.height - 150 + Math.sin(i / 100 + levelProgress / 1000) * 30;
+                ctx.lineTo(x, y);
+            }
+            ctx.lineTo(canvas.width, canvas.height);
+            ctx.closePath();
+            ctx.fill();
+            
+            // Ближние горы
+            ctx.fillStyle = '#1a5a8a';
+            ctx.beginPath();
+            ctx.moveTo(0, canvas.height);
+            for (let i = 0; i < canvas.width; i += 70) {
+                const x = (i - levelProgress / 3) % canvas.width;
+                const y = canvas.height - 100 + Math.sin(i / 70 + levelProgress / 700) * 40;
+                ctx.lineTo(x, y);
+            }
+            ctx.lineTo(canvas.width, canvas.height);
+            ctx.closePath();
+            ctx.fill();
+        }
+        
+        // Проверка столкновений
+        function checkCollisions() {
+            // Проверка падения за экран
+            if (player.y > canvas.height) {
+                loseLife();
+                player.y = canvas.height / 2;
+                player.velocityY = 0;
+                return;
+            }
+            
+            // Проверка на платформы
+            let onPlatform = false;
+            for (const platform of platforms) {
+                const platformX = platform.x - levelProgress;
+                
+                if (
+                    player.x < platformX + platform.width &&
+                    player.x + player.width > platformX &&
+                    player.y + player.height > platform.y &&
+                    player.y + player.height < platform.y + 20 &&
+                    player.velocityY > 0
+                ) {
+                    player.y = platform.y - player.height;
+                    player.velocityY = 0;
+                    onPlatform = true;
+                    player.isJumping = false;
+                    break;
+                }
+            }
+            
+            // Гравитация, если не на платформе
+            if (!onPlatform) {
+                player.velocityY += player.gravity;
+            }
+            
+            // Обновление позиции игрока
+            player.y += player.velocityY;
+            
+            // Проверка на сбор монет
+            for (let i = coinsList.length - 1; i >= 0; i--) {
+                const coin = coinsList[i];
+                const coinX = coin.x - levelProgress;
+                
+                if (
+                    player.x < coinX + 30 &&
+                    player.x + player.width > coinX &&
+                    player.y < coin.y + 30 &&
+                    player.y + player.height > coin.y
+                ) {
+                    // Сбор монеты
+                    coinsList.splice(i, 1);
+                    coins += 10 * combo;
+                    coinsValue.textContent = coins;
+                    
+                    // Увеличение комбо
+                    combo++;
+                    comboCount.textContent = `x${combo}`;
+                    comboTime = Date.now();
+                    comboContainer.style.opacity = '1';
+                    
+                    // Обновление максимального комбо
+                    if (combo > maxCombo) {
+                        maxCombo = combo;
+                    }
+                    
+                    // Воспроизведение звука сбора монеты
+                    playCoinSound();
+                    
+                    // Анимация сбора монеты
+                    document.getElementById('coins-stat').classList.add('bounce');
+                    setTimeout(() => {
+                        document.getElementById('coins-stat').classList.remove('bounce');
+                    }, 300);
+                }
+            }
+            
+            // Проверка на столкновение с препятствиями
+            for (const obstacle of obstacles) {
+                const obstacleX = obstacle.x - levelProgress;
+                
+                if (
+                    player.x < obstacleX + obstacle.width &&
+                    player.x + player.width > obstacleX &&
+                    player.y < obstacle.y + obstacle.height &&
+                    player.y + player.height > obstacle.y
+                ) {
+                    // Если активен щит, препятствие игнорируется
+                    if (isPowerActive && powerUps.some(p => p.type === 'shield')) {
+                        // Удаляем препятствие
+                        obstacles.splice(obstacles.indexOf(obstacle), 1);
+                        playPowerUpSound();
+                    } else {
+                        loseLife();
+                        // Отталкивание от препятствия
+                        player.velocityY = -10;
+                        player.x -= 50;
+                    }
+                    break;
+                }
+            }
+            
+            // Проверка на сбор суперсил
+            for (let i = powerUps.length - 1; i >= 0; i--) {
+                const powerUp = powerUps[i];
+                const powerUpX = powerUp.x - levelProgress;
+                
+                if (
+                    player.x < powerUpX + 40 &&
+                    player.x + player.width > powerUpX &&
+                    player.y < powerUp.y + 40 &&
+                    player.y + player.height > powerUp.y
+                ) {
+                    // Активация суперсилы
+                    activatePowerUp(powerUp.type);
+                    powerUps.splice(i, 1);
+                    playPowerUpSound();
+                }
+            }
+            
+            // Проверка завершения уровня
+            if (levelProgress >= levelLength) {
+                completeLevel();
+            }
+        }
+        
+        // Активация суперсилы
+        function activatePowerUp(type) {
+            isPowerActive = true;
+            powerActiveTime = Date.now();
+            
+            // Эффекты в зависимости от типа суперсилы
+            if (type === 'superJump') {
+                player.jumpForce = -25; // Супер прыжок
+                power = 100;
+            } else if (type === 'shield') {
+                power = 100; // Щит
+            } else if (type === 'magnet') {
+                power = 100; // Магнит для монет
+            }
+            
+            // Визуальный эффект
+            document.getElementById('power-stat').classList.add('power-active');
+            powerValue.textContent = '100%';
+        }
+        
+        // Обновление суперсилы
+        function updatePowerUp() {
+            if (isPowerActive) {
+                const timePassed = Date.now() - powerActiveTime;
+                power = Math.max(0, 100 - timePassed / 50); // 5 секунд действия
+                powerValue.textContent = `${Math.round(power)}%`;
+                
+                if (power <= 0) {
+                    isPowerActive = false;
+                    player.jumpForce = -16; // Возвращаем обычную силу прыжка
+                    document.getElementById('power-stat').classList.remove('power-active');
+                    powerValue.textContent = '0%';
+                }
+            }
+        }
+        
+        // Обновление комбо
+        function updateCombo() {
+            if (combo > 1 && Date.now() - comboTime > 2000) {
+                // Сброс комбо, если прошло 2 секунды без сбора монет
+                combo = 1;
+                comboCount.textContent = `x${combo}`;
+                comboContainer.style.opacity = '0';
+            }
+        }
+        
+        // Потеря жизни
+        function loseLife() {
+            lives--;
+            livesValue.textContent = lives;
+            
+            // Анимация потери жизни
+            document.getElementById('lives-stat').classList.add('shake');
+            setTimeout(() => {
+                document.getElementById('lives-stat').classList.remove('shake');
+            }, 300);
+            
+            // Сброс комбо
+            combo = 1;
+            comboCount.textContent = `x${combo}`;
+            comboContainer.style.opacity = '0';
+            
+            // Проверка окончания игры
+            if (lives <= 0) {
+                gameOver();
+            }
+        }
+        
+        // Завершение уровня
+        function completeLevel() {
+            gameState = 'levelcomplete';
+            levelCompleteScreen.style.opacity = '1';
+            levelCompleteScreen.style.pointerEvents = 'auto';
+            
+            // Обновление статистики
+            completedLevelElement.textContent = currentLevel;
+            levelCoinsElement.textContent = coins;
+            levelScoreElement.textContent = Math.round(coins * combo);
+        }
+        
+        // Конец игры
+        function gameOver() {
+            gameState = 'gameover';
+            gameOverScreen.style.opacity = '1';
+            gameOverScreen.style.pointerEvents = 'auto';
+            
+            // Обновление статистики
+            finalLevelElement.textContent = currentLevel;
+            finalCoinsElement.textContent = coins;
+            gameoverCoinsElement.textContent = coins;
+            maxComboElement.textContent = `x${maxCombo}`;
+        }
+        
+        // Игровой цикл
+        function gameLoop(timestamp) {
+            // Расчет времени
+            const deltaTime = timestamp - lastTime;
+            lastTime = timestamp;
+            
+            // Очистка canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            if (gameState === 'playing') {
+                // Отрисовка фона
+                drawBackground();
+                
+                // Отрисовка игровых объектов
+                drawPlatforms();
+                drawCoins();
+                drawObstacles();
+                drawPowerUps();
+                drawPlayer();
+                
+                // Проверка столкновений
+                checkCollisions();
+                
+                // Обновление суперсилы
+                updatePowerUp();
+                
+                // Обновление комбо
+                updateCombo();
+                
+                // Увеличение прогресса уровня
+                levelProgress += gameSpeed;
+            }
+            
+            requestAnimationFrame(gameLoop);
+        }
+        
+        // Воспроизведение звуков
+        function playCoinSound() {
+            try {
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.frequency.setValueAtTime(523.25, audioContext.currentTime); // Нота C5
+                oscillator.frequency.setValueAtTime(659.25, audioContext.currentTime + 0.1); // Нота E5
+                
+                gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
+                
+                oscillator.start();
+                oscillator.stop(audioContext.currentTime + 0.2);
+            } catch (e) {
+                // Если Web Audio API не поддерживается, пропускаем звук
+            }
+        }
+        
+        function playPowerUpSound() {
+            try {
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.frequency.setValueAtTime(659.25, audioContext.currentTime); // Нота E5
+                oscillator.frequency.setValueAtTime(830.61, audioContext.currentTime + 0.1); // Нота G#5
+                oscillator.frequency.setValueAtTime(1046.50, audioContext.currentTime + 0.2); // Нота C6
+                
+                gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+                
+                oscillator.start();
+                oscillator.stop(audioContext.currentTime + 0.3);
+            } catch (e) {
+                // Если Web Audio API не поддерживается, пропускаем звук
+            }
+        }
+        
+        // Управление игрой
+        function jump() {
+            if (gameState === 'playing') {
+                player.velocityY = player.jumpForce;
+                player.isJumping = true;
+            }
+        }
+        
+        function startGame() {
+            // Сброс статистики
+            coins = 0;
+            lives = 3;
+            power = 0;
+            combo = 1;
+            maxCombo = 1;
+            
+            // Обновление UI
+            coinsValue.textContent = coins;
+            livesValue.textContent = lives;
+            powerValue.textContent = '0%';
+            comboCount.textContent = `x${combo}`;
+            comboContainer.style.opacity = '0';
+            
+            // Инициализация первого уровня
+            initLevel(1);
+            
+            // Смена экрана
+            gameStartScreen.style.opacity = '0';
+            gameStartScreen.style.pointerEvents = 'none';
+            gameState = 'playing';
+        }
+        
+        function restartGame() {
+            // Скрытие экрана окончания игры
+            gameOverScreen.style.opacity = '0';
+            gameOverScreen.style.pointerEvents = 'none';
+            
+            // Запуск новой игры
+            startGame();
+        }
+        
+        function nextLevel() {
+            // Скрытие экрана завершения уровня
+            levelCompleteScreen.style.opacity = '0';
+            levelCompleteScreen.style.pointerEvents = 'none';
+            
+            // Загрузка следующего уровня
+            if (!initLevel(currentLevel + 1)) {
+                // Если уровни закончились, возвращаемся в меню
+                gameState = 'start';
+                gameStartScreen.style.opacity = '1';
+                gameStartScreen.style.pointerEvents = 'auto';
+                return;
+            }
+            
+            // Продолжаем игру
+            gameState = 'playing';
+        }
+        
+        function returnToMenu() {
+            // Скрытие всех экранов
+            gameOverScreen.style.opacity = '0';
+            gameOverScreen.style.pointerEvents = 'none';
+            levelCompleteScreen.style.opacity = '0';
+            levelCompleteScreen.style.pointerEvents = 'none';
+            
+            // Показ стартового экрана
+            gameStartScreen.style.opacity = '1';
+            gameStartScreen.style.pointerEvents = 'auto';
+            gameState = 'start';
+            
+            // Обновление статистики в меню
+            document.getElementById('total-levels').textContent = levels.length;
+            document.getElementById('total-coins').textContent = coins;
+        }
+        
+        function togglePause() {
+            if (gameState === 'playing') {
+                gameState = 'paused';
+                pauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+            } else if (gameState === 'paused') {
+                gameState = 'playing';
+                pauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+            }
+        }
+        
+        // Обработчики событий
+        startBtn.addEventListener('click', startGame);
+        restartBtn.addEventListener('click', restartGame);
+        nextLevelBtn.addEventListener('click', nextLevel);
+        menuBtn.addEventListener('click', returnToMenu);
+        levelMenuBtn.addEventListener('click', returnToMenu);
+        pauseBtn.addEventListener('click', togglePause);
+        
+        // Выбор уровня (упрощенная версия)
+        levelsBtn.addEventListener('click', () => {
+            alert(`В игре ${levels.length} уровня. Чтобы добавить новый уровень, отредактируйте массив levels в коде игры.`);
+        });
+        
+        // Обработка нажатий на экран
+        canvas.addEventListener('click', jump);
+        canvas.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            jump();
+        });
+        
+        // Обработка клавиш для десктопов
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space' || e.code === 'ArrowUp') {
+                jump();
+            }
+        });
+        
+        // Адаптация к изменению размера экрана
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+        
+        // Инициализация игры
+        totalLevelsElement.textContent = levels.length;
+        lastTime = performance.now();
+        requestAnimationFrame(gameLoop);
+    </script>
+</body>
+</html>
