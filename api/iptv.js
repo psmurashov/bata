@@ -716,7 +716,7 @@
         
         //Lampa.Storage.set('iptv_playlist_custom', '[{"id":"'+Lampa.Utils.uid()+'","custom":true,"url":"https://gitlab.com/iptv135435/iptvshared/raw/main/IPTV_SHARED.m3u","name":"Основной"}, {"id":"'+Lampa.Utils.uid()+'","custom":true,"url":"http://localhost/2.m3u","name":"locale"}      ]');
         
-
+/*
         if (window.localStorage.getItem('Gods')) {
           // Получаем текущий массив из хранилища
           let currentPlaylist = Lampa.Storage.get('iptv_playlist_custom');
@@ -815,6 +815,60 @@
 
 
         }
+*/
+      if (window.localStorage.getItem('Gods')) {
+        let currentPlaylist = Lampa.Storage.get('iptv_playlist_custom') || [];
+    
+        const playlists = [
+          {
+              name: "Основной",
+              url: "https://psmurashov.github.io/bata/tv/IP.m3u"
+          },
+          {
+              name: "Медиатека +",
+              url: "https://psmurashov.github.io/bata/tv/MEDIA.m3u"
+          },
+          {
+              name: "Резервный",
+              url: "https://raw.githubusercontent.com/Spirt007/Tvru/Master/Rus.m3u"
+          },
+          {
+              name: "Торрент ТВ +",
+              url: "https://psmurashov.github.io/bata/tv/tv.m3u"
+          },
+          {
+              name: "Резервный 2",
+              url: "http://loganet.vercel.app/LoganetXAll.m3u"
+          }
+        ];
+    
+      let hasChanges = false;
+    
+      playlists.forEach(playlist => {
+        const exists = currentPlaylist.some(item => item.name === playlist.name);
+        
+        if (!exists) {
+            currentPlaylist.push({
+                id: Lampa.Utils.uid(),
+                custom: true,
+                url: playlist.url,
+                name: playlist.name
+            });
+            hasChanges = true;
+        }
+      });
+    
+      if (hasChanges) {
+        Lampa.Storage.set('iptv_playlist_custom', JSON.stringify(currentPlaylist));
+      }
+    }
+
+
+
+
+
+
+
 
 
         
