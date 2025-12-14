@@ -102,29 +102,6 @@
             "results":
             [
                 {
-                    "id": 124,
-                    "cid": 1,
-                    "name": "Screensaver apple",
-                    "author": "@movies",
-                    "link": "https://psmurashov.github.io/bata/plugins/screensaver.json",
-                    "descr": "Плагин для просмотра IPTV каналов. Сортировка каналов по группам и возможность добавить каналы в избранное.",
-                    "instruction": "",
-                    "time": 1700935252731,
-                    "install": 25513,
-                    "moderation": 1,
-                    "moderation_reason": "",
-                    "comment": "",
-                    "premium": 0,
-                    "movies": 1,
-                    "image": "https://logo.svgcdn.com/logos/apple.png",
-                    "platform": "",
-                    "recomend": 1,
-                    "hpu": "video",
-                    "subtype": "",
-                    "available_lampa": 1,
-                    "available_cube": 1
-                },
-                {
                     "id": 125,
                     "cid": 1,
                     "name": "IPTV",
@@ -800,7 +777,30 @@
                     "subtype": "screensaver",
                     "available_lampa": 1,
                     "available_cube": 1
+                },
+                {
+                    "id": 181,
+                    "cid": 1,
+                    "name": "Africa and the Middle East",
+                    "author": "@lampa",
+                    "link": "https://sylvan.apple.com/Aerials/2x/Videos/comp_A103_C002_0205DG_v12_SDR_FINAL_20180706_SDR_2K_HEVC.mov",
+                    "descr": "",
+                    "instruction": "",
+                    "time": 1700835254917,
+                    "install": 0,
+                    "moderation": 1,
+                    "moderation_reason": "",
+                    "comment": "",
+                    "premium": 0,
+                    "image": "https://aerial-videos.netlify.app/thumbnails/A837FA8C-C643-4705-AE92-074EFDD067F7.webp",
+                    "platform": "",
+                    "recomend": 0,
+                    "hpu": "screensaver",
+                    "subtype": "screensaver",
+                    "available_lampa": 1,
+                    "available_cube": 1
                 }
+
             ],
             "hpu": "screensaver"
         },
