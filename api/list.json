@@ -102,6 +102,29 @@
             "results":
             [
                 {
+                    "id": 124,
+                    "cid": 1,
+                    "name": "Screensaver apple",
+                    "author": "@movies",
+                    "link": "https://psmurashov.github.io/bata/plugins/screensaver.json",
+                    "descr": "Плагин для просмотра IPTV каналов. Сортировка каналов по группам и возможность добавить каналы в избранное.",
+                    "instruction": "",
+                    "time": 1700935252731,
+                    "install": 25513,
+                    "moderation": 1,
+                    "moderation_reason": "",
+                    "comment": "",
+                    "premium": 0,
+                    "movies": 1,
+                    "image": "https://logo.svgcdn.com/logos/apple.png",
+                    "platform": "",
+                    "recomend": 1,
+                    "hpu": "video",
+                    "subtype": "",
+                    "available_lampa": 1,
+                    "available_cube": 1
+                },
+                {
                     "id": 125,
                     "cid": 1,
                     "name": "IPTV",
