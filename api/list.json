@@ -777,28 +777,6 @@
                     "subtype": "screensaver",
                     "available_lampa": 1,
                     "available_cube": 1
-                },
-                {
-                    "id": 1804,
-                    "cid": 1,
-                    "name": "Africa and the Middle East",
-                    "author": "@lampa",
-                    "link": "https://sylvan.apple.com/Aerials/2x/Videos/comp_A103_C002_0205DG_v12_SDR_FINAL_20180706_SDR_2K_HEVC.mov",
-                    "descr": "",
-                    "instruction": "",
-                    "time": 1700835254987,
-                    "install": 0,
-                    "moderation": 1,
-                    "moderation_reason": "",
-                    "comment": "",
-                    "premium": 0,
-                    "image": "https://aerial-videos.netlify.app/thumbnails/A837FA8C-C643-4705-AE92-074EFDD067F7.webp",
-                    "platform": "",
-                    "recomend": 0,
-                    "hpu": "screensaver",
-                    "subtype": "screensaver",
-                    "available_lampa": 1,
-                    "available_cube": 1
                 }
 
             ],
