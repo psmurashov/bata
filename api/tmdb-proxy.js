@@ -20,12 +20,12 @@
     }
 
     Lampa.TMDB.image = function (url) {
-      var base = Lampa.Utils.protocol() + 'image.tmdb.org/' + url;
+      var base = Lampa.Utils.protocol() + 'pl.imagetmdb.com/' + url;
       return Lampa.Utils.addUrlComponent(filter(Lampa.Storage.field('proxy_tmdb') ? Lampa.Utils.protocol() + tmdb_proxy.path_image + url : base), 'email=' + encodeURIComponent(email()));
     };
 
     Lampa.TMDB.api = function (url) {
-      var base = Lampa.Utils.protocol() + 'nl.imagetmdb.com' + url;
+      var base = Lampa.Utils.protocol() + 'nl.imagetmdb.com/' + url;
       return Lampa.Utils.addUrlComponent(filter(Lampa.Storage.field('proxy_tmdb') ? Lampa.Utils.protocol() + tmdb_proxy.path_api + url : base), 'email=' + encodeURIComponent(email()));
     };
 
