@@ -55,7 +55,7 @@
     </script>    
 
     <script>
-    var _test_ = false;
+    var _test_ = true;
 
     function putScript(scripts){
         var add = function(src){
@@ -99,8 +99,8 @@
     }
 
     //Если не android
-    if (_test_ === false) {
-        putScript('vender/start.js');
+    if (_test_ === true) {
+        putScript('vender/start.js?v=' + Math.random());
     }else{
         putScript('app.min.js?v=' + Math.random());
     }
