@@ -839,8 +839,15 @@
           {
               name: "Резервный 2",
               url: "http://loganet.vercel.app/LoganetXAll.m3u"
+          },
+          {
+              name: "ZABAVA",
+              url: "http://dmitry-tv.ddns.net/iptv/ZABAVA.m3u"
           }
         ];
+
+
+        http://dmitry-tv.ddns.net/iptv/ZABAVA.m3u
     
       let hasChanges = false;
     
