@@ -5,8 +5,8 @@
       name: 'TMDB Proxy',
       version: '1.0.3',
       description: 'Проксирование постеров и API сайта TMDB',
-      path_image: 'imagetmdb.com/',
-      path_api: 'apitmdb.' + (Lampa.Manifest && Lampa.Manifest.cub_domain ? Lampa.Manifest.cub_domain : 'cub.red') + '/3/'
+      path_image: 'imagetmdb.cub.rip/',
+      path_api: 'apitmdb.' + (Lampa.Manifest && Lampa.Manifest.cub_domain ? Lampa.Manifest.cub_domain : 'cub.rip') + '/3/'
     };
 
     function filter(u) {
@@ -25,7 +25,7 @@
     };
 
     Lampa.TMDB.api = function (url) {
-      var base = Lampa.Utils.protocol() + 'api.themoviedb.org/3/' + url;
+      var base = Lampa.Utils.protocol() + 'nl.imagetmdb.com' + url;
       return Lampa.Utils.addUrlComponent(filter(Lampa.Storage.field('proxy_tmdb') ? Lampa.Utils.protocol() + tmdb_proxy.path_api + url : base), 'email=' + encodeURIComponent(email()));
     };
 
