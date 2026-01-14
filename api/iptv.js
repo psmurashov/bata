@@ -847,7 +847,6 @@
         ];
 
 
-        http://dmitry-tv.ddns.net/iptv/ZABAVA.m3u
     
       let hasChanges = false;
     
