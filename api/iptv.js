@@ -826,7 +826,7 @@
           },
           {
               name: "Медиатека +",
-              url: "https://psmurashov.github.io/bata/tv/MEDIA.m3u"
+              url: "https://drive.google.com/uc?export=download&id=1UAzc56ts385g27wCnC_KrBOCDsx8-0u0"
           },
           {
               name: "Резервный",
