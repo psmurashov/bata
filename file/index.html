@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Анализатор Накладных: Одежда, Размеры и Цвета</title>
+  <title>Анализатор Накладных: Подсчет Одежды</title>
   <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
   <style>
     * { box-sizing: border-box; }
@@ -22,7 +22,7 @@
       border-radius: 14px;
       box-shadow: 0 4px 20px rgba(0,0,0,0.08);
     }
-    h2 { text-align: center; margin-top: 0; font-size: 20px; }
+    h2 { text-align: center; margin-top: 0; font-size: 20px; color: #111827; }
     
     .upload-zone {
       border: 2px dashed #2563eb;
@@ -32,13 +32,16 @@
       background-color: #eff6ff;
       cursor: pointer;
       margin-bottom: 15px;
+      transition: background 0.2s;
     }
     .upload-zone.hover { background-color: #dbeafe; }
+    .upload-zone p { margin: 4px 0; color: #4b5563; font-size: 14px; }
     
     .btn-group { display: flex; gap: 10px; margin-bottom: 15px; }
     .btn {
       flex: 1; padding: 12px; background: #2563eb; color: #fff;
       border: none; border-radius: 8px; font-weight: 600; cursor: pointer; text-align: center;
+      font-size: 14px;
     }
     .btn:active { opacity: 0.85; }
     
@@ -46,15 +49,15 @@
     
     .url-input { display: flex; gap: 8px; margin-bottom: 15px; }
     .url-input input {
-      flex: 1; padding: 10px; border: 1px solid #d1d5db; border-radius: 8px;
+      flex: 1; padding: 10px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 14px;
     }
     
     #preview {
       width: 100%; max-height: 250px; object-fit: contain; margin-bottom: 15px;
-      border-radius: 8px; display: none;
+      border-radius: 8px; border: 1px solid #e5e7eb; display: none;
     }
 
-    #status { text-align: center; font-weight: bold; margin: 12px 0; color: #2563eb; }
+    #status { text-align: center; font-weight: bold; margin: 12px 0; color: #2563eb; font-size: 15px; }
 
     .results { margin-top: 20px; border-top: 2px solid #e5e7eb; padding-top: 15px; }
     .item-card {
@@ -99,7 +102,7 @@
 <body>
 
 <div class="container">
-  <h2>Анализатор Таблиц и Подсчет Размеров</h2>
+  <h2>Анализатор Накладных и Подсчет Размеров</h2>
 
   <div class="upload-zone" id="dropZone">
     <p><b>Перетащите сюда фото накладной</b></p>
@@ -181,31 +184,33 @@
   }
 
   function parseTableData(text) {
-    // Популярные категории + авто-определение любого другого первого слова
     const knownCategories = ['Зиппер', 'Свитшот', 'Футболка', 'Кепка', 'Худи', 'Сумка', 'Ремувка', 'Брюки', 'Шорты', 'Куртка'];
-    
-    // Поддерживаемые цвета
     const knownColors = ['черный', 'черная', 'черное', 'серый', 'серая', 'серое', 'коричневый', 'коричневая', 'белый', 'белая', 'белое', 'бежевый', 'красный', 'синий', 'зеленый'];
 
-    const targetSizes = ['ONE SIZE', 'S', 'M', 'L', 'XL', '2XL', '3XL'];
-
-    // Хранилище: { "Зиппер (черный)": { S:0, M:0... }, "Кепка (белая)": ... }
     let totals = {};
 
-    const lines = text.split('\n');
+    const rawLines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+    let mergedLines = [];
 
-    lines.forEach(line => {
+    rawLines.forEach(line => {
+      const isNewEntry = /^\d+\b/.test(line) || /^VD[A-Z0-9]+/.test(line) || knownCategories.some(c => new RegExp('^' + c, 'i').test(line));
+      if (isNewEntry || mergedLines.length === 0) {
+        mergedLines.push(line);
+      } else {
+        mergedLines[mergedLines.length - 1] += ' ' + line;
+      }
+    });
+
+    mergedLines.forEach(line => {
       let category = null;
       let color = 'не указан';
 
-      // 1. Поиск Категории
       knownCategories.forEach(cat => {
         if (new RegExp(cat, 'i').test(line)) {
           category = cat;
         }
       });
 
-      // Поиск артикула, если название не распознано напрямую
       if (!category) {
         if (/VDZP/i.test(line)) category = 'Зиппер';
         else if (/VDSW/i.test(line)) category = 'Свитшот';
@@ -216,10 +221,8 @@
 
       if (!category) return;
 
-      // 2. Поиск Цвета
       knownColors.forEach(c => {
         if (new RegExp(c, 'i').test(line)) {
-          // Приводим род цвета к базовой форме
           if (/черн/i.test(c)) color = 'черный';
           else if (/сер/i.test(c)) color = 'серый';
           else if (/коричн/i.test(c)) color = 'коричневый';
@@ -228,7 +231,6 @@
         }
       });
 
-      // 3. Поиск Размера
       let size = null;
       const sizeMatch = line.match(/\b(3XL|2XL|XL|L|M|S)\b/i);
 
@@ -239,25 +241,34 @@
         const mapCyr = { '3ХЛ': '3XL', '2ХЛ': '2XL', 'ХЛ': 'XL', 'Л': 'L', 'М': 'M', 'С': 'S' };
         size = mapCyr[cyr];
       } else {
-        // Если размера нет (например, для кепок или безнапорных товаров), ставим ONE SIZE
         size = 'ONE SIZE';
       }
 
-      // 4. Поиск Количество (Кол-во)
       let count = 0;
-      const matches = [...line.matchAll(/\b(\d+)\b/g)];
-      
-      const countCandidate = line.match(/руб\s*(\d+)\s*\d+/i) || line.match(/шт\s*(\d+)/i);
-      if (countCandidate) {
-        count = parseInt(countCandidate[1], 10);
-      } else if (matches.length >= 2) {
-        count = parseInt(matches[matches.length - 2][0], 10);
+
+      const matchesAfterRub = [...line.matchAll(/руб\.?\s*(\d+)\s*(\d+[\s\d]*руб)?/gi)];
+      if (matchesAfterRub.length > 0) {
+        const lastMatch = matchesAfterRub[0];
+        if (lastMatch[1]) count = parseInt(lastMatch[1], 10);
       }
 
-      // Добавление в сводку
+      if (!count) {
+        const countAfterSht = line.match(/шт\s*(\d+([.,]\d+)?\s*руб)?\s*(\d+)/i);
+        if (countAfterSht && countAfterSht[3]) {
+          count = parseInt(countAfterSht[3], 10);
+        }
+      }
+
+      if (!count) {
+        const cleanLine = line.replace(/\d+[.,]\d{2}/g, '');
+        const allNums = [...cleanLine.matchAll(/\b(\d+)\b/g)].map(m => parseInt(m[1], 10));
+        if (allNums.length >= 2) {
+          count = allNums[allNums.length - 1];
+        }
+      }
+
       if (category && size && count > 0) {
-        const itemKey = `${category}`;
-        const groupKey = `${itemKey}___${color}`;
+        const groupKey = `${category}___${color}`;
 
         if (!totals[groupKey]) {
           totals[groupKey] = {
@@ -293,7 +304,6 @@
       `;
       
       for (const [sz, count] of Object.entries(group.sizes)) {
-        // Не показываем ONE SIZE, если он 0
         if (sz === 'ONE SIZE' && count === 0) continue;
 
         const activeClass = count > 0 ? 'active' : '';
