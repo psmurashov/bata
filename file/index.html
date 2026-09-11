@@ -3,354 +3,186 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Анализатор Подсчет Одежды</title>
-  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+  <title>Парсер PDF</title>
+  <!-- Подключаем PDF.js для точного чтения текста из PDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   <style>
     * { box-sizing: border-box; }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background-color: #f3f4f6;
-      color: #1f2937;
-      margin: 0;
-      padding: 15px;
-    }
-    .container {
-      max-width: 700px;
-      margin: 0 auto;
-      background: #fff;
-      padding: 20px;
-      border-radius: 14px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-    }
-    h2 { text-align: center; margin-top: 0; font-size: 20px; color: #111827; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f3f4f6; color: #1f2937; padding: 15px; margin: 0; }
+    .container { max-width: 650px; margin: 0 auto; background: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+    h2 { margin-top: 0; text-align: center; }
     
-    .upload-zone {
-      border: 2px dashed #2563eb;
-      border-radius: 12px;
-      padding: 20px;
-      text-align: center;
-      background-color: #eff6ff;
-      cursor: pointer;
-      margin-bottom: 15px;
-    }
-    .upload-zone.hover { background-color: #dbeafe; }
-    .upload-zone p { margin: 4px 0; color: #4b5563; font-size: 14px; }
+    .upload-zone { border: 2px dashed #2563eb; padding: 25px; text-align: center; background: #eff6ff; border-radius: 10px; cursor: pointer; margin-bottom: 15px; }
+    .upload-zone p { margin: 5px 0; color: #1e40af; font-weight: 500; }
     
-    .btn-group { display: flex; gap: 10px; margin-bottom: 15px; }
-    .btn {
-      flex: 1; padding: 12px; background: #2563eb; color: #fff;
-      border: none; border-radius: 8px; font-weight: 600; cursor: pointer; text-align: center;
-      font-size: 14px;
-    }
+    .item-card { background: #f9fafb; padding: 12px; border-radius: 8px; border: 1px solid #e5e7eb; margin-bottom: 10px; }
+    .item-card h3 { margin: 0 0 8px 0; font-size: 15px; }
+    .color-tag { background: #e5e7eb; padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: normal; }
     
-    input[type="file"] { display: none; }
-    
-    .url-input { display: flex; gap: 8px; margin-bottom: 15px; }
-    .url-input input {
-      flex: 1; padding: 10px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 14px;
-    }
-    
-    #preview {
-      width: 100%; max-height: 250px; object-fit: contain; margin-bottom: 15px;
-      border-radius: 8px; border: 1px solid #e5e7eb; display: none;
-    }
-
-    #status { text-align: center; font-weight: bold; margin: 12px 0; color: #2563eb; font-size: 15px; }
-
-    .results { margin-top: 20px; border-top: 2px solid #e5e7eb; padding-top: 15px; }
-    .item-card {
-      background: #f9fafb;
-      padding: 14px;
-      border-radius: 10px;
-      border: 1px solid #e5e7eb;
-      margin-bottom: 15px;
-    }
-    .item-card h3 { margin: 0 0 10px 0; font-size: 16px; color: #111827; }
-    .color-tag {
-      display: inline-block;
-      padding: 2px 8px;
-      border-radius: 4px;
-      font-size: 12px;
-      background: #e5e7eb;
-      color: #374151;
-      margin-left: 6px;
-    }
-
-    .size-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(85px, 1fr));
-      gap: 6px;
-    }
-    .size-box {
-      background: #fff;
-      padding: 6px 8px;
-      border-radius: 6px;
-      border: 1px solid #d1d5db;
-      text-align: center;
-    }
-    .size-box.active {
-      border-color: #10b981;
-      background-color: #ecfdf5;
-    }
-    .size-name { font-size: 11px; color: #6b7280; display: block; }
-    .size-num { font-size: 14px; font-weight: bold; color: #059669; }
+    .size-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); gap: 6px; }
+    .size-box { background: #fff; padding: 6px; border-radius: 4px; border: 1px solid #d1d5db; text-align: center; }
+    .size-box.active { border-color: #10b981; background: #ecfdf5; }
+    .size-name { font-size: 10px; color: #6b7280; display: block; }
+    .size-num { font-size: 13px; font-weight: bold; color: #059669; }
     .size-num.zero { color: #9ca3af; font-weight: normal; }
-
-    /* Окно отладки распознанного текста */
-    .debug-box {
-      margin-top: 20px;
-      padding: 10px;
-      background: #1e293b;
-      color: #38bdf8;
-      border-radius: 8px;
-      font-family: monospace;
-      font-size: 11px;
-      max-height: 200px;
-      overflow-y: auto;
-      white-space: pre-wrap;
-      display: none;
-    }
+    
+    #status { text-align: center; color: #2563eb; font-weight: bold; margin: 10px 0; }
   </style>
 </head>
 <body>
 
 <div class="container">
-  <h2>Анализатор Накладных и Подсчет Размеров</h2>
+  <h2>Анализатор PDF Накладных</h2>
 
-  <div class="upload-zone" id="dropZone">
-    <p><b>Перетащите сюда фото накладной</b></p>
-    <p>или нажмите для выбора файла</p>
+  <div class="upload-zone" onclick="document.getElementById('pdfInput').click()">
+    <p>📄 Выберите или перетащите PDF файл накладной</p>
+    <span style="font-size: 12px; color: #6b7280;">Чтение происходит напрямую из структуры файла</span>
   </div>
+  <input type="file" id="pdfInput" accept="application/pdf" style="display:none" onchange="processPDF(this.files[0])">
 
-  <div class="btn-group">
-    <button class="btn" onclick="document.getElementById('cameraInput').click()">📷 Сделать фото</button>
-    <button class="btn" onclick="document.getElementById('galleryInput').click()">🖼 Из галереи</button>
-  </div>
-
-  <div class="url-input">
-    <input type="text" id="imageUrl" placeholder="Вставьте ссылку на фото...">
-    <button class="btn" style="flex: initial;" onclick="processUrl()">Загрузить</button>
-  </div>
-
-  <input type="file" id="cameraInput" accept="image/*" capture="environment" onchange="handleFiles(this.files)">
-  <input type="file" id="galleryInput" accept="image/*" onchange="handleFiles(this.files)">
-  <input type="file" id="fileInput" accept="image/*" onchange="handleFiles(this.files)">
-
-  <img id="preview" alt="Превью фото">
   <div id="status"></div>
-  <div class="results" id="results"></div>
-
-  <!-- Текстовый отладчик -->
-  <div id="debugBox" class="debug-box"></div>
+  <div id="results"></div>
 </div>
 
 <script>
-  const dropZone = document.getElementById('dropZone');
-  const fileInput = document.getElementById('fileInput');
-  const preview = document.getElementById('preview');
-  const status = document.getElementById('status');
-  const resultsDiv = document.getElementById('results');
-  const debugBox = document.getElementById('debugBox');
+  pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
-  dropZone.addEventListener('click', () => fileInput.click());
-  dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('hover'); });
-  dropZone.addEventListener('dragleave', () => dropZone.classList.remove('hover'));
-  dropZone.addEventListener('drop', (e) => {
-    e.preventDefault();
-    dropZone.classList.remove('hover');
-    if (e.dataTransfer.files.length) handleFiles(e.dataTransfer.files);
-  });
-
-  function processUrl() {
-    const url = document.getElementById('imageUrl').value.trim();
-    if (url) {
-      preview.src = url;
-      preview.style.display = 'block';
-      recognizeText(url);
-    }
-  }
-
-  function handleFiles(files) {
-    if (!files.length) return;
-    const file = files[0];
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      preview.src = e.target.result;
-      preview.style.display = 'block';
-      recognizeText(e.target.result);
-    };
-    reader.readAsDataURL(file);
-  }
-
-  async function recognizeText(imageSource) {
-    status.innerText = "Распознавание текста (OCR)...";
-    resultsDiv.innerHTML = "";
-    debugBox.style.display = "none";
+  async function processPDF(file) {
+    if (!file) return;
+    const status = document.getElementById('status');
+    const results = document.getElementById('results');
+    status.innerText = "Чтение PDF файла...";
+    results.innerHTML = "";
 
     try {
-      const worker = await Tesseract.createWorker('rus+eng');
-      const ret = await worker.recognize(imageSource);
-      await worker.terminate();
-      
-      status.innerText = "Подсчет элементов...";
-      
-      // Вывод считанного текста в отладчик
-      debugBox.innerText = "--- РАСПОЗНАННЫЙ ТЕКСТ С КАРТИНКИ ---\n" + ret.data.text;
-      debugBox.style.display = "block";
+      const arrayBuffer = await file.arrayBuffer();
+      const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+      let fullTextLines = [];
 
-      parseTableData(ret.data.text);
+      for (let i = 1; i <= pdf.numPages; i++) {
+        const page = await pdf.getPage(i);
+        const textContent = await page.getTextContent();
+        
+        // Группируем элементы по Y-координате (высоте строки в документe)
+        let linesByY = {};
+        textContent.items.forEach(item => {
+          const y = Math.round(item.transform[5]); // Y-координата
+          if (!linesByY[y]) linesByY[y] = [];
+          linesByY[y].push({ x: item.transform[4], text: item.str });
+        });
+
+        // Сортируем строки сверху вниз и слова слева направо
+        const sortedY = Object.keys(linesByY).sort((a, b) => b - a);
+        sortedY.forEach(y => {
+          const lineWords = linesByY[y].sort((a, b) => a.x - b.x).map(w => w.text).join(' ');
+          fullTextLines.push(lineWords);
+        });
+      }
+
       status.innerText = "";
+      parsePDFText(fullTextLines);
+
     } catch (err) {
       console.error(err);
-      status.innerText = "Ошибка при сканировании фото.";
+      status.innerText = "Ошибка при обработке PDF файла.";
     }
   }
 
-  function parseTableData(text) {
-    const knownCategories = ['Зиппер', 'Свитшот', 'Футболка', 'Кепка', 'Худи', 'Сумка', 'Ремувка', 'Брюки', 'Шорты', 'Куртка'];
-    const knownColors = ['черный', 'черная', 'черное', 'серый', 'серая', 'серое', 'коричневый', 'коричневая', 'белый', 'белая', 'белое', 'бежевый', 'красный', 'синий', 'зеленый'];
+  function parsePDFText(lines) {
+    const categories = ['Зиппер', 'Свитшот', 'Футболка', 'Кепка', 'Худи', 'Сумка', 'Ремувка', 'Брюки', 'Шорты', 'Куртка'];
+    const colors = ['черный', 'черная', 'черное', 'серый', 'серая', 'серое', 'белый', 'белая', 'коричневый', 'бежевый', 'красный', 'синий'];
 
     let totals = {};
 
-    // Очищаем текст от мусорных символов и разбиваем на строки
-    const rawLines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0);
-    let mergedBlocks = [];
-
-    // Группируем строки: всё, что относится к одной позиции товара, собираем в один блок
-    rawLines.forEach(line => {
-      const isNewItem = /^\d{1,3}\b/.test(line) || /^VD[A-Z0-9]+/i.test(line) || knownCategories.some(c => new RegExp('^' + c, 'i').test(line));
-      if (isNewItem || mergedBlocks.length === 0) {
-        mergedBlocks.push(line);
-      } else {
-        mergedBlocks[mergedBlocks.length - 1] += ' ' + line;
-      }
-    });
-
-    mergedBlocks.forEach(block => {
-      let category = null;
-      let color = 'не указан';
+    lines.forEach(line => {
+      let cleanLine = line.trim();
+      if (!cleanLine) return;
 
       // 1. Поиск категории
-      knownCategories.forEach(cat => {
-        if (new RegExp(cat, 'i').test(block)) category = cat;
-      });
-
+      let category = categories.find(c => new RegExp(c, 'i').test(cleanLine));
       if (!category) {
-        if (/VDZP/i.test(block)) category = 'Зиппер';
-        else if (/VDSW/i.test(block)) category = 'Свитшот';
-        else if (/VDTS/i.test(block)) category = 'Футболка';
-        else if (/VDCP/i.test(block)) category = 'Кепка';
-        else if (/VDHD/i.test(block)) category = 'Худи';
+        if (/VDZP/i.test(cleanLine)) category = 'Зиппер';
+        else if (/VDSW/i.test(cleanLine)) category = 'Свитшот';
+        else if (/VDTS/i.test(cleanLine)) category = 'Футболка';
+        else if (/VDCP/i.test(cleanLine)) category = 'Кепка';
+        else if (/VDHD/i.test(cleanLine)) category = 'Худи';
       }
-
       if (!category) return;
 
       // 2. Поиск цвета
-      knownColors.forEach(c => {
-        if (new RegExp(c, 'i').test(block)) {
-          if (/черн/i.test(c)) color = 'черный';
-          else if (/сер/i.test(c)) color = 'серый';
-          else if (/коричн/i.test(c)) color = 'коричневый';
-          else if (/бел/i.test(c)) color = 'белый';
+      let color = 'не указан';
+      colors.forEach(c => {
+        if (new RegExp(c, 'i').test(cleanLine)) {
+          if (/черн/i.test(c)) color = 'Черный';
+          else if (/сер/i.test(c)) color = 'Серый';
+          else if (/бел/i.test(c)) color = 'Белый';
           else color = c;
         }
       });
 
       // 3. Поиск размера
-      let size = null;
-      const sizeMatch = block.match(/\b(3XL|2XL|XL|L|M|S)\b/i);
-
+      let size = 'ONE SIZE';
+      const sizeMatch = cleanLine.match(/\b(3XL|2XL|XL|L|M|S|3ХЛ|2ХЛ|ХЛ|Л|М|С)\b/i);
       if (sizeMatch) {
-        size = sizeMatch[1].toUpperCase();
-      } else if (/\b(3ХЛ|2ХЛ|ХЛ|Л|М|С)\b/i.test(block)) {
-        const cyr = block.match(/\b(3ХЛ|2ХЛ|ХЛ|Л|М|С)\b/i)[1].toUpperCase();
-        const mapCyr = { '3ХЛ': '3XL', '2ХЛ': '2XL', 'ХЛ': 'XL', 'Л': 'L', 'М': 'M', 'С': 'S' };
-        size = mapCyr[cyr];
-      } else {
-        size = 'ONE SIZE';
+        const val = sizeMatch[1].toUpperCase();
+        const map = { '3ХЛ':'3XL', '2ХЛ':'2XL', 'ХЛ':'XL', 'Л':'L', 'М':'M', 'С':'S' };
+        size = map[val] || val;
       }
 
-      // 4. Поиск количества
+      // 4. Извлечение количества
       let count = 0;
+      
+      // Убираем цены с копейками и крупную сумму
+      let tempLine = cleanLine.replace(/\d+[\s.]?\d{3}([.,]\d{2})?/g, ''); 
+      tempLine = tempLine.replace(/\d+[.,]\d{2}/g, ''); 
 
-      // А. Ищем число после слова "руб" или "шт"
-      const matchRub = block.match(/руб\.?\s*(\d{1,2})\b/i);
-      const matchSht = block.match(/шт\.?\s*(\d{1,2})\b/i);
-
-      if (matchRub && parseInt(matchRub[1], 10) < 100) {
-        count = parseInt(matchRub[1], 10);
-      } else if (matchSht && parseInt(matchSht[1], 10) < 100) {
-        count = parseInt(matchSht[1], 10);
-      } else {
-        // Б. Резервный вариант: убираем из строки крупные суммы (цены 5 800.00, 11 600.00) и номера позиций
-        let clean = block.replace(/\d+[\s.]?\d{3}([.,]\d{2})?/g, ''); // убираем 5 800, 11 600
-        clean = clean.replace(/\d+[.,]\d{2}/g, ''); // убираем копейки
-        clean = clean.replace(/^\d+\b/, ''); // убираем номер позиции в начале
-
-        // Берём оставшееся небольшое число (1-2 цифры, например 2, 3, 4)
-        const standaloneNums = clean.match(/\b([1-9]\d?)\b/g);
-        if (standaloneNums && standaloneNums.length > 0) {
-          count = parseInt(standaloneNums[standaloneNums.length - 1], 10);
+      // Вытаскиваем оставшиеся числа
+      const nums = tempLine.match(/\b\d+\b/g);
+      if (nums && nums.length > 0) {
+        const validCounts = nums.map(n => parseInt(n, 10)).filter(n => n > 0 && n < 500);
+        if (validCounts.length > 0) {
+          count = validCounts[validCounts.length - 1]; // Берем кол-во из соответствующей колонки
         }
       }
 
-      // Добавление в результат
-      if (category && size && count > 0) {
-        const groupKey = `${category}___${color}`;
-
-        if (!totals[groupKey]) {
-          totals[groupKey] = {
-            category: category,
-            color: color,
-            sizes: { 'ONE SIZE': 0, 'S': 0, 'M': 0, 'L': 0, 'XL': 0, '2XL': 0, '3XL': 0 }
-          };
+      if (count > 0) {
+        const key = `${category}_${color}`;
+        if (!totals[key]) {
+          totals[key] = { category, color, sizes: { 'ONE SIZE': 0, 'S': 0, 'M': 0, 'L': 0, 'XL': 0, '2XL': 0, '3XL': 0 } };
         }
-        
-        if (totals[groupKey].sizes[size] !== undefined) {
-          totals[groupKey].sizes[size] += count;
+        if (totals[key].sizes[size] !== undefined) {
+          totals[key].sizes[size] += count;
         }
       }
     });
 
-    displayResults(totals);
+    render(totals);
   }
 
-  function displayResults(totals) {
+  function render(totals) {
+    const res = document.getElementById('results');
     if (Object.keys(totals).length === 0) {
-      resultsDiv.innerHTML = '<p style="text-align:center; color:#9ca3af;">Товарных позиций не найдено.</p>';
+      res.innerHTML = "<p style='text-align:center; color:#9ca3af;'>Товарные позиции в PDF не найдены.</p>";
       return;
     }
 
-    let html = '<h3>Сводные результаты:</h3>';
-
-    for (const key in totals) {
-      const group = totals[key];
-      html += `
-        <div class="item-card">
-          <h3>${group.category} <span class="color-tag">${group.color}</span></h3>
-          <div class="size-grid">
-      `;
+    let html = '';
+    for (const k in totals) {
+      const g = totals[k];
+      html += `<div class="item-card">
+        <h3>${g.category} <span class="color-tag">${g.color}</span></h3>
+        <div class="size-grid">`;
       
-      for (const [sz, count] of Object.entries(group.sizes)) {
+      for (const [sz, count] of Object.entries(g.sizes)) {
         if (sz === 'ONE SIZE' && count === 0) continue;
-
-        const activeClass = count > 0 ? 'active' : '';
-        const numClass = count > 0 ? 'size-num' : 'size-num zero';
-        html += `
-          <div class="size-box ${activeClass}">
-            <span class="size-name">${sz}</span>
-            <span class="${numClass}">${count} шт</span>
-          </div>
-        `;
+        html += `<div class="size-box ${count > 0 ? 'active' : ''}">
+          <span class="size-name">${sz}</span>
+          <span class="${count > 0 ? 'size-num' : 'size-num zero'}">${count} шт</span>
+        </div>`;
       }
-      
-      html += `
-          </div>
-        </div>
-      `;
+      html += `</div></div>`;
     }
-
-    resultsDiv.innerHTML = html;
+    res.innerHTML = html;
   }
 </script>
 
