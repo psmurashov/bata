@@ -846,7 +846,11 @@
           },
           {
               name: "iptv-play.ru",
-              url: "https://5.188.158.65:4040/tv/playlists/socialniy?token=lqRGka5-YwwqF0"
+              url: "http://5.188.158.65:4040/tv/playlists/socialniy?token=lqRGka5-YwwqF0"
+          },
+          {
+              name: "iptv-play.ru test",
+              url: "https://goo.su/socialniy1"
           }
         ];
 
