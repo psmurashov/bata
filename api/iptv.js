@@ -846,7 +846,7 @@
           },
           {
               name: "iptv-play.ru",
-              url: "5.188.158.65:4040/tv/playlists/socialniy?token=lqRGka5-YwwqF0"
+              url: "https://5.188.158.65:4040/tv/playlists/socialniy?token=lqRGka5-YwwqF0"
           }
         ];
 
